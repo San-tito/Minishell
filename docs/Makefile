@@ -6,7 +6,7 @@
 #    By: sguzman <sguzman@student.42barcelo>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 15:31:23 by sguzman           #+#    #+#              #
-#    Updated: 2024/01/20 12:56:44 by sguzman          ###   ########.fr        #
+#    Updated: 2024/01/20 13:09:55 by sguzman          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,8 +16,8 @@
 
 MAN            = minishell.1
 INFO		= minishell.info
-man1dir = /usr/local/man/man1
-infodir = /usr/local/info
+man1dir = 
+infodir = 
 
 ################################################################################
 #                                 Makefile logic                               #
@@ -35,15 +35,15 @@ RESET           = \033[m
 #                                 Makefile rules                               #
 ################################################################################
 
-install: $(MAN) $(INFO)	
-
-$(man1dir)/$(MAN):
+install: installdirs 
 	@install -m 644 $(MAN) $(man1dir)/$(MAN)
 	@printf "%b%-42s%-42b%-24s%b%s%b\n" "$(BLUE)" "Installing man page:" "$(CYAN)" $(man1dir)/$(MAN) "$(GREEN)" "[✓]" "$(RESET)"
-
-$(infodir)/$(INFO):
 	@install -m 644 $(INFO) $(infodir)/$(INFO)
 	@printf "%b%-42s%-42b%-24s%b%s%b\n" "$(BLUE)" "Installing info page:" "$(CYAN)" $(infodir)/$(INFO) "$(GREEN)" "[✓]" "$(RESET)"
+
+installdirs:
+	@mkdir -p $(man1dir)
+	@mkdir -p $(infodir)
 
 uninstall:
 	@rm -rf $(man1dir)/$(NAME)

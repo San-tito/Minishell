@@ -6,7 +6,7 @@
 #    By: sguzman <sguzman@student.42barcelo>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 15:31:23 by sguzman           #+#    #+#              #
-#    Updated: 2024/01/20 12:31:44 by sguzman          ###   ########.fr        #
+#    Updated: 2024/01/20 13:03:19 by sguzman          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #    
 
@@ -23,9 +23,10 @@ DFLAGS	= -MMD -MF $(@:.o=.d)
 #                                 INSTALL CONFIG                              #
 ################################################################################
 
-bindir = /usr/local/bin
-man1dir = /usr/local/man/man1
-infodir = /usr/local/info
+prefix=/usr/local
+bindir = $(prefix)/bin
+man1dir = $(prefix)/man/man1
+infodir = $(prefix)/info
 
 ################################################################################
 #                                 PROGRAM'S SRCS                               #
