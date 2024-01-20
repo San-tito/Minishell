@@ -91,7 +91,6 @@ $(OBJS_PATH)/%.o: 	$(SRCS_PATH)/%.c $(HEADER) Makefile
 			@mkdir -p $(dir $@)
 			@$(CC) $(CFLAGS) $(DFLAGS) -c $< -o $@ -I $(INCLUDE_PATH)
 			@printf "%b%-42s%-42b%-24s%b%s%b\n" "$(BLUE)" "Compiling:" "$(CYAN)" $< "$(GREEN)" "[✓]" "$(RESET)"
-			@printf "%b%-42s%-42b%-30s%b%s%b\n" "$(BLUE)" "Compiling:" "$(CYAN)" $< "$(GREEN)" "[✓]" "$(RESET)"
 
 clean:		banner
 			@rm -rf $(OBJS_PATH)
