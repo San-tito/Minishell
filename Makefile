@@ -6,7 +6,7 @@
 #    By: sguzman <sguzman@student.42barcelo>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 15:31:23 by sguzman           #+#    #+#              #
-#    Updated: 2023/12/28 19:23:51 by sguzman          ###   ########.fr        #
+#    Updated: 2024/01/20 12:31:44 by sguzman          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #    
 
@@ -20,6 +20,14 @@ CFLAGS	= -Wall -Wextra -Werror
 DFLAGS	= -MMD -MF $(@:.o=.d)
 
 ################################################################################
+#                                 INSTALL CONFIG                              #
+################################################################################
+
+bindir = /usr/local/bin
+man1dir = /usr/local/man/man1
+infodir = /usr/local/info
+
+################################################################################
 #                                 PROGRAM'S SRCS                               #
 ################################################################################
 
@@ -28,6 +36,8 @@ SRCS_PATH	= ./src
 OBJS_PATH 	= ./build
 
 INCLUDE_PATH	= ./include
+
+DOCS_PATH	= ./docs
 
 HEADER	= $(INCLUDE_PATH)/minishell.h
 
@@ -91,6 +101,21 @@ $(OBJS_PATH)/%.o: 	$(SRCS_PATH)/%.c $(HEADER) Makefile
 			@mkdir -p $(dir $@)
 			@$(CC) $(CFLAGS) $(DFLAGS) -c $< -o $@ -I $(INCLUDE_PATH)
 			@printf "%b%-42s%-42b%-24s%b%s%b\n" "$(BLUE)" "Compiling:" "$(CYAN)" $< "$(GREEN)" "[✓]" "$(RESET)"
+
+installdirs:
+			@mkdir -p $(bindir)
+			@mkdir -p $(man1dir)
+			@mkdir -p $(infodir)
+
+install:	all installdirs	
+			@install -m 0755 $(NAME) $(bindir)/$(NAME)
+			@$(MAKE) man1dir=$(man1dir) infodir=$(infodir) $@ -C $(DOCS_PATH) --no-print-directory
+			@printf "%b%-42s%-42b%-24s%b%s%b\n" "$(BLUE)" "Installing program:" "$(CYAN)" $(bindir)/$(NAME) "$(GREEN)" "[✓]" "$(RESET)"
+
+uninstall:	banner
+			@rm -rf $(bindir)/$(NAME) 
+			@$(MAKE) man1dir=$(man1dir) infodir=$(infodir) $@ -C $(DOCS_PATH) --no-print-directory
+			@printf "%b%-42s%-42b%-24s%b%s%b\n" "$(BLUE)" "Uninstalling program:" "$(CYAN)" $(bindir)/$(NAME) "$(GREEN)" "[✓]" "$(RESET)"
 
 clean:		banner
 			@rm -rf $(OBJS_PATH)
