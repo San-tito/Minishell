@@ -26,7 +26,6 @@ DFLAGS	= -MMD -MF $(@:.o=.d)
 prefix=/usr/local
 bindir = $(prefix)/bin
 man1dir = $(prefix)/man/man1
-infodir = $(prefix)/info
 
 ################################################################################
 #                                 PROGRAM'S SRCS                               #
@@ -38,7 +37,7 @@ OBJS_PATH 	= ./build
 
 INCLUDE_PATH	= ./include
 
-DOCS_PATH	= ./docs
+DOCS_PATH	= ./doc
 
 HEADER	= $(INCLUDE_PATH)/minishell.h
 
@@ -106,11 +105,10 @@ $(OBJS_PATH)/%.o: 	$(SRCS_PATH)/%.c $(HEADER) Makefile
 installdirs:
 			@mkdir -p $(bindir)
 			@mkdir -p $(man1dir)
-			@mkdir -p $(infodir)
 
 install:	all installdirs	
 			@install -m 0755 $(NAME) $(bindir)/$(NAME)
-			@$(MAKE) man1dir=$(man1dir) infodir=$(infodir) $@ -C $(DOCS_PATH) --no-print-directory
+			@$(MAKE) man1dir=$(man1dir) $@ -C $(DOCS_PATH) --no-print-directory
 			@printf "%b%-42s%-42b%-24s%b%s%b\n" "$(BLUE)" "Installing program:" "$(CYAN)" $(bindir)/$(NAME) "$(GREEN)" "[✓]" "$(RESET)"
 
 uninstall:	banner

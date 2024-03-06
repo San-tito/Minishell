@@ -15,9 +15,7 @@
 ################################################################################
 
 MAN            = minishell.1
-INFO		= minishell.info
 man1dir = 
-infodir = 
 
 ################################################################################
 #                                 Makefile logic                               #
@@ -38,16 +36,11 @@ RESET           = \033[m
 install: installdirs 
 	@install -m 644 $(MAN) $(man1dir)/$(MAN)
 	@printf "%b%-42s%-42b%-24s%b%s%b\n" "$(BLUE)" "Installing man page:" "$(CYAN)" $(man1dir)/$(MAN) "$(GREEN)" "[✓]" "$(RESET)"
-	@install -m 644 $(INFO) $(infodir)/$(INFO)
-	@printf "%b%-42s%-42b%-24s%b%s%b\n" "$(BLUE)" "Installing info page:" "$(CYAN)" $(infodir)/$(INFO) "$(GREEN)" "[✓]" "$(RESET)"
 
 installdirs:
 	@mkdir -p $(man1dir)
-	@mkdir -p $(infodir)
 
 uninstall:
 	@rm -rf $(man1dir)/$(NAME)
 	@printf "%b%-42s%-42b%-24s%b%s%b\n" "$(BLUE)" "Uninstalling man page:" "$(CYAN)" $(man1dir)/$(NAME) "$(GREEN)" "[✓]" "$(RESET)"
-	@rm -rf $(infodir)/$(INFO)
-	@printf "%b%-42s%-42b%-24s%b%s%b\n" "$(BLUE)" "Uninstalling info page:" "$(CYAN)" $(infodir)/$(INFO) "$(GREEN)" "[✓]" "$(RESET)"
 	
