@@ -6,7 +6,7 @@
 #    By: sguzman <sguzman@student.42barcelo>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 15:31:23 by sguzman           #+#    #+#              #
-#    Updated: 2024/01/20 13:03:19 by sguzman          ###   ########.fr        #
+#    Updated: 2024/03/10 16:16:27 by sguzman          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #    
 
@@ -37,7 +37,7 @@ OBJS_PATH 	= ./build
 
 INCLUDE_PATH	= ./include
 
-DOCS_PATH	= ./doc
+DOCS_PATH	= ./docs
 
 HEADER	= $(INCLUDE_PATH)/minishell.h
 
@@ -127,5 +127,3 @@ fclean:		banner clean
 re:			fclean all
 
 .PHONY:		all banner clean fclean re
-
-

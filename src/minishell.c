@@ -3,21 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mpovill- <mpovill-@student.42barcel>       +#+  +:+       +#+        */
+/*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/19 12:11:32 by mpovill-          #+#    #+#             */
-/*   Updated: 2024/01/20 13:28:28 by sguzman          ###   ########.fr       */
+/*   Created: 2023/12/19 16:20:05 by sguzman           #+#    #+#             */
+/*   Updated: 2024/03/10 16:37:51 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int argc, char **argv)
+int	main(void)
 {
-	char *binary;
-	(void)argc;
-	binary = *argv;
-	while(*binary)
-		write(1, binary++, 1);
-	return (0);
+	const int	shell_terminal = STDIN_FILENO;
+	const int	shell_is_interactive = isatty(shell_terminal);
+
+	if (shell_is_interactive)
+	{
+		return (printf("interactive_shell"));
+	}
+	return (EXIT_SUCCESS);
 }
