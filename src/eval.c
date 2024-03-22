@@ -1,32 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   eval.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/19 16:20:05 by sguzman           #+#    #+#             */
-/*   Updated: 2024/03/20 16:41:40 by sguzman          ###   ########.fr       */
+/*   Created: 2024/03/20 15:10:54 by sguzman           #+#    #+#             */
+/*   Updated: 2024/03/20 17:03:43 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(void)
+int	reader_loop(void)
 {
-	const int	shell_terminal = STDIN_FILENO;
-	const int	shell_is_interactive = isatty(shell_terminal);
+	int	last_command_exit_value;
 
-	if (shell_is_interactive)
-	{
-		printf("interactive_shell");
-	}
-	reader_loop();
-	exit_shell(EXIT_SUCCESS);
+	last_command_exit_value = 0;
+	read_command();
+	return (last_command_exit_value);
 }
 
-void	exit_shell(int s)
+int	parse_command(void)
 {
-	/* Clean up */
-	exit(s);
+	int	r;
+
+	r = 0;
+	while (42)
+		readline("> ");
+	return (r);
+}
+
+int	read_command(void)
+{
+	int	result;
+
+	result = parse_command();
+	return (result);
 }
