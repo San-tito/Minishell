@@ -1,6 +1,5 @@
 
 #include "../../include/minishell.h"
-#include <stdio.h>
 
 /*
  *	Input must be: ./lexer_tester "str_to_test" "outfile"
@@ -15,9 +14,9 @@ int	main(int argc, char **argv)
 	if (fd == -1)
 		return (2);
 	if (lexer(argv[2]))
-		fprintf(fd, "Correct\n.");
+		dprintf(fd, "Correct\n.");
 	else
-		fprintf(fd, "Incorrect\n.");
+		dprintf(fd, "Incorrect\n.");
 	close(fd);
 	return (0);
 }
