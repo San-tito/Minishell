@@ -6,7 +6,7 @@
 #    By: sguzman <sguzman@student.42barcelo>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 15:31:23 by sguzman           #+#    #+#              #
-#    Updated: 2024/03/20 16:41:19 by sguzman          ###   ########.fr        #
+#    Updated: 2024/03/23 21:03:38 by sguzman          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #    
 
@@ -46,7 +46,7 @@ READLINE = $(READLINE_PATH)/libhistory.a $(READLINE_PATH)/libreadline.a
 
 HEADER	= $(INCLUDE_PATH)/minishell.h
 
-SRCS =	eval.c
+SRCS =	eval.c execute_cmd.c parse.c
 
 MAIN 		= minishell.c 
 
