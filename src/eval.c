@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 15:10:54 by sguzman           #+#    #+#             */
-/*   Updated: 2024/03/23 21:02:22 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/03/24 00:08:46 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,24 @@
 
 int	reader_loop(void)
 {
-	int	current_command;
-	int	last_command_exit_value;
+	t_command	*current_command;
+	int			EOF_Reached;
+	int			last_command_exit_value;
 
+	current_command = (t_command *)NULL;
+	EOF_Reached = 0;
 	last_command_exit_value = 0;
-	while (42)
+	while (EOF_Reached == 0)
 	{
-		current_command = read_command();
-		if (!current_command)
-			break ;
+		/* if (code == EXITBLTIN)
+		{
+			current_command = (COMMAND *)NULL;
+			EOF_Reached = EOF;
+		} */
+		if (read_command())
+		{
+			execute_command(current_command);
+		}
 	}
 	return (last_command_exit_value);
 }
