@@ -6,7 +6,7 @@
 /*   By: mpovill- <mpovill-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 12:11:32 by mpovill-          #+#    #+#             */
-/*   Updated: 2024/03/23 21:01:12 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/03/24 02:01:14 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,45 +20,45 @@
 # include <termios.h>
 # include <unistd.h>
 
-enum					e_command_type
+typedef enum e_command_type
 {
 	cm_simple,
 	cm_connection,
 	cm_subshell
-};
+}					t_command_type;
 
 /* ************************************************************************** */
 /*                        Definition of the Command  Structure                */
 /* ************************************************************************** */
 typedef struct s_command
 {
-	enum e_command_type	type;
-}						t_command;
+	t_command_type	type;
+}					t_command;
 
 /* ************************************************************************** */
 /*                               Readline functions                           */
 /* ************************************************************************** */
-char					*readline(const char *prompt);
+char				*readline(const char *prompt);
 
 /* ************************************************************************** */
 /*                             POSIX shell specification                      */
 /* ************************************************************************** */
-void					exit_shell(int s);
+void				exit_shell(int s);
 
 /* ************************************************************************** */
 /*                            reading and evaluating commands                 */
 /* ************************************************************************** */
-int						reader_loop(void);
-int						read_command(void);
+int					reader_loop(void);
+int					read_command(void);
 
 /* ************************************************************************** */
 /*                         Miscellaneous functions from parsing               */
 /* ************************************************************************** */
-int						parse(char *token);
+int					parse(char *token);
 
 /* ************************************************************************** */
 /*                                   Execute CMD                              */
 /* ************************************************************************** */
-int						execute_command(t_command *command);
+int					execute_command(t_command *command);
 
 #endif
