@@ -25,13 +25,7 @@ then
     rm ${outfile}
 fi
 touch ${outfile}
-./${lexer_tester} "test1" ${outfile}
-./${lexer_tester} "test2" ${outfile}
-./${lexer_tester} "test2" ${outfile}
-./${lexer_tester} "test2" ${outfile}
-./${lexer_tester} "test2" ${outfile}
-./${lexer_tester} "test2" ${outfile}
-./${lexer_tester} "test2" ${outfile}
+./${lexer_tester} ${outfile}
 
 diff ${correct_outfile} ${outfile} &> /dev/null
 if [ ! $? -eq 0 ]
