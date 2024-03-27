@@ -6,7 +6,7 @@
 /*   By: mpovill- <mpovill-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 12:11:32 by mpovill-          #+#    #+#             */
-/*   Updated: 2024/03/27 12:15:29 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/03/27 12:50:45 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,10 @@
 # define FD_BITMAP_SIZE 32
 # define HEREDOC_MAX 16
 
-struct						fd_bitmap
+struct					fd_bitmap
 {
-	int						size;
-	char					*bitmap;
+	int					size;
+	char				*bitmap;
 };
 
 /* ************************************************************************** */
@@ -43,7 +43,7 @@ typedef enum e_instruction
 	r_input_direction,
 	r_appending_to,
 	r_reading_until
-}							t_instruction;
+}						t_instruction;
 
 /* ************************************************************************** */
 /*                              Command Types                                 */
@@ -53,94 +53,93 @@ typedef enum e_command_type
 	cm_simple,
 	cm_connection,
 	cm_subshell
-}							t_command_type;
+}						t_command_type;
 
 /* ************************************************************************** */
 /*                          A linked list of words.                           */
 /* ************************************************************************** */
 typedef struct s_word_list
 {
-	char					*word;
-	struct s_word_list		*next;
-}							t_word_list;
+	char				*word;
+	struct s_word_list	*next;
+}						t_word_list;
 
 /* ************************************************************************** */
 /*                          Structure describing a redirection.               */
 /* ************************************************************************** */
 typedef struct s_redirect
 {
-	char					*redirector;
-	int						rflags;
-	int						flags;
-	t_instruction			instruction;
-	char					*redirectee;
-	char					*here_doc_eof;
-	struct s_redirect		*next;
-}							t_redirect;
+	char				*redirector;
+	int					rflags;
+	int					flags;
+	t_instruction		instruction;
+	char				*redirectee;
+	char				*here_doc_eof;
+	struct s_redirect	*next;
+}						t_redirect;
 
 /* ************************************************************************** */
 /*                        Definition of the Command  Structure                */
 /* ************************************************************************** */
 typedef struct s_command
 {
-	t_command_type			type;
-	union
-	{
-		struct s_connection	*connection;
-		struct s_simple_com	*simple;
-	} u_value;
-}							t_command;
+	t_command_type		type;
+	void				*value;
+}						t_command;
 
 /* ************************************************************************** */
 /*             Structure used to represent the CONNECTION type.               */
 /* ************************************************************************** */
 typedef struct s_connection
 {
-	t_command				*first;
-	t_command				*second;
-	int						connector;
-}							t_connection;
+	t_command			*first;
+	t_command			*second;
+	int					connector;
+}						t_connection;
 
 /* ************************************************************************** */
 /*         The "simple" command.  Just a collection of words and redirects.   */
 /* ************************************************************************** */
 typedef struct s_simple_com
 {
-	int						flags;
-	int						line;
-	t_word_list				*words;
-	t_redirect				*redirects;
-}							t_simple_com;
+	int					flags;
+	int					line;
+	t_word_list			*words;
+	t_redirect			*redirects;
+}						t_simple_com;
 /* ************************************************************************** */
 /*                               Readline functions                           */
 /* ************************************************************************** */
-char						*readline(const char *prompt);
+char					*readline(const char *prompt);
 
 /* ************************************************************************** */
 /*                             POSIX shell specification                      */
 /* ************************************************************************** */
-void						exit_shell(int s);
+void					exit_shell(int s);
 
 /* ************************************************************************** */
 /*                            reading and evaluating commands                 */
 /* ************************************************************************** */
-int							reader_loop(void);
-int							read_command(void);
+int						reader_loop(void);
+int						read_command(void);
 
 /* ************************************************************************** */
 /*                         Miscellaneous functions from parsing               */
 /* ************************************************************************** */
-int							parse(char *token);
+int						parse(char *token);
 
 /* ************************************************************************** */
 /*                                   Execute CMD                              */
 /* ************************************************************************** */
-int							execute_command(t_command *command);
+int						execute_command(t_command *command);
+int						execute_command_internal(t_command *command,
+							int asynchronous, int pipe_in, int pipe_out,
+							struct fd_bitmap *fds_to_close);
 
 /* ************************************************************************** */
 /*                            Allocation functions                            */
 /* ************************************************************************** */
-void						*ft_malloc(size_t bytes);
-void						ft_free(void *string);
+void					*ft_malloc(size_t bytes);
+void					ft_free(void *string);
 
 #endif
