@@ -6,7 +6,7 @@
 /*   By: mpovill- <mpovill-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 12:11:32 by mpovill-          #+#    #+#             */
-/*   Updated: 2024/03/27 11:40:54 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/03/27 12:15:29 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,20 @@
 # include <sys/types.h>
 # include <termios.h>
 # include <unistd.h>
+
+# define NO_PIPE -1
+
+# define EXECUTION_FAILURE 1
+# define EXECUTION_SUCCESS 0
+
+# define FD_BITMAP_SIZE 32
+# define HEREDOC_MAX 16
+
+struct						fd_bitmap
+{
+	int						size;
+	char					*bitmap;
+};
 
 /* ************************************************************************** */
 /*       Instructions describing what kind of thing to do for a redirection.  */
@@ -122,5 +136,11 @@ int							parse(char *token);
 /*                                   Execute CMD                              */
 /* ************************************************************************** */
 int							execute_command(t_command *command);
+
+/* ************************************************************************** */
+/*                            Allocation functions                            */
+/* ************************************************************************** */
+void						*ft_malloc(size_t bytes);
+void						ft_free(void *string);
 
 #endif

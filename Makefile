@@ -6,7 +6,7 @@
 #    By: sguzman <sguzman@student.42barcelo>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 15:31:23 by sguzman           #+#    #+#              #
-#    Updated: 2024/03/27 11:06:39 by sguzman          ###   ########.fr        #
+#    Updated: 2024/03/27 12:13:51 by sguzman          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #    
 
@@ -46,7 +46,7 @@ READLINE = $(READLINE_PATH)/libhistory.a $(READLINE_PATH)/libreadline.a
 
 HEADER	= $(INCLUDE_PATH)/minishell.h
 
-SRCS =	eval.c execute_cmd.c parse.c
+SRCS =	eval.c execute_cmd.c ft_malloc.c parse.c 
 
 MAIN 		= minishell.c 
 
