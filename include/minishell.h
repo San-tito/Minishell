@@ -6,7 +6,7 @@
 /*   By: mpovill- <mpovill-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 12:11:32 by mpovill-          #+#    #+#             */
-/*   Updated: 2024/03/24 12:58:54 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/03/27 11:40:54 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,24 +27,8 @@ typedef enum e_instruction
 {
 	r_output_direction,
 	r_input_direction,
-	r_inputa_direction,
 	r_appending_to,
-	r_reading_until,
-	r_reading_string,
-	r_duplicating_input,
-	r_duplicating_output,
-	r_deblank_reading_until,
-	r_close_this,
-	r_err_and_out,
-	r_input_output,
-	r_output_force,
-	r_duplicating_input_word,
-	r_duplicating_output_word,
-	r_move_input,
-	r_move_output,
-	r_move_input_word,
-	r_move_output_word,
-	r_append_err_and_out
+	r_reading_until
 }							t_instruction;
 
 /* ************************************************************************** */
