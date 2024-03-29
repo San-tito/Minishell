@@ -22,6 +22,8 @@ int	main(int argc, char **argv)
 	if (fd == -1)
 		return (2);
 	//Valid tests.
+	test_lexer(fd, "\n");
+	test_lexer(fd, "\0");
 	test_lexer(fd, "echo");
 	test_lexer(fd, "\"\"");
 	test_lexer(fd, "\"\'\'\"");
@@ -42,11 +44,13 @@ int	main(int argc, char **argv)
 	test_lexer(fd, "echo \"Hello, world\")");	//syntax error near unexpected token ')'
 	test_lexer(fd, "ls >");						//syntax error near unexpected token 'newline'
 	test_lexer(fd, "ls -l &&& pwd");			//syntax error near unexpected token '&'
+	test_lexer(fd, "echo a &|&|&|&|&");			//syntax error near unexpected token '&'
 	test_lexer(fd, "ls -l | |");				//syntax error near unexpected token '|'
 	test_lexer(fd, "|");						//syntax error near unexpected token '|'
 	test_lexer(fd, "echo \"Hello\" >");			//syntax error near unexpected token 'newline'
 	test_lexer(fd, "echo Hello (world)");		//syntax error near unexpected token '('
 	test_lexer(fd, "()");						//syntax error near unexpected token ')'
+	//test_lexer(fd, "echo ()");
 	test_lexer(fd, "ls -l && && pwd");					
 	//test_lexer(fd, "$123var = \"value\"");	//Invalid variable name starting with a digit
 	test_lexer(fd, "echo \'Hello, world!\"");	//Mismatched use of single and double quotes.
