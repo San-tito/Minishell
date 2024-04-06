@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_cmd.c                                      :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/23 20:51:58 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/06 16:06:56 by sguzman          ###   ########.fr       */
+/*   Created: 2024/04/06 16:18:30 by sguzman           #+#    #+#             */
+/*   Updated: 2024/04/06 16:21:03 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	execute_command(t_command *command)
+void	internal_error(const char *format, ...)
 {
-	int					result;
+	va_list		args;
+	const char	*ename = "minishell";
 
-	result = *(int *)(void *)command;
-	return (result);
+	fprintf(stderr, "%s: ", ename);
+	va_start(args, format);
+	vfprintf(stderr, format, args);
+	fprintf(stderr, "\n");
+	va_end(args);
 }
-

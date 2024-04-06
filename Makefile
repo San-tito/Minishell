@@ -6,7 +6,7 @@
 #    By: sguzman <sguzman@student.42barcelo>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 15:31:23 by sguzman           #+#    #+#              #
-#    Updated: 2024/03/27 12:13:51 by sguzman          ###   ########.fr        #
+#    Updated: 2024/04/06 16:18:50 by sguzman          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #    
 
@@ -46,7 +46,7 @@ READLINE = $(READLINE_PATH)/libhistory.a $(READLINE_PATH)/libreadline.a
 
 HEADER	= $(INCLUDE_PATH)/minishell.h
 
-SRCS =	eval.c execute_cmd.c ft_malloc.c parse.c 
+SRCS = error.c execute_cmd.c ft_malloc.c input.c parse.c 
 
 MAIN 		= minishell.c 
 
@@ -103,8 +103,7 @@ $(NAME):	$(OBJS) $(OBJS_MAIN) $(READLINE)
 			@printf "%b%-42s%-42b%-24s%b%s%b\n" "$(BLUE)" "Building program:" "$(CYAN)" $@ "$(GREEN)" "[✓]" "$(RESET)"
 
 $(READLINE):
-			@cd $(READLINE_PATH) && ./configure &> /dev/null
-			@make -C $(READLINE_PATH) &> /dev/null
+			@make -C $(READLINE_PATH) > /dev/null
 			@printf "%b%-42s%-42b%-24s%b%s%b\n" "$(BLUE)" "Building Readline library:" "$(CYAN)" $@ "$(GREEN)" "[✓]" "$(RESET)"
 
 $(OBJS_PATH)/%.o: 	$(SRCS_PATH)/%.c $(HEADER) Makefile

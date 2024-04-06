@@ -6,7 +6,7 @@
 /*   By: mpovill- <mpovill-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 12:11:32 by mpovill-          #+#    #+#             */
-/*   Updated: 2024/03/27 12:50:45 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/06 16:23:15 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include <signal.h>
+# include <stdarg.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <sys/types.h>
@@ -135,6 +136,11 @@ int						execute_command(t_command *command);
 int						execute_command_internal(t_command *command,
 							int asynchronous, int pipe_in, int pipe_out,
 							struct fd_bitmap *fds_to_close);
+
+/* ************************************************************************** */
+/*                            Report an internal error.                       */
+/* ************************************************************************** */
+void					internal_error(const char *format, ...);
 
 /* ************************************************************************** */
 /*                            Allocation functions                            */
