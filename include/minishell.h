@@ -6,7 +6,7 @@
 /*   By: mpovill- <mpovill-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 12:11:32 by mpovill-          #+#    #+#             */
-/*   Updated: 2024/04/06 18:35:43 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/06 22:47:01 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,10 @@
 # define FD_BITMAP_SIZE 32
 # define HEREDOC_MAX 16
 
-#define FS_EXISTS	  0x1
-#define FS_EXECABLE	  0x2
-#define FS_DIRECTORY	  0x10
-#define FS_READABLE	  0x40
+# define FS_EXISTS 0x1
+# define FS_EXECABLE 0x2
+# define FS_DIRECTORY 0x10
+# define FS_READABLE 0x40
 
 /* ************************************************************************** */
 /*       Instructions describing what kind of thing to do for a redirection.  */
@@ -128,12 +128,12 @@ void					exit_shell(int s);
 /*                            reading and evaluating commands                 */
 /* ************************************************************************** */
 int						reader_loop(void);
-int						read_command(void);
+char					*read_command(void);
 
 /* ************************************************************************** */
 /*                         Miscellaneous functions from parsing               */
 /* ************************************************************************** */
-int						parse(char *token);
+t_command				*parse_command(char *token);
 
 /* ************************************************************************** */
 /*                                   Execute CMD                              */

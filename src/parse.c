@@ -6,15 +6,15 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 19:30:33 by sguzman           #+#    #+#             */
-/*   Updated: 2024/03/23 20:50:43 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/06 22:46:21 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	parse(char *token)
+t_command	*parse_command(char *token)
 {
 	/* Stub for parsing logic to be implemented */
 	printf("%s\n", token);
-	return (0);
+	return (NULL);
 }

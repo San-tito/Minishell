@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/20 15:10:54 by sguzman           #+#    #+#             */
-/*   Updated: 2024/03/24 00:08:46 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/06 22:48:57 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,36 +14,26 @@
 
 int	reader_loop(void)
 {
+	char		*line;
 	t_command	*current_command;
-	int			EOF_Reached;
 	int			last_command_exit_value;
 
-	current_command = (t_command *)NULL;
-	EOF_Reached = 0;
+	current_command = NULL;
 	last_command_exit_value = 0;
-	while (EOF_Reached == 0)
+	while (42)
 	{
-		/* if (code == EXITBLTIN)
-		{
-			current_command = (COMMAND *)NULL;
-			EOF_Reached = EOF;
-		} */
-		if (read_command())
-		{
-			execute_command(current_command);
-		}
+		line = read_command();
+		current_command = parse_command(line);
+		execute_command(current_command);
 	}
 	return (last_command_exit_value);
 }
 
-int	read_command(void)
+char	*read_command(void)
 {
 	char		*line;
 	const char	*prompt = "\001\033[1;32m\002minishell>\001\033[0m\002 ";
 
 	line = readline(prompt);
-	if (!line)
-		return (0);
-	parse(line);
-	return (*line);
+	return (line);
 }
