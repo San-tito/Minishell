@@ -6,7 +6,7 @@
 #    By: sguzman <sguzman@student.42barcelo>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 15:31:23 by sguzman           #+#    #+#              #
-#    Updated: 2024/04/06 16:18:50 by sguzman          ###   ########.fr        #
+#    Updated: 2024/04/06 17:56:21 by sguzman          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #    
 
@@ -16,7 +16,7 @@
 
 NAME		= minishell
 CC 		= cc
-CFLAGS	= -Wall -Wextra -Werror 
+CFLAGS	= -Wall -Wextra -Werror -g
 DFLAGS	= -MMD -MF $(@:.o=.d)
 RLFLAGS = -lcurses
 
@@ -40,13 +40,17 @@ INCLUDE_PATH	= ./include
 
 DOCS_PATH	= ./docs
 
+LIBFTPRINTF_PATH = ./libs/libftprintf
+
+LIBFTPRINTF		= $(LIBFTPRINTF_PATH)/libftprintf.a
+
 READLINE_PATH = ./libs/readline
 
 READLINE = $(READLINE_PATH)/libhistory.a $(READLINE_PATH)/libreadline.a 
 
 HEADER	= $(INCLUDE_PATH)/minishell.h
 
-SRCS = error.c execute_cmd.c ft_malloc.c input.c parse.c 
+SRCS = error.c execute_cmd.c findcmd.c input.c list.c parse.c sh_malloc.c stringvec.c
 
 MAIN 		= minishell.c 
 
@@ -98,7 +102,7 @@ banner:
 	@printf "%b" "$(RESET)"
 
 -include $(DEPS) $(DEPS_MAIN)
-$(NAME):	$(OBJS) $(OBJS_MAIN) $(READLINE)
+$(NAME):	$(OBJS) $(OBJS_MAIN) $(READLINE) $(LIBFTPRINTF)
 			@$(CC) $(CFLAGS) $(DFLAGS) -I $(INCLUDE_PATH) $^ $(RLFLAGS) -o $@ 
 			@printf "%b%-42s%-42b%-24s%b%s%b\n" "$(BLUE)" "Building program:" "$(CYAN)" $@ "$(GREEN)" "[✓]" "$(RESET)"
 
@@ -106,9 +110,13 @@ $(READLINE):
 			@make -C $(READLINE_PATH) > /dev/null
 			@printf "%b%-42s%-42b%-24s%b%s%b\n" "$(BLUE)" "Building Readline library:" "$(CYAN)" $@ "$(GREEN)" "[✓]" "$(RESET)"
 
+$(LIBFTPRINTF):
+			@make bonus -C $(LIBFTPRINTF_PATH) > /dev/null
+			@printf "%b%-42s%-42b%-24s%b%s%b\n" "$(BLUE)" "Building Libftprintf library:" "$(CYAN)" $@ "$(GREEN)" "[✓]" "$(RESET)"
+
 $(OBJS_PATH)/%.o: 	$(SRCS_PATH)/%.c $(HEADER) Makefile
 			@mkdir -p $(dir $@)
-			@$(CC) $(CFLAGS) $(DFLAGS) -c $< -o $@ -I $(INCLUDE_PATH)
+			@$(CC) $(CFLAGS) $(DFLAGS) -c $< -o $@ -I $(INCLUDE_PATH) -I $(LIBFTPRINTF_PATH)/include
 			@printf "%b%-42s%-42b%-24s%b%s%b\n" "$(BLUE)" "Compiling:" "$(CYAN)" $< "$(GREEN)" "[✓]" "$(RESET)"
 
 installdirs:
@@ -126,14 +134,16 @@ uninstall:	banner
 			@printf "%b%-42s%-42b%-24s%b%s%b\n" "$(BLUE)" "Uninstalling program:" "$(CYAN)" $(bindir)/$(NAME) "$(GREEN)" "[✓]" "$(RESET)"
 
 clean:		banner
+			@make $@ -C $(LIBFTPRINTF_PATH) > /dev/null
 			@make $@ -C $(READLINE_PATH) > /dev/null
 			@rm -rf $(OBJS_PATH)
 			@printf "%b%-42s%-42b%b%s%b\n" "$(BLUE)" "$@:" "$(CYAN)" "$(GREEN)" "[✓]" "$(RESET)"
 
 fclean:		banner clean
+			@make $@ -C $(LIBFTPRINTF_PATH) > /dev/null
 			@rm -rf $(NAME)
 			@printf "%b%-42s%-42b%b%s%b\n" "$(BLUE)" "$@:" "$(CYAN)" "$(GREEN)" "[✓]" "$(RESET)"
 
 re:			fclean all
 
-.PHONY:		all banner clean fclean re $(READLINE)
+.PHONY:		all banner clean fclean re $(READLINE) $(LIBFTPRINTF)

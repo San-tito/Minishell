@@ -6,17 +6,21 @@
 /*   By: mpovill- <mpovill-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 12:11:32 by mpovill-          #+#    #+#             */
-/*   Updated: 2024/04/06 16:34:20 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/06 18:35:43 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include "ft_printf.h"
+# include <errno.h>
 # include <signal.h>
 # include <stdarg.h>
 # include <stdio.h>
 # include <stdlib.h>
+# include <string.h>
+# include <sys/stat.h>
 # include <sys/types.h>
 # include <termios.h>
 # include <unistd.h>
@@ -26,14 +30,16 @@
 # define EXECUTION_FAILURE 1
 # define EXECUTION_SUCCESS 0
 
+# define EX_NOEXEC 126
+# define EX_NOTFOUND 127
+
 # define FD_BITMAP_SIZE 32
 # define HEREDOC_MAX 16
 
-struct					fd_bitmap
-{
-	int					size;
-	char				*bitmap;
-};
+#define FS_EXISTS	  0x1
+#define FS_EXECABLE	  0x2
+#define FS_DIRECTORY	  0x10
+#define FS_READABLE	  0x40
 
 /* ************************************************************************** */
 /*       Instructions describing what kind of thing to do for a redirection.  */
@@ -133,14 +139,12 @@ int						parse(char *token);
 /*                                   Execute CMD                              */
 /* ************************************************************************** */
 int						execute_command(t_command *command);
-int						execute_command_internal(t_command *command,
-							int asynchronous, int pipe_in, int pipe_out,
-							struct fd_bitmap *fds_to_close);
 
 /* ************************************************************************** */
 /*                                   Find CMD                                 */
 /* ************************************************************************** */
 char					*search_for_command(const char *pathname);
+int						file_status(const char *name);
 
 /* ************************************************************************** */
 /*                            Report an internal error.                       */
@@ -148,9 +152,18 @@ char					*search_for_command(const char *pathname);
 void					internal_error(const char *format, ...);
 
 /* ************************************************************************** */
+/*                              functions for list                            */
+/* ************************************************************************** */
+int						list_length(t_word_list *list);
+char					**strvec_from_word_list(t_word_list *list);
+
+/* ************************************************************************** */
 /*                            Allocation functions                            */
 /* ************************************************************************** */
-void					*ft_malloc(size_t bytes);
-void					ft_free(void *string);
+void					*sh_malloc(size_t bytes);
+void					sh_free(void *string);
+void					sh_doublefree(void **array);
+
+extern char				**environ;
 
 #endif

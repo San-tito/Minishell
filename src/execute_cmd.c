@@ -6,24 +6,57 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 20:51:58 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/06 16:33:17 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/06 18:47:56 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	execute_command(t_command *command)
+static int	shell_execve(const char *command, char **args, char **env)
 {
-	int	result;
+	int	errnum;
+	int	last_command_exit_value;
 
-	result = *(int *)(void *)command;
-	return (result);
+	last_command_exit_value = 0;
+	execve(command, args, env);
+	errnum = errno;
+	if (errnum != ENOEXEC)
+	{
+		last_command_exit_value = EX_NOEXEC;
+		if (errnum == ENOENT)
+			last_command_exit_value = EX_NOTFOUND;
+		if (file_status(command) & FS_DIRECTORY)
+			internal_error("%s: %s", command, strerror(EISDIR));
+		else
+			internal_error("%s: %s", command, strerror(errnum));
+	}
+	return (last_command_exit_value);
 }
 
-static int	execute_disk_command(t_word_list *words, t_redirect *redirects,
-		char *command_line, int pipe_in, pipe_out, async,
-		struct fd_bitmap *fds_to_close, int cmdflags)
+static int	execute_disk_command(t_word_list *words)
 {
+	char		**args;
 	const char	*pathname = words->word;
-	const char	*command = search_for_command (pathname);
+	const char	*command = search_for_command(pathname);
+
+	if (command == 0)
+	{
+		internal_error("%s: command not found", pathname);
+		exit(EX_NOTFOUND);
+	}
+	args = strvec_from_word_list(words);
+	exit(shell_execve(command, args, environ));
+}
+
+int	execute_command(t_command *command)
+{
+	int			result;
+	t_word_list	*words;
+
+	(void)command;
+	words = sh_malloc(sizeof(t_word_list *));
+	words->word = "test";
+	words->next = NULL;
+	result = execute_disk_command(words);
+	return (result);
 }

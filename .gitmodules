@@ -1,3 +1,6 @@
 [submodule "libs/readline"]
 	path = libs/readline
 	url = https://git.savannah.gnu.org/git/readline.git
+[submodule "libs/libftprintf"]
+	path = libs/libftprintf
+	url = https://github.com/San-tito/ft_printf.git
