@@ -6,7 +6,7 @@
 /*   By: mpovill- <mpovill-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 12:11:32 by mpovill-          #+#    #+#             */
-/*   Updated: 2024/04/06 22:47:01 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/07 00:19:30 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,14 @@ int						execute_command(t_command *command);
 /* ************************************************************************** */
 char					*search_for_command(const char *pathname);
 int						file_status(const char *name);
+
+/* ************************************************************************** */
+/*                                   Make CMD                                 */
+/* ************************************************************************** */
+t_command				*make_command(t_command_type type, void *pointer);
+t_command				*make_simple_command(t_word_list *words,
+							t_redirect *redirects);
+t_word_list				*make_word_list(char *word, t_word_list *next);
 
 /* ************************************************************************** */
 /*                            Report an internal error.                       */

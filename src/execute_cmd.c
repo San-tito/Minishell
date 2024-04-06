@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 20:51:58 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/06 22:48:21 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/07 00:22:33 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,7 @@ int	execute_command(t_command *command)
 	int			result;
 	t_word_list	*words;
 
-	(void)command;
-	words = sh_malloc(sizeof(t_word_list *));
-	words->word = "marcel";
-	words->next = NULL;
+	words = ((t_simple_com *)command->value)->words;
 	result = execute_disk_command(words);
 	return (result);
 }
