@@ -6,7 +6,7 @@
 /*   By: mpovill- <mpovill-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 12:11:32 by mpovill-          #+#    #+#             */
-/*   Updated: 2024/04/06 16:23:15 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/06 16:34:20 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,11 @@ int						execute_command(t_command *command);
 int						execute_command_internal(t_command *command,
 							int asynchronous, int pipe_in, int pipe_out,
 							struct fd_bitmap *fds_to_close);
+
+/* ************************************************************************** */
+/*                                   Find CMD                                 */
+/* ************************************************************************** */
+char					*search_for_command(const char *pathname);
 
 /* ************************************************************************** */
 /*                            Report an internal error.                       */

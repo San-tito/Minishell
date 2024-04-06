@@ -1,29 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execute_cmd.c                                      :+:      :+:    :+:   */
+/*   findcmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/23 20:51:58 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/06 16:33:17 by sguzman          ###   ########.fr       */
+/*   Created: 2024/04/06 16:32:10 by sguzman           #+#    #+#             */
+/*   Updated: 2024/04/06 16:38:04 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	execute_command(t_command *command)
+static int	absolute_program(const char *string)
 {
-	int	result;
-
-	result = *(int *)(void *)command;
-	return (result);
+	return (ft_strchr(string, '/') != NULL);
 }
 
-static int	execute_disk_command(t_word_list *words, t_redirect *redirects,
-		char *command_line, int pipe_in, pipe_out, async,
-		struct fd_bitmap *fds_to_close, int cmdflags)
+char	*search_for_command(const char *pathname)
 {
-	const char	*pathname = words->word;
-	const char	*command = search_for_command (pathname);
+	char	*command;
+	char	*path_list;
+
+	path_index = 0;
+	path_list = getenv("PATH");
 }
