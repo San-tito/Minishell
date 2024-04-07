@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 20:51:58 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/07 15:13:01 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/07 15:18:01 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,6 @@ int	execute_command(t_command *command)
 	words = ((t_simple_com *)command->value)->words;
 	result = execute_disk_command(words, &last_made_pid);
 	result = wait_for(last_made_pid);
-	printf("result -> %i\n", result);
+	printf("exit_value -> (%i)\n", result);
 	return (result);
 }
