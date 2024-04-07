@@ -12,16 +12,27 @@
 
 #include "minishell.h"
 
-t_command	*parse_command(char *token)
+t_command	*parser(char *job)
 {
-	t_command	*command;
-	t_word_list	*words;
-	char		**arr;
+	t_list	*tokens;
+	pid_t	pid;
+	int		status;
 
-	words = NULL;
-	arr = ft_split(token, ' ');
-	while (*arr)
-		words = make_word_list(*arr++, words);
-	command = make_simple_command(words, NULL);
-	return (command);
+	if (job == NULL || *jop == '\0')
+		return (NULL);
+	pid = fork();
+	if (pid == -1)
+		return (NULL);
+	else if (pid == 0)
+	{
+		tokens = NULL;
+		lexer(job, &tokens);
+		expansor(&tokens);
+		exit(0);
+	}
+	else
+		waitpid(pid, &status, 0);
+	if (status != 0)
+		return (NULL);
+	return (convert_tokens(&tokens));
 }

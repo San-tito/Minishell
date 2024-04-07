@@ -36,6 +36,26 @@ static void	test_words(char *job)
 		waitpid(pid, &status, 0);
 }
 
+static void	test_empty(char *job)
+{
+	pid_t	pid;
+	int		status;
+	t_list  *words;
+
+	pid = fork();
+	if (pid < 0)
+		return ;
+	else if (pid == 0)
+	{
+		words = separate_words(job);
+		remove_empty_words(&words);
+		print_and_free(&words);
+		exit(0);
+	}
+	else
+		waitpid(pid, &status, 0);
+}
+
 int main(void)
 {
 	t_list  *words;
@@ -52,5 +72,10 @@ int main(void)
 	//test_words("");??
 	test_words("test1 \" test2");
 	test_words("test3 \' test4");
+
+	ft_printf(1, "Remove empty words:\n");
+	test_empty("test9           test10");
+	test_empty("test11 test12    ");
+	test_empty("                                                      ");
 	return (0);
 }

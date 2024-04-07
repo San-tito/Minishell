@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   lexer_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,17 +10,31 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "lexer.h"
 
-void	lexer(char *job, t_list **tokens)
+static void	del_word(void *content)
 {
-	t_list	*words;
+	free(content);
+}
 
-	words = separate_words(job);
-	remove_empty_words(&words);
-	remove_quotes(words);
-	//*tokens = tokenize(words);
-	//clear_words(&words);
-	//check_tokens(tokens);
+void	remove_empty_words(t_list **words)
+{
+	t_list	*current;
+
+	current = *words;
+	if (current == NULL)
+		return ;
+	if (*(char *)(current->content) == '\0')
+	{
+		*words = current->next;
+		ft_lstdelone(current, del_word);
+		remove_empty_words(words);
+	}
+	else
+		remove_empty_words(&(current->next));
+}
+
+void	remove_quotes(t_list **words)
+{
+	
 }

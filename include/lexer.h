@@ -20,5 +20,7 @@
 # include "libft.h"
 
 t_list	*separate_words(char *job);
+void	remove_empty_words(t_list **words);
+void	remove_quotes(t_list **words);
 
 #endif
