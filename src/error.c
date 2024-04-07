@@ -1,31 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/19 16:20:05 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/07 00:28:20 by sguzman          ###   ########.fr       */
+/*   Created: 2024/04/06 16:18:30 by sguzman           #+#    #+#             */
+/*   Updated: 2024/04/06 16:21:03 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	shell_initialize(void)
+void	internal_error(const char *format, ...)
 {
-	/* Initialize various components like signals, builtins, jobs */
-}
+	va_list		args;
+	const char	*ename = "minishell";
 
-int	main(void)
-{
-	shell_initialize();
-	reader_loop();
-	exit_shell(EXIT_SUCCESS);
-}
-
-void	exit_shell(int s)
-{
-	/* Clean up */
-	exit(s);
+	fprintf(stderr, "%s: ", ename);
+	va_start(args, format);
+	vfprintf(stderr, format, args);
+	fprintf(stderr, "\n");
+	va_end(args);
 }

@@ -1,31 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/19 16:20:05 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/07 00:28:20 by sguzman          ###   ########.fr       */
+/*   Created: 2024/03/23 19:30:33 by sguzman           #+#    #+#             */
+/*   Updated: 2024/04/07 00:21:24 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	shell_initialize(void)
+t_command	*parse_command(char *token)
 {
-	/* Initialize various components like signals, builtins, jobs */
-}
+	t_command	*command;
+	t_word_list	*words;
 
-int	main(void)
-{
-	shell_initialize();
-	reader_loop();
-	exit_shell(EXIT_SUCCESS);
-}
-
-void	exit_shell(int s)
-{
-	/* Clean up */
-	exit(s);
+	words = make_word_list(token, NULL);
+	command = make_simple_command(words, NULL);
+	return (command);
 }

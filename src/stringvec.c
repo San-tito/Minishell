@@ -1,31 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   stringvec.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/19 16:20:05 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/07 00:28:20 by sguzman          ###   ########.fr       */
+/*   Created: 2024/04/06 17:47:32 by sguzman           #+#    #+#             */
+/*   Updated: 2024/04/07 00:28:02 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	shell_initialize(void)
+char	**strvec_from_word_list(t_word_list *list)
 {
-	/* Initialize various components like signals, builtins, jobs */
-}
+	int		count;
+	char	**array;
 
-int	main(void)
-{
-	shell_initialize();
-	reader_loop();
-	exit_shell(EXIT_SUCCESS);
-}
-
-void	exit_shell(int s)
-{
-	/* Clean up */
-	exit(s);
+	count = list_length(list);
+	array = sh_malloc((1 + count) * sizeof(char *));
+	count = 0;
+	while (list)
+	{
+		array[count] = list->word;
+		list = list->next;
+		count++;
+	}
+	array[count] = NULL;
+	return (array);
 }

@@ -1,31 +1,41 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   sh_malloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/19 16:20:05 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/07 00:28:20 by sguzman          ###   ########.fr       */
+/*   Created: 2024/04/06 17:09:36 by sguzman           #+#    #+#             */
+/*   Updated: 2024/04/06 17:09:48 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	shell_initialize(void)
+void	*sh_malloc(size_t bytes)
 {
-	/* Initialize various components like signals, builtins, jobs */
+	void	*temp;
+
+	temp = malloc(bytes);
+	if (temp == 0)
+		/* Handle Error */
+		return (0);
+	return (temp);
 }
 
-int	main(void)
+void	sh_free(void *string)
 {
-	shell_initialize();
-	reader_loop();
-	exit_shell(EXIT_SUCCESS);
+	if (string)
+		free(string);
+	string = NULL;
 }
 
-void	exit_shell(int s)
+void	sh_doublefree(void **array)
 {
-	/* Clean up */
-	exit(s);
+	void	**ptr;
+
+	ptr = array;
+	while (*ptr)
+		sh_free(*ptr++);
+	sh_free(array);
 }
