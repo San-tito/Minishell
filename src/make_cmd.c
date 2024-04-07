@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 00:01:48 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/07 12:57:51 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/07 14:51:31 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ t_word_list	*make_word_list(char *word, t_word_list *head)
 	temp = sh_malloc(sizeof(t_word_list));
 	temp->word = word;
 	temp->next = NULL;
-	list_append((t_generic_list *)head, (t_generic_list *)temp);
+	temp = (t_word_list *)list_append((t_generic_list *)head,
+			(t_generic_list *)temp);
 	return (temp);
 }

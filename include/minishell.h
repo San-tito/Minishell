@@ -6,7 +6,7 @@
 /*   By: mpovill- <mpovill-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 12:11:32 by mpovill-          #+#    #+#             */
-/*   Updated: 2024/04/07 12:54:27 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/07 15:14:26 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <string.h>
 # include <sys/stat.h>
 # include <sys/types.h>
+# include <sys/wait.h>
 # include <termios.h>
 # include <unistd.h>
 
@@ -177,6 +178,12 @@ int							list_length(t_generic_list *list);
 t_generic_list				*list_append(t_generic_list *head,
 								t_generic_list *tail);
 char						**strvec_from_word_list(t_word_list *list);
+
+/* ************************************************************************** */
+/*                                   Jobs                                     */
+/* ************************************************************************** */
+pid_t						make_child(pid_t *last_made_pid);
+int							wait_for(pid_t pid);
 
 /* ************************************************************************** */
 /*                            Allocation functions                            */

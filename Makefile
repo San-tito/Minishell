@@ -6,7 +6,7 @@
 #    By: sguzman <sguzman@student.42barcelo>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 15:31:23 by sguzman           #+#    #+#              #
-#    Updated: 2024/04/07 00:16:47 by sguzman          ###   ########.fr        #
+#    Updated: 2024/04/07 14:54:43 by sguzman          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #    
 
@@ -50,7 +50,7 @@ READLINE = $(READLINE_PATH)/libhistory.a $(READLINE_PATH)/libreadline.a
 
 HEADER	= $(INCLUDE_PATH)/minishell.h
 
-SRCS = error.c execute_cmd.c findcmd.c input.c list.c make_cmd.c parse.c sh_malloc.c stringvec.c
+SRCS = error.c execute_cmd.c findcmd.c input.c jobs.c list.c make_cmd.c parse.c sh_malloc.c stringvec.c
 
 MAIN 		= minishell.c 
 
