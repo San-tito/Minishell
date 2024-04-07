@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 17:47:32 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/07 00:28:02 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/07 12:51:06 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	**strvec_from_word_list(t_word_list *list)
 	int		count;
 	char	**array;
 
-	count = list_length(list);
+	count = list_length((t_generic_list *)list);
 	array = sh_malloc((1 + count) * sizeof(char *));
 	count = 0;
 	while (list)
