@@ -6,7 +6,7 @@
 /*   By: mpovill- <mpovill-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 12:11:32 by mpovill-          #+#    #+#             */
-/*   Updated: 2024/04/07 15:14:26 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/07 18:27:34 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "ft_printf.h"
 # include <errno.h>
+# include <fcntl.h>
 # include <signal.h>
 # include <stdarg.h>
 # include <stdio.h>
@@ -78,11 +79,9 @@ typedef struct s_word_list
 typedef struct s_redirect
 {
 	struct s_redirect		*next;
-	char					*redirector;
-	int						rflags;
+	char					*filename;
 	int						flags;
 	t_instruction			instruction;
-	char					*redirectee;
 	char					*here_doc_eof;
 }							t_redirect;
 
@@ -110,8 +109,6 @@ typedef struct s_connection
 /* ************************************************************************** */
 typedef struct s_simple_com
 {
-	int						flags;
-	int						line;
 	t_word_list				*words;
 	t_redirect				*redirects;
 }							t_simple_com;
@@ -165,6 +162,8 @@ t_command					*make_command(t_command_type type, void *pointer);
 t_command					*make_simple_command(t_word_list *words,
 								t_redirect *redirects);
 t_word_list					*make_word_list(char *word, t_word_list *next);
+t_redirect					*make_redirection(char *filename,
+								t_instruction instruction, t_redirect *head);
 
 /* ************************************************************************** */
 /*                            Report an internal error.                       */
@@ -184,6 +183,11 @@ char						**strvec_from_word_list(t_word_list *list);
 /* ************************************************************************** */
 pid_t						make_child(pid_t *last_made_pid);
 int							wait_for(pid_t pid);
+
+/* ************************************************************************** */
+/*                                   Do Redirections                          */
+/* ************************************************************************** */
+int							do_redirections(t_redirect *list);
 
 /* ************************************************************************** */
 /*                            Allocation functions                            */

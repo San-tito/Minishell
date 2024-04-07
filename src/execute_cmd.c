@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 20:51:58 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/07 15:18:01 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/07 18:33:33 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ static int	shell_execve(const char *command, char **args, char **env)
 	return (last_command_exit_value);
 }
 
-static int	execute_disk_command(t_word_list *words, pid_t *last_made_pid)
+static int	execute_disk_command(t_word_list *words, t_redirect *redirects,
+		pid_t *last_made_pid)
 {
 	pid_t		pid;
 	char		**args;
@@ -48,6 +49,8 @@ static int	execute_disk_command(t_word_list *words, pid_t *last_made_pid)
 			internal_error("%s: command not found", pathname);
 			exit(EX_NOTFOUND);
 		}
+		if (redirects && (do_redirections(redirects) != 0))
+			exit(EXECUTION_FAILURE);
 		args = strvec_from_word_list(words);
 		exit(shell_execve(command, args, environ));
 	}
@@ -60,9 +63,11 @@ int	execute_command(t_command *command)
 	pid_t		last_made_pid;
 	int			result;
 	t_word_list	*words;
+	t_redirect	*redirects;
 
 	words = ((t_simple_com *)command->value)->words;
-	result = execute_disk_command(words, &last_made_pid);
+	redirects = ((t_simple_com *)command->value)->redirects;
+	result = execute_disk_command(words, redirects, &last_made_pid);
 	result = wait_for(last_made_pid);
 	printf("exit_value -> (%i)\n", result);
 	return (result);
