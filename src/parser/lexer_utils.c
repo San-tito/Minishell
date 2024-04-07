@@ -33,8 +33,3 @@ void	remove_empty_words(t_list **words)
 	else
 		remove_empty_words(&(current->next));
 }
-
-void	remove_quotes(t_list **words)
-{
-	
-}

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.h                                            :+:      :+:    :+:   */
+/*   tokenizer.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mpovill- <mpovill-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,16 +10,25 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEXER_H
-# define LEXER_H
+#ifndef TOKENIZER_H
+# define TOKENIZER_H
 
-# ifndef MALLOC_ERROR
-#  define MALLOC_ERROR "Error: malloc error.\n"
+typedef	struct s_token_range
+{
+	char	*first;
+	size_t	len;
+}		t_token_range;
+
+# ifndef STR_TOKEN
+#  define STR_TOKEN 0
 # endif
 
-# include "libft.h"
+# ifndef OPEN_PARENTHESIS_TOKEN
+#  define OPEN_PARENTHESIS_TOKEN 1
+# endif
 
-t_list	*separate_words(char *job);
-void	remove_empty_words(t_list **words);
+# ifndef CLOSE_PARENTHESIS_TOKEN
+#  define CLOSE_PARENTHESIS_TOKEN 2
+# endif
 
 #endif

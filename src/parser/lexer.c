@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
 #include "lexer.h"
 
 void	lexer(char *job, t_list **tokens)
@@ -19,7 +18,10 @@ void	lexer(char *job, t_list **tokens)
 
 	words = separate_words(job);
 	remove_empty_words(&words);
-	remove_quotes(words);
+	*tokens = tokenize(words);
+	//clear_words
+
+	//	remove_quotes(words);
 	//*tokens = tokenize(words);
 	//clear_words(&words);
 	//check_tokens(tokens);
