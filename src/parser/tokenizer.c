@@ -13,7 +13,7 @@
 #include "lexer.h"
 #include "tokenizer.h"
 
-static void	handle_quotes(char **word, int *len)
+static char	handle_quotes(char **word, size_t *len)
 {
 	if (**word == '\'')
 	{
@@ -44,7 +44,7 @@ static void	obtain_tokens(char *word, t_list **tokens, t_list **words)
 {
 	t_token_range	token_range;
 
-	token_range.first = *word;
+	token_range.first = word;
 	token_range.len = 0;
 	while (*word)
 	{
@@ -54,6 +54,7 @@ static void	obtain_tokens(char *word, t_list **tokens, t_list **words)
 			token_range.len++;
 		word++;
 	}
+	is_boundary(&word, &token_range, tokens, words);
 }
 
 t_list	*tokenizer(t_list **words)

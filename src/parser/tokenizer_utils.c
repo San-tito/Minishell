@@ -13,25 +13,24 @@
 #include "lexer.h"
 #include "tokenizer.h"
 
-static void	clear_tokens()
+static void	del_token(void *content)
 {
+	t_token	*token;
 
+	token = (t_token *)content;
+	free(token->content);
+	free(token);
 }
 
-static void	del_word(void *content)
+static void	clear_tokens(t_list **tokens)
 {
-	free(content);
-}
-
-static void	clear_words(t_list **words)
-{
-	ft_lstclear(words, del_word);
+	ft_lstclear(tokens, del_token);
 }
 
 void	handle_error(t_list **words, t_list **tokens, char *error_msg)
 {
 	ft_printf(1, "%s", error_msg);
-	clear_tokens(tokens)
+	clear_tokens(tokens);
 	clear_words(words);
 	exit(1);
 }

@@ -62,6 +62,9 @@ static char	manage_str(t_token_range *token_range, t_list **tokens, t_list **wor
 
 static char	manage_parentheses(t_token_range *token_range, t_list **tokens, t_list **words, char TOKEN)
 {
+	t_token	*token;
+	t_list	*node;
+
 	create_str_token(token_range, tokens, words);
 	token = new_token(TOKEN, NULL);
 	if (token == NULL)
@@ -77,6 +80,9 @@ static char	manage_parentheses(t_token_range *token_range, t_list **tokens, t_li
 
 static char	manage_and(t_token_range *token_range, t_list **tokens, t_list **words, char *word)
 {
+	t_token	*token;
+	t_list	*node;
+
 	if (*(word + 1) != '&')
 		handle_error(words, tokens, AND_ERROR);
 	create_str_token(token_range, tokens, words);
@@ -95,6 +101,8 @@ static char	manage_and(t_token_range *token_range, t_list **tokens, t_list **wor
 static char	manage_or(t_token_range *token_range, t_list **tokens, t_list **words, char *word)
 {
 	char	token_type;
+	t_token	*token;
+	t_list	*node;
 
 	create_str_token(token_range, tokens, words);
 	if (*(word + 1) == '|')
@@ -118,6 +126,8 @@ static char	manage_or(t_token_range *token_range, t_list **tokens, t_list **word
 static char	manage_in(t_token_range *token_range, t_list **tokens, t_list **words, char *word)
 {
 	char	token_type;
+	t_token	*token;
+	t_list	*node;
 
 	create_str_token(token_range, tokens, words);
 	if (*(word + 1) == '<')
@@ -141,6 +151,8 @@ static char	manage_in(t_token_range *token_range, t_list **tokens, t_list **word
 static char	manage_out(t_token_range *token_range, t_list **tokens, t_list **words, char *word)
 {
 	char	token_type;
+	t_token	*token;
+	t_list	*node;
 
 	create_str_token(token_range, tokens, words);
 	if (*(word + 1) == '>')
@@ -166,19 +178,19 @@ void	is_boundary(char **word, t_token_range *token_range, t_list **tokens, t_lis
 	char	update_value;
 
 	update_value = 0;
-	if (*word == ' ')
+	if (**word == ' ' || **word == '\0')
 		update_value = manage_str(token_range, tokens, words);
-	else if (*word == '(')
+	else if (**word == '(')
 		update_value = manage_parentheses(token_range, tokens, words, OPEN_PARENTHESIS_TOKEN);
-	else if (*word == ')')
+	else if (**word == ')')
 		update_value = manage_parentheses(token_range, tokens, words, CLOSE_PARENTHESIS_TOKEN);
-	else if (*word == '&')
-		update_value = manage_and(token_range, tokens, words, word);
-	else if (*word == '|')
-		update_value = manage_or(token_range, tokens, words, word);
-	else if (*word == '<')
-		update_value = manage_in(token_range, tokens, words, word);
-	else if (*word == '>')
-		update_value = manage_out(token_range, tokens, words, word);
+	else if (**word == '&')
+		update_value = manage_and(token_range, tokens, words, *word);
+	else if (**word == '|')
+		update_value = manage_or(token_range, tokens, words, *word);
+	else if (**word == '<')
+		update_value = manage_in(token_range, tokens, words, *word);
+	else if (**word == '>')
+		update_value = manage_out(token_range, tokens, words, *word);
 	*word = (*word + update_value);
 }

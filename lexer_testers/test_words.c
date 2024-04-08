@@ -3,18 +3,14 @@
 #include "separate_words.h"
 #include <sys/wait.h>
 
-static void print_and_free(t_list **words)
+static void print_words(t_list *lst)
 {
-	t_list	*lst;
-
-	lst = *words;
 	ft_printf(1, "New word list:\n");
 	while (lst != NULL)
 	{
 		ft_printf(1, "Word: [%s]\n", (char *)lst->content);
 		lst = lst->next;
 	}
-	clear_words(words);
 }
 
 static void	test_words(char *job)
@@ -29,7 +25,8 @@ static void	test_words(char *job)
 	else if (pid == 0)
 	{
 		words = separate_words(job);
-		print_and_free(&words);
+		print_words(words);
+		clear_words(&words);
 		exit(0);
 	}
 	else
@@ -49,7 +46,47 @@ static void	test_empty(char *job)
 	{
 		words = separate_words(job);
 		remove_empty_words(&words);
-		print_and_free(&words);
+		print_words(words);
+		clear_words(&words);
+		exit(0);
+	}
+	else
+		waitpid(pid, &status, 0);
+}
+
+static void	print_token(t_token *token)
+{
+	ft_printf(1, "Token type: [%d], Token data: [%s].\n", token->type, token->content);
+}
+
+static void	print_tokens(t_list *tokens)
+{
+	ft_printf(1, "New token list:\n");
+	while (tokens != NULL)
+	{
+		print_token((t_token*)tokens->content);
+		tokens = tokens->next;
+	}
+}
+
+static void	test_tokenizer(char *job)
+{
+	pid_t	pid;
+	int		status;
+	t_list  *words;
+	t_list	*tokens;
+
+	pid = fork();
+	if (pid < 0)
+		return ;
+	else if (pid == 0)
+	{
+		words = separate_words(job);
+		remove_empty_words(&words);
+		print_words(words);
+		tokens = tokenizer(&words);
+		print_tokens(tokens);
+		clear_words(&words);
 		exit(0);
 	}
 	else
@@ -79,5 +116,7 @@ int main(void)
 	test_empty("                                                      ");
 
 	ft_printf(1, "Tokenize:\n");
+	test_tokenizer("test1 test2");
+	test_tokenizer("test1|||test2");
 	return (0);
 }
