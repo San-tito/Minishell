@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   separate_words_utils.c                             :+:      :+:    :+:   */
+/*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,10 +11,27 @@
 /* ************************************************************************** */
 
 #include "lexer.h"
+#include "tokenizer.h"
 
-void	handle_error_word(t_list **words, char *error_msg)
+static void	clear_tokens()
+{
+
+}
+
+static void	del_word(void *content)
+{
+	free(content);
+}
+
+static void	clear_words(t_list **words)
+{
+	ft_lstclear(words, del_word);
+}
+
+void	handle_error(t_list **words, t_list **tokens, char *error_msg)
 {
 	ft_printf(1, "%s", error_msg);
+	clear_tokens(tokens)
 	clear_words(words);
 	exit(1);
 }

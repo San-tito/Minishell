@@ -31,4 +31,39 @@ typedef	struct s_token_range
 #  define CLOSE_PARENTHESIS_TOKEN 2
 # endif
 
+# ifndef AND_TOKEN
+#  define AND_TOKEN 3
+# endif
+
+# ifndef PIPE_TOKEN
+#  define PIPE_TOKEN 4
+# endif
+
+# ifndef OR_TOKEN
+#  define OR_TOKEN 5
+# endif
+
+# ifndef INPUT_TOKEN
+#  define INPUT_TOKEN 6
+# endif
+
+# ifndef HEREDOC_TOKEN
+#  define HEREDOC_TOKEN 7
+# endif
+
+# ifndef OUTPUT_TOKEN
+#  define OUTPUT_TOKEN 8
+# endif
+
+# ifndef APPEND_TOKEN
+#  define APPEND_TOKEN 9
+# endif
+
+# ifndef AND_ERROR
+#  define AND_ERROR "Error: single AND found.\n"
+# endif
+
+void	is_boundary(char **word, t_token_range *token_range, t_list **tokens, t_list **words);
+void	handle_error(t_list **words, t_list **tokens, char *error_msg);
+
 #endif

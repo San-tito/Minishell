@@ -19,7 +19,15 @@
 
 # include "libft.h"
 
+typedef struct s_token
+{
+	char	type;
+	char	*content;
+}		t_token;
+
 t_list	*separate_words(char *job);
 void	remove_empty_words(t_list **words);
+t_list	*tokenizer(t_list **words);
+void	clear_words(t_list **words);
 
 #endif

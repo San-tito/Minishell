@@ -36,6 +36,5 @@ typedef	struct s_word_data
 }		t_word_data;
 
 void	handle_error_word(t_list **words, char *error_msg);
-void	clear_words(t_list **words);
 
 #endif
