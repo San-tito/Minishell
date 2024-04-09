@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.h                                            :+:      :+:    :+:   */
+/*   tokens_id.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mpovill- <mpovill-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,28 +10,47 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEXER_H
-# define LEXER_H
+#ifndef TOKENS_ID
+# define TOKENS_ID
 
-# ifndef MALLOC_ERROR
-#  define MALLOC_ERROR "Error: malloc error.\n"
+# ifndef STR_TOKEN
+#  define STR_TOKEN 0
 # endif
 
-# include "libft.h"
+# ifndef OPEN_PARENTHESIS_TOKEN
+#  define OPEN_PARENTHESIS_TOKEN 1
+# endif
 
-typedef struct s_token
-{
-	char	type;
-	char	*content;
-}		t_token;
+# ifndef CLOSE_PARENTHESIS_TOKEN
+#  define CLOSE_PARENTHESIS_TOKEN 2
+# endif
 
-t_list	*separate_words(char *job);
-void	remove_empty_words(t_list **words);
-t_list	*tokenizer(t_list **words);
-void	remove_quotes(t_list **tokens);
+# ifndef AND_TOKEN
+#  define AND_TOKEN 3
+# endif
 
-//only used on testing I think
-void	clear_words(t_list **words);
-void	clear_tokens(t_list **tokens);
+# ifndef PIPE_TOKEN
+#  define PIPE_TOKEN 4
+# endif
+
+# ifndef OR_TOKEN
+#  define OR_TOKEN 5
+# endif
+
+# ifndef INPUT_TOKEN
+#  define INPUT_TOKEN 6
+# endif
+
+# ifndef HEREDOC_TOKEN
+#  define HEREDOC_TOKEN 7
+# endif
+
+# ifndef OUTPUT_TOKEN
+#  define OUTPUT_TOKEN 8
+# endif
+
+# ifndef APPEND_TOKEN
+#  define APPEND_TOKEN 9
+# endif
 
 #endif

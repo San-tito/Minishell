@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   handle_quotes.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
+/*   By: mpovill- <mpovill-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/19 16:20:05 by sguzman           #+#    #+#             */
-/*   Updated: 2024/03/10 16:37:51 by sguzman          ###   ########.fr       */
+/*   Created: 2023/12/19 12:11:32 by mpovill-          #+#    #+#             */
+/*   Updated: 2024/03/10 16:29:45 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
-#include "tokenizer.h"
+#ifndef HANDLE_QUOTES_H
+# define HANDLE_QUOTES_H
 
-void	handle_error(t_list **words, t_list **tokens, char *error_msg)
+#include "tokens_id.h"
+
+typedef struct s_handle_quotes
 {
-	ft_printf(1, "%s", error_msg);
-	clear_tokens(tokens);
-	clear_words(words);
-	exit(1);
-}
+	char	single_quotes;
+    char	double_quotes;
+    int     num;
+}		t_handle_quotes;
+
+# endif

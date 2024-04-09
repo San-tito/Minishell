@@ -17,11 +17,6 @@ static void	del_word(void *content)
 	free(content);
 }
 
-void	clear_words(t_list **words)
-{
-	ft_lstclear(words, del_word);
-}
-
 void	remove_empty_words(t_list **words)
 {
 	t_list	*current;

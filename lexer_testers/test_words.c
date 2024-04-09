@@ -94,6 +94,32 @@ static void	test_tokenizer(char *job)
 		waitpid(pid, &status, 0);
 }
 
+static void test_quotes(char *job)
+{
+	pid_t	pid;
+	int		status;
+	t_list  *words;
+	t_list	*tokens;
+
+	pid = fork();
+	if (pid < 0)
+		return ;
+	else if (pid == 0)
+	{
+		words = separate_words(job);
+		remove_empty_words(&words);
+		print_words(words);
+		tokens = tokenizer(&words);
+		clear_words(&words);
+		remove_quotes(&tokens);
+		print_tokens(tokens);
+		clear_tokens(&tokens);
+		exit(0);
+	}
+	else
+		waitpid(pid, &status, 0);
+}
+
 int main(void)
 {
 	ft_printf(1, "Correct Tests:\n");
@@ -123,5 +149,10 @@ int main(void)
 	test_tokenizer(")");
 	test_tokenizer("&");
 	//test_tokenizer("")??
+
+	ft_printf(1, "Remove quotes:\n");
+	test_quotes("test1 \"test4\"\" test5\" test2");
+	test_quotes("test1 \"test4\'\' test5\" test2");
+	test_quotes("test1 \"test4\'\'\'\"\'\"\'\" \'\'test5\" test2");
 	return (0);
 }

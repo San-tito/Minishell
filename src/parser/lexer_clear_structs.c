@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   lexer_clear_structs.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -11,12 +11,28 @@
 /* ************************************************************************** */
 
 #include "lexer.h"
-#include "tokenizer.h"
 
-void	handle_error(t_list **words, t_list **tokens, char *error_msg)
+static void	del_token(void *content)
 {
-	ft_printf(1, "%s", error_msg);
-	clear_tokens(tokens);
-	clear_words(words);
-	exit(1);
+	t_token	*token;
+
+	token = (t_token *)content;
+	if (token->content != NULL)
+		free(token->content);
+	free(token);
+}
+
+void	clear_tokens(t_list **tokens)
+{
+	ft_lstclear(tokens, del_token);
+}
+
+static void	del_word(void *content)
+{
+	free(content);
+}
+
+void	clear_words(t_list **words)
+{
+	ft_lstclear(words, del_word);
 }

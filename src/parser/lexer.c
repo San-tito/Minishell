@@ -20,8 +20,7 @@ void	lexer(char *job, t_list **tokens)
 	remove_empty_words(&words);
 	*tokens = tokenizer(words);
 	clear_words(&words);
-
-	//	remove_quotes(words);
+	remove_quotes(&tokens);
 	//*tokens = tokenize(words);
 	//clear_words(&words);
 	//check_tokens(tokens);
