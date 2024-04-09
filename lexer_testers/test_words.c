@@ -118,5 +118,9 @@ int main(void)
 	ft_printf(1, "Tokenize:\n");
 	test_tokenizer("test1 test2");
 	test_tokenizer("test1|||test2");
+	test_tokenizer("test1|test2|test3|test4");
+	test_tokenizer("test1)test2(test3)test4");
+	test_tokenizer(")");
+	test_tokenizer("|");
 	return (0);
 }

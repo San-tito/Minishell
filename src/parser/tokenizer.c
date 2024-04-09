@@ -13,26 +13,26 @@
 #include "lexer.h"
 #include "tokenizer.h"
 
-static char	handle_quotes(char **word, size_t *len)
+static char	handle_quotes(char **word, t_token_range *token_range)
 {
 	if (**word == '\'')
 	{
-		*len++;
+		token_range->len++;
 		(*word)++;
 		while (**word != '\'')
 		{
-			*len++;
+			token_range->len++;
 			(*word)++;
 		}
 		return (1);
 	}
 	else if (**word == '\"')
 	{
-		*len++;
+		token_range->len++;
 		(*word)++;
 		while (**word != '\"')
 		{
-			*len++;
+			token_range->len++;
 			(*word)++;
 		}
 		return (1);
@@ -48,11 +48,19 @@ static void	obtain_tokens(char *word, t_list **tokens, t_list **words)
 	token_range.len = 0;
 	while (*word)
 	{
-		if (!handle_quotes(&word, &token_range.len))
-			is_boundary(&word, &token_range, tokens, words);
+		if (!handle_quotes(&word, &token_range))
+		{
+			if (!is_boundary(&word, &token_range, tokens, words))
+			{
+				word++;
+				token_range.len++;
+			}
+		}
 		else
+		{
+			word++;
 			token_range.len++;
-		word++;
+		}
 	}
 	is_boundary(&word, &token_range, tokens, words);
 }

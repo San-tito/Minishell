@@ -63,7 +63,7 @@ typedef	struct s_token_range
 #  define AND_ERROR "Error: single AND found.\n"
 # endif
 
-void	is_boundary(char **word, t_token_range *token_range, t_list **tokens, t_list **words);
+char	is_boundary(char **word, t_token_range *token_range, t_list **tokens, t_list **words);
 void	handle_error(t_list **words, t_list **tokens, char *error_msg);
 
 #endif
