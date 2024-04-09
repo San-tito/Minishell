@@ -10,9 +10,20 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
+#include "lexer_utils.h"
 
-static void	del_token(void *content)
+
+void	del_word(void *content)
+{
+	free(content);
+}
+
+void	clear_words(t_list **words)
+{
+	ft_lstclear(words, del_word);
+}
+
+void	del_token(void *content)
 {
 	t_token	*token;
 
@@ -25,14 +36,4 @@ static void	del_token(void *content)
 void	clear_tokens(t_list **tokens)
 {
 	ft_lstclear(tokens, del_token);
-}
-
-static void	del_word(void *content)
-{
-	free(content);
-}
-
-void	clear_words(t_list **words)
-{
-	ft_lstclear(words, del_word);
 }

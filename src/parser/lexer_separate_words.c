@@ -28,12 +28,12 @@ static void	create_word(t_list **words, t_word_data *word_data, char **job)
 
 	word = ft_substr(word_data->first, 0, word_data->len);
 	if (word == NULL)
-		handle_error_word(words, MALLOC_ERROR);
+		handle_word_error(words, MALLOC_ERROR);
 	node = ft_lstnew(word);
 	if (node == NULL)
 	{
 		free(word);
-		handle_error_word(words, MALLOC_ERROR);
+		handle_word_error(words, MALLOC_ERROR);
 	}
 	ft_lstadd_back(words, node);
 	word_data->first = (*job + 1);
@@ -43,9 +43,9 @@ static void	create_word(t_list **words, t_word_data *word_data, char **job)
 static t_list	*check_word_errors(t_list **words, t_word_data word_data, char *job)
 {
 	if (word_data.single_q)
-		handle_error_word(words, SINGLE_Q_ERROR);
+		handle_word_error(words, SINGLE_Q_ERROR);
 	if (word_data.double_q)
-		handle_error_word(words, DOUBLE_Q_ERROR);
+		handle_word_error(words, DOUBLE_Q_ERROR);
 	create_word(words, &word_data, &job);
 	return (*words);
 }

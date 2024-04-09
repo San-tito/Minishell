@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -20,8 +20,6 @@ void	lexer(char *job, t_list **tokens)
 	remove_empty_words(&words);
 	*tokens = tokenizer(words);
 	clear_words(&words);
-	remove_quotes(&tokens);
-	//*tokens = tokenize(words);
-	//clear_words(&words);
-	//check_tokens(tokens);
+	remove_quotes(tokens);
+	check_tokens(tokens);
 }

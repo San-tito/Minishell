@@ -10,12 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
-
-static void	del_word(void *content)
-{
-	free(content);
-}
+#include "lexer_utils.h"
 
 void	remove_empty_words(t_list **words)
 {
@@ -32,4 +27,26 @@ void	remove_empty_words(t_list **words)
 	}
 	else
 		remove_empty_words(&(current->next));
+}
+
+void	handle_word_error(t_list **words, char *error_msg)
+{
+	ft_printf(1, "%s", error_msg);
+	clear_words(words);
+	exit(1);
+}
+
+void	handle_token_error(t_list **tokens, char *error_msg)
+{
+	ft_printf(1, "%s", error_msg);
+	clear_tokens(tokens);
+	exit(1);
+}
+
+void	handle_error(t_list **words, t_list **tokens, char *error_msg)
+{
+	ft_printf(1, "%s", error_msg);
+	clear_tokens(tokens);
+	clear_words(words);
+	exit(1);
 }

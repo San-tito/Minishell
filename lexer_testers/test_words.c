@@ -120,6 +120,32 @@ static void test_quotes(char *job)
 		waitpid(pid, &status, 0);
 }
 
+static void	test_checker(char *job)
+{
+	pid_t	pid;
+	int		status;
+	t_list  *words;
+	t_list	*tokens;
+
+	pid = fork();
+	if (pid < 0)
+		return ;
+	else if (pid == 0)
+	{
+		words = separate_words(job);
+		remove_empty_words(&words);
+		tokens = tokenizer(&words);
+		clear_words(&words);
+		remove_quotes(&tokens);
+		check_tokens(&tokens);
+		print_tokens(tokens);
+		clear_tokens(&tokens);
+		exit(0);
+	}
+	else
+		waitpid(pid, &status, 0);
+}
+
 int main(void)
 {
 	ft_printf(1, "Correct Tests:\n");
@@ -130,18 +156,18 @@ int main(void)
 	test_words("test9           test10");
 	test_words("test11 test12    ");
 
-	ft_printf(1, "Incorrect Tests:\n");
+	ft_printf(1, "\nIncorrect Tests:\n");
 	//test_words("");??
 	test_words("test1 \" test2");
 	test_words("test3 \' test4");
 
-	ft_printf(1, "Remove empty words:\n");
+	ft_printf(1, "\nRemove empty words:\n");
 	test_empty("test9           test10");
 	test_empty("test11 test12    ");
 	test_empty("                                                      ");
 	//test_empty("");??
 
-	ft_printf(1, "Tokenize:\n");
+	ft_printf(1, "\nTokenize:\n");
 	test_tokenizer("test1 test2");
 	test_tokenizer("test1|||test2");
 	test_tokenizer("test1|test2|test3|test4");
@@ -150,9 +176,27 @@ int main(void)
 	test_tokenizer("&");
 	//test_tokenizer("")??
 
-	ft_printf(1, "Remove quotes:\n");
+	ft_printf(1, "\nRemove quotes:\n");
 	test_quotes("test1 \"test4\"\" test5\" test2");
 	test_quotes("test1 \"test4\'\' test5\" test2");
 	test_quotes("test1 \"test4\'\'\'\"\'\"\'\" \'\'test5\" test2");
+
+	ft_printf(1, "\nToken checker:\n");
+	test_checker("test1 () test2");
+	test_checker("test1 | test2 |");
+	test_checker("|");
+	test_checker("(");
+	test_checker(")");
+	test_checker("a");
+	test_checker("test1 ( test2");
+	test_checker("test1 && | test2");
+	test_checker("test1 ||| test2");
+	test_checker("test1 <> test2");
+	test_checker("test1 > test2 >");
+	test_checker("test1 > test2 > test3");
+	test_checker("test1 > test2 (test4) | test5");
+	test_checker("te<st1");
+	test_checker("test1 | test2 || test3 && test0 test4 > test5 < test6 ( test7 ) >> test8 << test9");
+	test_checker("<< test0");
 	return (0);
 }

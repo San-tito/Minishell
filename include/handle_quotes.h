@@ -13,13 +13,14 @@
 #ifndef HANDLE_QUOTES_H
 # define HANDLE_QUOTES_H
 
-#include "tokens_id.h"
+# include "token.h"
+# include "lexer_utils.h"
 
 typedef struct s_handle_quotes
 {
 	char	single_quotes;
-    char	double_quotes;
-    int     num;
+	char	double_quotes;
+	int		num;
 }		t_handle_quotes;
 
 # endif
