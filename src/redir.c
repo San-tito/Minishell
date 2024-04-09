@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:35:50 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/07 19:03:13 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/09 13:27:54 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,11 @@ static int	do_redirection_internal(t_redirect *redirect)
 		fd = open(redirect->filename, redirect->flags, 0666);
 		if (fd < 0)
 			return (errno);
+		if ((fd != redirect->dest) && (dup2(fd, redirect->dest) < 0))
+		{
+			close(fd);
+			return (errno);
+		}
 	}
 	return (0);
 }

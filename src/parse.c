@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 19:30:33 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/07 19:06:07 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/09 13:29:47 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ t_command	*parse_command(char *token)
 	arr = ft_split(token, ' ');
 	while (*arr)
 		words = make_word_list(*arr++, words);
-	//redirects = make_redirection("test.txt", r_output_direction, NULL);
-	(void)redirects;
-	command = make_simple_command(words, NULL);
+	redirects = make_redirection("test.txt", r_output_direction, NULL);
+	redirects = make_redirection("che.txt", r_output_direction, redirects);
+	command = make_simple_command(words, redirects);
 	return (command);
 }

@@ -6,7 +6,7 @@
 /*   By: mpovill- <mpovill-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 12:11:32 by mpovill-          #+#    #+#             */
-/*   Updated: 2024/04/07 18:27:34 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/09 13:18:06 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ typedef struct s_word_list
 typedef struct s_redirect
 {
 	struct s_redirect		*next;
+	int						dest;
 	char					*filename;
 	int						flags;
 	t_instruction			instruction;

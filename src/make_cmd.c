@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 00:01:48 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/07 18:26:58 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/09 13:21:51 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,15 +52,22 @@ t_redirect	*make_redirection(char *filename, t_instruction instruction,
 	t_redirect	*temp;
 
 	temp = sh_malloc(sizeof(t_redirect));
+	temp->dest = 0;
 	temp->filename = filename;
 	temp->here_doc_eof = 0;
 	temp->instruction = instruction;
 	temp->flags = 0;
 	temp->next = NULL;
 	if (instruction == r_output_direction)
+	{
 		temp->flags = O_TRUNC | O_WRONLY | O_CREAT;
+		temp->dest = 1;
+	}
 	if (instruction == r_appending_to)
+	{
 		temp->flags = O_APPEND | O_WRONLY | O_CREAT;
+		temp->dest = 1;
+	}
 	if (instruction == r_input_direction)
 		temp->flags = O_RDONLY;
 	temp = (t_redirect *)list_append((t_generic_list *)head,
