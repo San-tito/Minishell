@@ -18,11 +18,12 @@ static void	del_token(void *content)
 	t_token	*token;
 
 	token = (t_token *)content;
-	free(token->content);
+	if (token->content != NULL)
+		free(token->content);
 	free(token);
 }
 
-static void	clear_tokens(t_list **tokens)
+void	clear_tokens(t_list **tokens)
 {
 	ft_lstclear(tokens, del_token);
 }

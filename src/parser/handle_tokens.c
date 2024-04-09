@@ -60,7 +60,7 @@ static char	manage_str(t_token_range *token_range, t_list **tokens, t_list **wor
 	return (1);
 }
 
-static void	add_token(char token_type, t_list **tokens, t_list **words)
+static void	add_token(char token_type, t_list **tokens, t_list **words)	
 {
 	t_token	*token;
 	t_list	*node;
@@ -84,7 +84,7 @@ static char	manage_parentheses(t_token_range *token_range, t_list **tokens, t_li
 
 	create_str_token(token_range, tokens, words);
 	add_token(TOKEN, tokens, words);
-	token_range->first += 1;
+	token_range->first++;
 	return (1);
 }
 
@@ -117,7 +117,7 @@ static char	manage_or(t_token_range *token_range, t_list **tokens, t_list **word
 		token_range->first += 2;
 		return (2);
 	}
-	token_range->first += 1;
+	token_range->first++;
 	return (1);
 }
 
@@ -138,7 +138,7 @@ static char	manage_in(t_token_range *token_range, t_list **tokens, t_list **word
 		token_range->first += 2;
 		return (2);
 	}
-	token_range->first += 1;
+	token_range->first++;
 	return (1);
 }
 
@@ -159,7 +159,7 @@ static char	manage_out(t_token_range *token_range, t_list **tokens, t_list **wor
 		token_range->first += 2;
 		return (2);
 	}
-	token_range->first += 1;
+	token_range->first++;
 	return (1);
 }
 
@@ -174,13 +174,13 @@ char	is_boundary(char **word, t_token_range *token_range, t_list **tokens, t_lis
 	else if (**word == ')')
 		update_value = manage_parentheses(token_range, tokens, words, CLOSE_PARENTHESIS_TOKEN);
 	else if (**word == '&')
-		update_value = manage_and(token_range, tokens, words, **(word + 1) == '&');
+		update_value = manage_and(token_range, tokens, words, *(*word + 1) == '&');
 	else if (**word == '|')
-		update_value = manage_or(token_range, tokens, words, **(word + 1) == '|');
+		update_value = manage_or(token_range, tokens, words, *(*word + 1) == '|');
 	else if (**word == '<')
-		update_value = manage_in(token_range, tokens, words, **(word + 1) == '<');
+		update_value = manage_in(token_range, tokens, words, *(*word + 1) == '<');
 	else if (**word == '>')
-		update_value = manage_out(token_range, tokens, words, **(word + 1) == '>');
+		update_value = manage_out(token_range, tokens, words, *(*word + 1) == '>');
 	else
 		return (0);
 	*word = (*word + update_value);

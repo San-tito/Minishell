@@ -28,6 +28,9 @@ typedef struct s_token
 t_list	*separate_words(char *job);
 void	remove_empty_words(t_list **words);
 t_list	*tokenizer(t_list **words);
+
+//only used on testing
 void	clear_words(t_list **words);
+void	clear_tokens(t_list **tokens);
 
 #endif

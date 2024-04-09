@@ -87,6 +87,7 @@ static void	test_tokenizer(char *job)
 		tokens = tokenizer(&words);
 		print_tokens(tokens);
 		clear_words(&words);
+		clear_tokens(&tokens);
 		exit(0);
 	}
 	else
@@ -95,8 +96,6 @@ static void	test_tokenizer(char *job)
 
 int main(void)
 {
-	t_list  *words;
-
 	ft_printf(1, "Correct Tests:\n");
 	test_words("test1 test2");
 	test_words("test3 \"test4\"\" test5\" test6");
@@ -114,6 +113,7 @@ int main(void)
 	test_empty("test9           test10");
 	test_empty("test11 test12    ");
 	test_empty("                                                      ");
+	//test_empty("");??
 
 	ft_printf(1, "Tokenize:\n");
 	test_tokenizer("test1 test2");
@@ -121,6 +121,7 @@ int main(void)
 	test_tokenizer("test1|test2|test3|test4");
 	test_tokenizer("test1)test2(test3)test4");
 	test_tokenizer(")");
-	test_tokenizer("|");
+	test_tokenizer("&");
+	//test_tokenizer("")??
 	return (0);
 }
