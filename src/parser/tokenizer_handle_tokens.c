@@ -54,12 +54,6 @@ static void create_str_token(t_token_range *token_range, t_list **tokens, t_list
 	token_range->len = 0;
 }
 
-static char	manage_str(t_token_range *token_range, t_list **tokens, t_list **words)
-{
-	create_str_token(token_range, tokens, words);
-	return (1);
-}
-
 static void	add_token(char token_type, t_list **tokens, t_list **words)	
 {
 	t_token	*token;
@@ -77,22 +71,22 @@ static void	add_token(char token_type, t_list **tokens, t_list **words)
 	ft_lstadd_back(tokens, node);
 }
 
-static char	manage_parentheses(t_token_range *token_range, t_list **tokens, t_list **words, char TOKEN)
+char	handle_str(t_token_range *token_range, t_list **tokens, t_list **words)
 {
-	t_token	*token;
-	t_list	*node;
-
 	create_str_token(token_range, tokens, words);
-	add_token(TOKEN, tokens, words);
+	return (1);
+}
+
+char	handle_parentheses(t_token_range *token_range, t_list **tokens, t_list **words, char token_type)
+{
+	create_str_token(token_range, tokens, words);
+	add_token(token_type, tokens, words);
 	token_range->first++;
 	return (1);
 }
 
-static char	manage_and(t_token_range *token_range, t_list **tokens, t_list **words, char extended)
+char	handle_and(t_token_range *token_range, t_list **tokens, t_list **words, char extended)
 {
-	t_token	*token;
-	t_list	*node;
-
 	if (!extended)
 		handle_error(words, tokens, AND_ERROR);
 	add_token(AND_TOKEN, tokens, words);
@@ -100,11 +94,9 @@ static char	manage_and(t_token_range *token_range, t_list **tokens, t_list **wor
 	return (2);
 }
 
-static char	manage_or(t_token_range *token_range, t_list **tokens, t_list **words, char extended)
+char	handle_or(t_token_range *token_range, t_list **tokens, t_list **words, char extended)
 {
 	char	token_type;
-	t_token	*token;
-	t_list	*node;
 
 	create_str_token(token_range, tokens, words);
 	if (extended)
@@ -121,11 +113,9 @@ static char	manage_or(t_token_range *token_range, t_list **tokens, t_list **word
 	return (1);
 }
 
-static char	manage_in(t_token_range *token_range, t_list **tokens, t_list **words, char extended)
+char	handle_in(t_token_range *token_range, t_list **tokens, t_list **words, char extended)
 {
 	char	token_type;
-	t_token	*token;
-	t_list	*node;
 
 	create_str_token(token_range, tokens, words);
 	if (extended)
@@ -142,11 +132,9 @@ static char	manage_in(t_token_range *token_range, t_list **tokens, t_list **word
 	return (1);
 }
 
-static char	manage_out(t_token_range *token_range, t_list **tokens, t_list **words, char extended)
+char	handle_out(t_token_range *token_range, t_list **tokens, t_list **words, char extended)
 {
 	char	token_type;
-	t_token	*token;
-	t_list	*node;
 
 	create_str_token(token_range, tokens, words);
 	if (extended)
@@ -160,29 +148,5 @@ static char	manage_out(t_token_range *token_range, t_list **tokens, t_list **wor
 		return (2);
 	}
 	token_range->first++;
-	return (1);
-}
-
-char	is_boundary(char **word, t_token_range *token_range, t_list **tokens, t_list **words)
-{
-	char	update_value;
-
-	if (**word == ' ' || **word == '\0')
-		update_value = manage_str(token_range, tokens, words);
-	else if (**word == '(')
-		update_value = manage_parentheses(token_range, tokens, words, OPEN_PARENTHESIS_TOKEN);
-	else if (**word == ')')
-		update_value = manage_parentheses(token_range, tokens, words, CLOSE_PARENTHESIS_TOKEN);
-	else if (**word == '&')
-		update_value = manage_and(token_range, tokens, words, *(*word + 1) == '&');
-	else if (**word == '|')
-		update_value = manage_or(token_range, tokens, words, *(*word + 1) == '|');
-	else if (**word == '<')
-		update_value = manage_in(token_range, tokens, words, *(*word + 1) == '<');
-	else if (**word == '>')
-		update_value = manage_out(token_range, tokens, words, *(*word + 1) == '>');
-	else
-		return (0);
-	*word = (*word + update_value);
 	return (1);
 }

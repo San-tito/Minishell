@@ -13,6 +13,30 @@
 #include "lexer.h"
 #include "tokenizer.h"
 
+static char	handle_boundary(char **word, t_token_range *token_range, t_list **tokens, t_list **words)
+{
+	char	update_value;
+
+	if (**word == ' ' || **word == '\0')
+		update_value = handle_str(token_range, tokens, words);
+	else if (**word == '(')
+		update_value = handle_parentheses(token_range, tokens, words, OPEN_PARENTHESIS_TOKEN);
+	else if (**word == ')')
+		update_value = handle_parentheses(token_range, tokens, words, CLOSE_PARENTHESIS_TOKEN);
+	else if (**word == '&')
+		update_value = handle_and(token_range, tokens, words, *(*word + 1) == '&');
+	else if (**word == '|')
+		update_value = handle_or(token_range, tokens, words, *(*word + 1) == '|');
+	else if (**word == '<')
+		update_value = handle_in(token_range, tokens, words, *(*word + 1) == '<');
+	else if (**word == '>')
+		update_value = handle_out(token_range, tokens, words, *(*word + 1) == '>');
+	else
+		return (0);
+	*word = (*word + update_value);
+	return (1);
+}
+
 static char	handle_quotes(char **word, t_token_range *token_range)
 {
 	if (**word == '\'')
@@ -40,7 +64,7 @@ static char	handle_quotes(char **word, t_token_range *token_range)
 	return (0);
 }
 
-static void	obtain_tokens(char *word, t_list **tokens, t_list **words)
+static void	append_tokens(char *word, t_list **tokens, t_list **words)
 {
 	t_token_range	token_range;
 
@@ -50,7 +74,7 @@ static void	obtain_tokens(char *word, t_list **tokens, t_list **words)
 	{
 		if (!handle_quotes(&word, &token_range))
 		{
-			if (!is_boundary(&word, &token_range, tokens, words))
+			if (!handle_boundary(&word, &token_range, tokens, words))
 			{
 				word++;
 				token_range.len++;
@@ -62,7 +86,7 @@ static void	obtain_tokens(char *word, t_list **tokens, t_list **words)
 			token_range.len++;
 		}
 	}
-	is_boundary(&word, &token_range, tokens, words);
+	handle_boundary(&word, &token_range, tokens, words);
 }
 
 t_list	*tokenizer(t_list **words)
@@ -74,7 +98,7 @@ t_list	*tokenizer(t_list **words)
 	lst = *words;
 	while (lst)
 	{
-		obtain_tokens((char *)lst->content, &tokens, words);
+		append_tokens((char *)lst->content, &tokens, words);
 		lst = lst->next;
 	}
 	return (tokens);
