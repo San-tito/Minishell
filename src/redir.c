@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:35:50 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/09 13:27:54 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/09 13:49:48 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ static int	do_redirection_internal(t_redirect *redirect)
 			close(fd);
 			return (errno);
 		}
+		if (fd != redirect->dest)
+			close(fd);
 	}
 	return (0);
 }
