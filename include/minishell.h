@@ -6,7 +6,7 @@
 /*   By: mpovill- <mpovill-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 12:11:32 by mpovill-          #+#    #+#             */
-/*   Updated: 2024/04/10 17:58:33 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/10 19:33:34 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,6 +131,17 @@ typedef struct s_generic_list
 }							t_generic_list;
 
 /* ************************************************************************** */
+/*             The thing that we build the array of builtins                  */
+/* ************************************************************************** */
+typedef int					t_builtin_func(t_word_list *);
+
+typedef struct s_builtin
+{
+	char					*name;
+	t_builtin_func			*function;
+}							t_builtin;
+
+/* ************************************************************************** */
 /*                               Readline functions                           */
 /* ************************************************************************** */
 char						*readline(const char *prompt);
@@ -155,6 +166,8 @@ t_command					*parse_command(char *token);
 /*                                   Execute CMD                              */
 /* ************************************************************************** */
 int							execute_command(t_command *command);
+int							execute_builtin(t_builtin_func *builtin,
+								t_word_list *words, t_redirect *redirects);
 
 /* ************************************************************************** */
 /*                                   Find CMD                                 */
@@ -197,6 +210,12 @@ char						**strvec_from_word_list(t_word_list *list);
 /* ************************************************************************** */
 pid_t						make_child(void);
 int							wait_for(pid_t pid);
+
+/* ************************************************************************** */
+/*                            Builtin functions                               */
+/* ************************************************************************** */
+t_builtin_func				*find_builtin(char *name);
+int							echo(t_word_list *list);
 
 /* ************************************************************************** */
 /*                                   Do Redirections                          */

@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 20:51:58 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/10 17:35:54 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/10 19:34:02 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,19 @@ static int	execute_connection(t_connection *command)
 
 static int	execute_simple_command(t_simple_com *simple_command)
 {
-	int		result;
-	char	*this_command_name;
+	t_builtin_func	*builtin;
+	int				result;
+	char			*this_command_name;
 
 	result = EXECUTION_SUCCESS;
 	this_command_name = simple_command->words->word;
-	(void)this_command_name;
-	result = execute_disk_command(simple_command->words,
-			simple_command->redirects);
+	builtin = find_builtin(this_command_name);
+	if (builtin)
+		result = execute_builtin(builtin, simple_command->words,
+				simple_command->redirects);
+	else
+		result = execute_disk_command(simple_command->words,
+				simple_command->redirects);
 	return (result);
 }
 

@@ -6,7 +6,7 @@
 #    By: sguzman <sguzman@student.42barcelo>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 15:31:23 by sguzman           #+#    #+#              #
-#    Updated: 2024/04/10 13:42:51 by sguzman          ###   ########.fr        #
+#    Updated: 2024/04/10 19:39:17 by sguzman          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #    
 
@@ -16,7 +16,7 @@
 
 NAME		= minishell
 CC 		= cc
-CFLAGS	= -Wall -Wextra -Werror -g
+CFLAGS	= -Wall -Wextra -Werror 
 DFLAGS	= -MMD -MF $(@:.o=.d)
 RLFLAGS = -lcurses
 
@@ -31,7 +31,6 @@ man1dir = $(prefix)/man/man1
 ################################################################################
 #                                 PROGRAM'S SRCS                               #
 ################################################################################
-
 SRCS_PATH	= ./src
 
 OBJS_PATH 	= ./build
@@ -39,6 +38,8 @@ OBJS_PATH 	= ./build
 INCLUDE_PATH	= ./include
 
 DOCS_PATH	= ./docs
+
+BUILTINS_PATH	= $(SRCS_PATH)/builtins
 
 LIBFTPRINTF_PATH = ./libs/libftprintf
 
@@ -50,7 +51,9 @@ READLINE = $(READLINE_PATH)/libhistory.a $(READLINE_PATH)/libreadline.a
 
 HEADER	= $(INCLUDE_PATH)/minishell.h
 
-SRCS = clear_cmd.c error.c execute_cmd.c findcmd.c jobs.c list.c make_cmd.c parse.c read.c redir.c sh_malloc.c stringvec.c
+SRCS = builtins.c clear_cmd.c error.c execute_cmd.c findcmd.c jobs.c list.c make_cmd.c parse.c read.c redir.c sh_malloc.c stringvec.c
+
+BUILTINS = echo.c
 
 MAIN 		= minishell.c 
 
@@ -60,9 +63,13 @@ MAIN 		= minishell.c
 
 OBJS		= $(addprefix $(OBJS_PATH)/, ${SRCS:.c=.o})
 
+OBJS_BUILTIN		= $(addprefix $(OBJS_PATH)/, ${BUILTINS:.c=.o})
+
 OBJS_MAIN	= $(addprefix $(OBJS_PATH)/, ${MAIN:.c=.o})
 
 DEPS		= $(addprefix $(OBJS_PATH)/, ${SRCS:.c=.d})
+
+DEPS_BUILTIN		= $(addprefix $(OBJS_PATH)/, ${BUILTINS:.c=.d})
 
 DEPS_MAIN	= $(addprefix $(OBJS_PATH)/, ${MAIN:.c=.d})
 
@@ -101,8 +108,8 @@ banner:
 	@echo
 	@printf "%b" "$(RESET)"
 
--include $(DEPS) $(DEPS_MAIN)
-$(NAME):	$(OBJS) $(OBJS_MAIN) $(READLINE) $(LIBFTPRINTF)
+-include $(DEPS) $(DEPS_BUILTIN) $(DEPS_MAIN)
+$(NAME):	$(OBJS_BUILTIN) $(OBJS) $(OBJS_MAIN) $(READLINE) $(LIBFTPRINTF)
 			@$(CC) $(CFLAGS) $(DFLAGS) -I $(INCLUDE_PATH) $^ $(RLFLAGS) -o $@ 
 			@printf "%b%-42s%-42b%-24s%b%s%b\n" "$(BLUE)" "Building program:" "$(CYAN)" $@ "$(GREEN)" "[✓]" "$(RESET)"
 
@@ -115,6 +122,11 @@ $(LIBFTPRINTF):
 			@printf "%b%-42s%-42b%-24s%b%s%b\n" "$(BLUE)" "Building Libftprintf library:" "$(CYAN)" $@ "$(GREEN)" "[✓]" "$(RESET)"
 
 $(OBJS_PATH)/%.o: 	$(SRCS_PATH)/%.c $(HEADER) Makefile
+			@mkdir -p $(dir $@)
+			@$(CC) $(CFLAGS) $(DFLAGS) -c $< -o $@ -I $(INCLUDE_PATH) -I $(LIBFTPRINTF_PATH)/include
+			@printf "%b%-42s%-42b%-24s%b%s%b\n" "$(BLUE)" "Compiling:" "$(CYAN)" $< "$(GREEN)" "[✓]" "$(RESET)"
+
+$(OBJS_PATH)/%.o: 	$(BUILTINS_PATH)/%.c $(HEADER) Makefile
 			@mkdir -p $(dir $@)
 			@$(CC) $(CFLAGS) $(DFLAGS) -c $< -o $@ -I $(INCLUDE_PATH) -I $(LIBFTPRINTF_PATH)/include
 			@printf "%b%-42s%-42b%-24s%b%s%b\n" "$(BLUE)" "Compiling:" "$(CYAN)" $< "$(GREEN)" "[✓]" "$(RESET)"
