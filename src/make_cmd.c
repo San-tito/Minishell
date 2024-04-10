@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 00:01:48 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/09 13:21:51 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/10 23:40:16 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ t_redirect	*make_redirection(char *filename, t_instruction instruction,
 
 	temp = sh_malloc(sizeof(t_redirect));
 	temp->dest = 0;
-	temp->filename = filename;
+	temp->filename = filename; 
 	temp->here_doc_eof = 0;
 	temp->instruction = instruction;
 	temp->flags = 0;
