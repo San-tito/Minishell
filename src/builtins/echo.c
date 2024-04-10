@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 18:41:45 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/10 19:38:45 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/10 23:29:32 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,21 @@
 int	echo(t_word_list *list)
 {
 	char	*temp;
+	int		i;
 	int		display_nl;
 
 	display_nl = 1;
-	temp = list->word;
-	while (list && *temp == '-')
+	while (list && *list->word == '-')
 	{
-		temp++;
-		if (ft_strchr(temp, 'n') == 0)
+		temp = list->word + 1;
+		i = 0;
+		while (temp[i])
+		{
+			if (ft_strchr("n", temp[i]) == 0)
+				break ;
+			i++;
+		}
+		if (*temp == 0 || temp[i])
 			break ;
 		display_nl = 0;
 		list = list->next;
