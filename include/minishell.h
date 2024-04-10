@@ -6,7 +6,7 @@
 /*   By: mpovill- <mpovill-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 12:11:32 by mpovill-          #+#    #+#             */
-/*   Updated: 2024/04/09 13:18:06 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/10 17:58:33 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include <termios.h>
 # include <unistd.h>
 
+# define NO_PID -1
 # define NO_PIPE -1
 
 # define EXECUTION_FAILURE 1
@@ -42,6 +43,11 @@
 # define FS_EXECABLE 0x2
 # define FS_DIRECTORY 0x10
 # define FS_READABLE 0x40
+
+# define CYAN "\001\033[1;36m\002"
+# define GREEN "\001\033[1;32m\002"
+# define RED "\001\033[1;31m\002"
+# define RESET "\001\033[0m\002"
 
 /* ************************************************************************** */
 /*       Instructions describing what kind of thing to do for a redirection.  */
@@ -167,6 +173,13 @@ t_redirect					*make_redirection(char *filename,
 								t_instruction instruction, t_redirect *head);
 
 /* ************************************************************************** */
+/*                                   Clear CMD                                */
+/* ************************************************************************** */
+void						clear_command(t_command *command);
+void						clear_words(t_word_list *list);
+void						clear_redirects(t_redirect *list);
+
+/* ************************************************************************** */
 /*                            Report an internal error.                       */
 /* ************************************************************************** */
 void						internal_error(const char *format, ...);
@@ -182,7 +195,7 @@ char						**strvec_from_word_list(t_word_list *list);
 /* ************************************************************************** */
 /*                                   Jobs                                     */
 /* ************************************************************************** */
-pid_t						make_child(pid_t *last_made_pid);
+pid_t						make_child(void);
 int							wait_for(pid_t pid);
 
 /* ************************************************************************** */
@@ -198,5 +211,6 @@ void						sh_free(void *string);
 void						sh_doublefree(void **array);
 
 extern char					**environ;
+extern int					g_last_exit_value;
 
 #endif

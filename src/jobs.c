@@ -6,13 +6,15 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 13:21:31 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/07 15:14:08 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/10 17:31:32 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-pid_t	make_child(pid_t *last_made_pid)
+volatile pid_t	last_made_pid = NO_PID;
+
+pid_t	make_child(void)
 {
 	pid_t	pid;
 
@@ -22,7 +24,7 @@ pid_t	make_child(pid_t *last_made_pid)
 		/* Handle Error Exit Status EX_NOEXEC */
 		exit(EX_NOEXEC);
 	}
-	*last_made_pid = pid;
+	last_made_pid = pid;
 	return (pid);
 }
 

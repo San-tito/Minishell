@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:35:50 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/09 19:40:25 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/10 13:53:02 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,7 @@
 
 static int	heredoc_write(int fd)
 {
-	size_t	nw;
-
-	nw = write(fd, "here_doc\n", 9);
-	if (nw < 0)
-		return (nw);
+	write(fd, "here_doc\n", 9);
 	return (0);
 }
 
