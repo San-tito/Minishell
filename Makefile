@@ -6,7 +6,7 @@
 #    By: sguzman <sguzman@student.42barcelo>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 15:31:23 by sguzman           #+#    #+#              #
-#    Updated: 2024/04/11 00:01:15 by sguzman          ###   ########.fr        #
+#    Updated: 2024/04/11 16:45:36 by sguzman          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #    
 
@@ -53,7 +53,7 @@ HEADER	= $(INCLUDE_PATH)/minishell.h
 
 SRCS = builtins.c clear_cmd.c error.c execute_cmd.c findcmd.c jobs.c list.c make_cmd.c parse.c read_cmd.c redir.c sh_malloc.c stringvec.c
 
-BUILTINS = echo.c
+BUILTINS = cd.c echo.c
 
 MAIN 		= minishell.c 
 

@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 18:23:18 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/11 13:42:11 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/11 16:45:20 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 t_builtin_func	*find_builtin(char *name)
 {
-	static t_builtin	builtins[] = {{"echo", echo}};
-	const int			num_builtins = 1;
+	static t_builtin	builtins[] = {{"cd", cd}, {"echo", echo}};
+	const int			num_builtins = 2;
 	int					i;
 
 	i = 0;
