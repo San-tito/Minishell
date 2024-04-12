@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelo>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 16:25:49 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/11 17:06:32 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/12 11:30:38 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,11 @@ int	absolute_pathname(const char *string)
 		return (0);
 	if (*string == '/')
 		return (1);
-	if (*string == '.' && *(string + 1) == '/' || *(string + 1) == '\\'
-		|| *(string + 1) == 0)
+	if (*string == '.' && (ft_strchr("/\\", *(string + 1)) || *(string
+				+ 1) == 0))
 		return (1);
-	if (*string == '.' && *(string + 1) == '.' && *(string + 2) == '/'
-		|| *(string + 2) == '\\' || *(string + 2) == 0)
+	if (*string == '.' && *(string + 1) == '.' && (ft_strchr("/\\", *(string
+					+ 2)) || *(string + 2) == 0))
 		return (1);
 	return (0);
 }

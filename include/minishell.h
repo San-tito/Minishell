@@ -6,7 +6,7 @@
 /*   By: mpovill- <mpovill-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 12:11:32 by mpovill-          #+#    #+#             */
-/*   Updated: 2024/04/11 16:45:54 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/12 13:33:31 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@
 # define CYAN "\001\033[1;36m\002"
 # define GREEN "\001\033[1;32m\002"
 # define RED "\001\033[1;31m\002"
+# define YELLOW "\001\033[1;33m\002"
 # define RESET "\001\033[0m\002"
 
 /* ************************************************************************** */
@@ -184,6 +185,7 @@ t_command					*make_simple_command(t_word_list *words,
 t_word_list					*make_word_list(char *word, t_word_list *next);
 t_redirect					*make_redirection(char *filename,
 								t_instruction instruction, t_redirect *head);
+void						make_here_document(t_redirect *temp);
 
 /* ************************************************************************** */
 /*                                   Clear CMD                                */
@@ -196,6 +198,7 @@ void						clear_redirects(t_redirect *list);
 /*                            Report an internal error.                       */
 /* ************************************************************************** */
 void						internal_error(const char *format, ...);
+void						internal_warning(const char *format, ...);
 
 /* ************************************************************************** */
 /*                              functions for list                            */

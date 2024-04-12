@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 00:01:48 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/10 23:40:16 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/12 14:07:57 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ t_redirect	*make_redirection(char *filename, t_instruction instruction,
 
 	temp = sh_malloc(sizeof(t_redirect));
 	temp->dest = 0;
-	temp->filename = filename; 
+	temp->filename = filename;
 	temp->here_doc_eof = 0;
 	temp->instruction = instruction;
 	temp->flags = 0;
@@ -73,4 +73,31 @@ t_redirect	*make_redirection(char *filename, t_instruction instruction,
 	temp = (t_redirect *)list_append((t_generic_list *)head,
 			(t_generic_list *)temp);
 	return (temp);
+}
+
+void	make_here_document(t_redirect *temp)
+{
+	char	*redir_word;
+	char	*line;
+	char	*document;
+
+	document = sh_malloc(1);
+	*document = '\0';
+	redir_word = temp->filename;
+	temp->here_doc_eof = redir_word;
+	line = readline(YELLOW "❯ " RESET);
+	while (line)
+	{
+		if (*line == 0)
+			continue ;
+		if (ft_strncmp(line, redir_word, ft_strlen(redir_word)) && *(line
+				+ ft_strlen(redir_word)) == '\n')
+			break ;
+		document = ft_strjoin(document, line);
+		line = readline(YELLOW "❯ " RESET);
+	}
+	if (line == 0)
+		internal_warning("here-document delimited by end-of-file (wanted `%s')",
+			redir_word);
+	temp->filename = document;
 }

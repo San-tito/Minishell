@@ -6,26 +6,39 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:35:50 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/10 13:53:02 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/12 13:39:14 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	heredoc_write(int fd)
+static int	heredoc_write(int fd, char *heredoc)
 {
-	write(fd, "here_doc\n", 9);
+	size_t	nw;
+	int		e;
+	size_t	herelen;
+
+	errno = 0;
+	herelen = ft_strlen(heredoc);
+	nw = write(fd, heredoc, herelen);
+	e = errno;
+	if (nw != herelen)
+	{
+		if (e == 0)
+			e = ENOSPC;
+		return (e);
+	}
 	return (0);
 }
 
-static int	here_document_to_fd(void)
+static int	here_document_to_fd(char *redirectee)
 {
 	int	r;
 	int	herepipe[2];
 
 	if (pipe(herepipe) < 0)
 		return (-1);
-	r = heredoc_write(herepipe[1]);
+	r = heredoc_write(herepipe[1], redirectee);
 	if (r)
 	{
 		close(herepipe[0]);
@@ -42,7 +55,7 @@ static int	do_redirection_internal(t_redirect *redirect)
 
 	ri = redirect->instruction;
 	if (ri == r_reading_until)
-		fd = here_document_to_fd();
+		fd = here_document_to_fd(redirect->filename);
 	else
 		fd = open(redirect->filename, redirect->flags, 0666);
 	if (fd < 0)
