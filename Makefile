@@ -6,7 +6,7 @@
 #    By: sguzman <sguzman@student.42barcelo>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 15:31:23 by sguzman           #+#    #+#              #
-#    Updated: 2024/04/11 16:45:36 by sguzman          ###   ########.fr        #
+#    Updated: 2024/04/13 16:41:42 by sguzman          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #    
 
@@ -16,7 +16,7 @@
 
 NAME		= minishell
 CC 		= cc
-CFLAGS	= -Wall -Wextra -Werror 
+CFLAGS	= -Wall -Wextra -Werror
 DFLAGS	= -MMD -MF $(@:.o=.d)
 RLFLAGS = -lcurses
 
@@ -51,9 +51,9 @@ READLINE = $(READLINE_PATH)/libhistory.a $(READLINE_PATH)/libreadline.a
 
 HEADER	= $(INCLUDE_PATH)/minishell.h
 
-SRCS = builtins.c clear_cmd.c error.c execute_cmd.c findcmd.c jobs.c list.c make_cmd.c parse.c read_cmd.c redir.c sh_malloc.c stringvec.c
+SRCS = builtins.c clear_cmd.c error.c execute_cmd.c findcmd.c jobs.c list.c make_cmd.c parse.c read_cmd.c redir.c sh_malloc.c stringvec.c variables.c
 
-BUILTINS = cd.c echo.c
+BUILTINS = cd.c echo.c env.c exit.c export.c pwd.c unset.c
 
 MAIN 		= minishell.c 
 

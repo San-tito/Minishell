@@ -6,7 +6,7 @@
 /*   By: mpovill- <mpovill-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 12:11:32 by mpovill-          #+#    #+#             */
-/*   Updated: 2024/04/12 13:33:31 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/13 16:48:49 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -220,11 +220,21 @@ int							wait_for(pid_t pid);
 t_builtin_func				*find_builtin(char *name);
 int							cd(t_word_list *list);
 int							echo(t_word_list *list);
+int							env(t_word_list *list);
+int							pwd(t_word_list *list);
+int							export(t_word_list *list);
+int							unset(t_word_list *list);
+int							exit_builtin(t_word_list *list);
 
 /* ************************************************************************** */
 /*                                   Do Redirections                          */
 /* ************************************************************************** */
 int							do_redirections(t_redirect *list);
+
+/* ************************************************************************** */
+/*                                    Variables                               */
+/* ************************************************************************** */
+void						update_env(char *env_prefix, char *value);
 
 /* ************************************************************************** */
 /*                            Allocation functions                            */
