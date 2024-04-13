@@ -40,6 +40,14 @@
 #  define PARENTESIS_NOT_CLOSED_ERROR "Error: more parentesis opened than closed.\n"
 # endif
 
+# ifndef OPEN_PARENTHESIS_BOUNDARY_ERROR
+#  define OPEN_PARENTHESIS_BOUNDARY_ERROR "Error: syntax error near unexpected token '('.\n"
+# endif
+
+# ifndef CLOSED_PARENTHESIS_BOUNDARY_ERROR
+#  define CLOSED_PARENTHESIS_BOUNDARY_ERROR "Error: syntax error near unexpected token ')'.\n"
+# endif
+
 # ifndef AND_BOUNDARY_ERROR
 #  define AND_BOUNDARY_ERROR "Error: syntax error near unexpected token '&&'.\n"
 # endif
@@ -64,10 +72,18 @@
 #  define NEWLINE_BOUNDARY_ERROR "Error: syntax error near unexpected token 'newline'.\n"
 # endif
 
+# ifndef MAX_HEREDOC_ERROR
+#  define MAX_HEREDOC_ERROR "Error: maximum here-document count exceeded.\n"
+# endif
+
+# ifndef MAX_HEREDOC
+#  define MAX_HEREDOC 16
+# endif
 //error management
 void	handle_word_error(t_list **words, char *error_msg);
 void	handle_token_error(t_list **tokens, char *error_msg);
 void	handle_error(t_list **words, t_list **tokens, char *error_msg);
+void    handle_check_error(t_list **words, t_list **tokens, char *error_msg);
 
 //only used on testing I think
 void	del_word(void *content);

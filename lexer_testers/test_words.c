@@ -198,5 +198,10 @@ int main(void)
 	test_checker("te<st1");
 	test_checker("test1 | test2 || test3 && test0 test4 > test5 < test6 ( test7 ) >> test8 << test9");
 	test_checker("<< test0");
+	test_checker("test1 <<a <<a <<a <<a <<a <<a <<a <<a <<a <<a <<a <<a <<a <<a <<a <<a <<a");
+	test_checker("echo a ( echo c )");
+	test_checker("echo a > > echo b"); //??
+	test_checker("echo a > < echo b"); //??
+
 	return (0);
 }

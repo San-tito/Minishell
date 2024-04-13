@@ -21,4 +21,6 @@ typedef struct s_check_par
 	t_list	*lst;
 }		t_check_par;
 
+void	check_parentheses(t_list **tokens);
+
 # endif

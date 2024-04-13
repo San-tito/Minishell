@@ -12,29 +12,6 @@
 
 #include "check_tokens.h"
 
-static void	check_parentheses(t_list **tokens)
-{
-	t_check_par	check_par;
-	t_token		*token;
-
-	check_par.parentesis_used = 0;
-	check_par.lst = *tokens;
-	while (check_par.lst != NULL)
-	{
-		token = (t_token *)(check_par.lst->content);
-		if (token->type == CLOSE_PARENTHESIS_TOKEN)
-			if(check_par.parentesis_used == 0)
-				handle_token_error(tokens, CLOSED_PARENTESIS_ERROR);
-			else
-				check_par.parentesis_used--;
-		else if (token->type == OPEN_PARENTHESIS_TOKEN)
-			check_par.parentesis_used++;
-		check_par.lst = check_par.lst->next;
-	}
-	if(check_par.parentesis_used != 0)
-		handle_token_error(tokens, PARENTESIS_NOT_CLOSED_ERROR);
-}
-
 static char	*get_error_msg(char token_type)
 {
 	if (token_type == AND_TOKEN)
@@ -69,6 +46,25 @@ static void	check_adjacents(t_list **tokens)
 		handle_token_error(tokens, NEWLINE_BOUNDARY_ERROR);
 }
 
+static void	check_heredocs(t_list **tokens)
+{
+	t_list	*lst;
+	int		n_heredoc;
+
+	lst = *tokens;
+	n_heredoc = 0;
+	while (lst)
+	{
+		if (((t_token *)(lst->content))->type == HEREDOC_TOKEN)
+		{
+			n_heredoc++;
+			if (n_heredoc >= MAX_HEREDOC)
+				handle_token_error(tokens, MAX_HEREDOC_ERROR);
+		}
+		lst = lst->next;
+	}
+}
+
 void	check_tokens(t_list **tokens)
 {
 	if (*tokens == NULL)
@@ -82,4 +78,7 @@ void	check_tokens(t_list **tokens)
 
 	//check that no two | or || or && or ( or ) are together with others of this or same 
 	check_adjacents(tokens);
+
+	//check heredocs (MAX_HEREDOC: 16 [in bash])
+	check_heredocs(tokens);
 }

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parse.c                                            :+:      :+:    :+:   */
+/*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -27,6 +27,7 @@ t_command	*parser(char *job)
 	{
 		tokens = NULL;
 		lexer(job, &tokens);
+		handle_heredocs(&tokens);
 		expansor(&tokens);
 		exit(0);
 	}
