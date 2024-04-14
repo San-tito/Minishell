@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 17:35:50 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/12 13:39:14 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/14 14:52:51 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int	here_document_to_fd(char *redirectee)
 	return (herepipe[0]);
 }
 
-static int	do_redirection_internal(t_redirect *redirect)
+static int	do_redirection(t_redirect *redirect)
 {
 	int					fd;
 	enum e_instruction	ri;
@@ -78,7 +78,7 @@ int	do_redirections(t_redirect *list)
 	temp = list;
 	while (temp)
 	{
-		error = do_redirection_internal(temp);
+		error = do_redirection(temp);
 		if (error)
 		{
 			internal_error("%s: %s", temp->filename, strerror(error));

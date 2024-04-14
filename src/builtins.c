@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 18:23:18 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/13 16:47:44 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/14 15:12:19 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ t_builtin_func	*find_builtin(char *name)
 	i = 0;
 	while (i < num_builtins)
 	{
-		if (ft_strncmp(name, builtins[i].name,
-				ft_strlen(builtins[i].name)) == 0)
+		if (ft_strncmp(name, builtins[i].name, ft_strlen(builtins[i].name)) == 0
+			&& name[ft_strlen(builtins[i].name)] == '\0')
 			return (builtins[i].function);
 		i++;
 	}

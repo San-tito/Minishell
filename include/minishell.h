@@ -6,7 +6,7 @@
 /*   By: mpovill- <mpovill-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 12:11:32 by mpovill-          #+#    #+#             */
-/*   Updated: 2024/04/13 16:48:49 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/14 14:59:37 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,8 @@ t_command					*parse_command(char *token);
 /* ************************************************************************** */
 /*                                   Execute CMD                              */
 /* ************************************************************************** */
-int							execute_command(t_command *command);
+int							execute_command(t_command *command, int pipe_in,
+								int pipe_out);
 int							execute_builtin(t_builtin_func *builtin,
 								t_word_list *words, t_redirect *redirects);
 
