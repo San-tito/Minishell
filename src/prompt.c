@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 14:22:26 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/14 14:50:44 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/14 15:07:04 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,14 @@ char	*get_primary_prompt(void)
 	const char	*home = getenv("HOME");
 	const char	*pwd = getenv("PWD");
 
+	ft_strlcpy(prompt, "\n" CYAN, sizeof(prompt));
 	if (home && pwd && ft_strncmp(home, pwd, ft_strlen(home)) == 0)
 	{
-		ft_strlcpy(prompt, "\n" CYAN "~", sizeof(prompt));
+		ft_strlcat(prompt, "~", sizeof(prompt));
 		ft_strlcat(prompt, pwd + ft_strlen(home), sizeof(prompt));
 	}
-	else
-	{
-		ft_strlcpy(prompt, "\n" CYAN, sizeof(prompt));
+	else if (pwd)
 		ft_strlcat(prompt, pwd, sizeof(prompt));
-	}
 	ft_strlcat(prompt, RESET "\n", sizeof(prompt));
 	if (g_last_exit_value == 0)
 		ft_strlcat(prompt, GREEN, sizeof(prompt));
