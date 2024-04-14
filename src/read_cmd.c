@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 00:01:28 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/14 14:59:45 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/14 14:30:24 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,9 @@ int	reader_loop(void)
 
 char	*read_command(void)
 {
-	char	*line;
-	char	prompt[80];
+	char		*line;
+	const char	*prompt = get_primary_prompt();
 
-	ft_strlcpy(prompt, "\n" CYAN "Minishell " RESET "\n", sizeof(prompt));
-	if (g_last_exit_value == 0)
-		ft_strlcat(prompt, GREEN "❯ " RESET, sizeof(prompt));
-	else
-		ft_strlcat(prompt, RED "❯ " RESET, sizeof(prompt));
 	line = readline(prompt);
 	return (line);
 }

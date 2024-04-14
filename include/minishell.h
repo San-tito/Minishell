@@ -6,7 +6,7 @@
 /*   By: mpovill- <mpovill-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 12:11:32 by mpovill-          #+#    #+#             */
-/*   Updated: 2024/04/14 14:59:37 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/14 14:31:52 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,6 @@
 # define FS_EXECABLE 0x2
 # define FS_DIRECTORY 0x10
 # define FS_READABLE 0x40
-
-# define CYAN "\001\033[1;36m\002"
-# define GREEN "\001\033[1;32m\002"
-# define RED "\001\033[1;31m\002"
-# define YELLOW "\001\033[1;33m\002"
-# define RESET "\001\033[0m\002"
 
 /* ************************************************************************** */
 /*       Instructions describing what kind of thing to do for a redirection.  */
@@ -146,6 +140,12 @@ typedef struct s_builtin
 /*                               Readline functions                           */
 /* ************************************************************************** */
 char						*readline(const char *prompt);
+
+/* ************************************************************************** */
+/*                                Prompt Functions                            */
+/* ************************************************************************** */
+char						*get_primary_prompt(void);
+char						*get_secondary_prompt(void);
 
 /* ************************************************************************** */
 /*                             POSIX shell specification                      */
