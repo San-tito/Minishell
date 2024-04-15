@@ -106,7 +106,10 @@ $(NAME):	$(OBJS) $(OBJS_MAIN) $(READLINE) $(LIBFTPRINTF)
 			@$(CC) $(CFLAGS) $(DFLAGS) -I $(INCLUDE_PATH) $^ $(RLFLAGS) -o $@ 
 			@printf "%b%-42s%-42b%-24s%b%s%b\n" "$(BLUE)" "Building program:" "$(CYAN)" $@ "$(GREEN)" "[✓]" "$(RESET)"
 
-$(READLINE):
+$(READLINE_PATH)/Makefile:
+			@cd $(READLINE_PATH) && ./configure > /dev/null
+
+$(READLINE): $(READLINE_PATH)/Makefile
 			@make -C $(READLINE_PATH) > /dev/null
 			@printf "%b%-42s%-42b%-24s%b%s%b\n" "$(BLUE)" "Building Readline library:" "$(CYAN)" $@ "$(GREEN)" "[✓]" "$(RESET)"
 
