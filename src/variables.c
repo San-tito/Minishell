@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:55:43 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/13 15:15:49 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/18 19:12:59 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,34 @@ char	**add_or_replace_exported_var(char *assign)
 	return (environ);
 }
 
-void	update_env(char *env_prefix, char *value)
+void	update_env(const char *env_prefix, const char *value)
 {
 	char	*evar;
 
 	evar = ft_strjoin(env_prefix, value);
 	environ = add_or_replace_exported_var(evar);
+}
+
+void	initialize_shell_level(void)
+{
+	char	*old_SHLVL;
+	size_t	old_level;
+	int		shell_level;
+	char	*new_level;
+
+	shell_level = 0;
+	old_SHLVL = getenv("SHLVL");
+	if (old_SHLVL)
+		old_level = ft_atoi(old_SHLVL);
+	shell_level = old_level + 1;
+	if (shell_level < 0)
+		shell_level = 0;
+	else if (shell_level >= 1000)
+	{
+		internal_warning("shell level (%d) too high, resetting to 1",
+			shell_level);
+		shell_level = 1;
+	}
+	new_level = ft_itoa(shell_level);
+	update_env("SHLVL", new_level);
 }

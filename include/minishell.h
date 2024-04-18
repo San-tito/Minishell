@@ -6,7 +6,7 @@
 /*   By: mpovill- <mpovill-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 12:11:32 by mpovill-          #+#    #+#             */
-/*   Updated: 2024/04/14 14:31:52 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/18 18:58:34 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -235,7 +235,9 @@ int							do_redirections(t_redirect *list);
 /* ************************************************************************** */
 /*                                    Variables                               */
 /* ************************************************************************** */
-void						update_env(char *env_prefix, char *value);
+void						update_env(const char *env_prefix,
+								const char *value);
+void						initialize_shell_level(void);
 
 /* ************************************************************************** */
 /*                            Allocation functions                            */

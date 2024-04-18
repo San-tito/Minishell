@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 16:20:05 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/10 15:53:29 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/18 18:58:50 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	shell_initialize(void)
 {
-	/* Initialize various components like signals, builtins, jobs */
+	initialize_shell_level();
 }
 
 int	main(void)

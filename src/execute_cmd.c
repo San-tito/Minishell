@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 20:51:58 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/14 15:16:01 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/18 18:34:40 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ static int	execute_disk_command(t_simple_com *simple, int pipe_in,
 	const char	*pathname = simple->words->word;
 	const char	*command = search_for_command(pathname);
 
+	if (command)
+		update_env("_=", command);
 	pid = make_child();
 	if (pid == 0)
 	{
