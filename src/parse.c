@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 19:30:33 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/12 14:11:41 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/18 20:50:27 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ t_command	*parse_command(char *token)
 		return (NULL);
 	while (*arr)
 		words = make_word_list(*arr++, words);
-	// redirects = make_redirection("test.txt", r_reading_until, NULL);
 	redirects = NULL;
 	command = make_simple_command(words, redirects);
 	return (command);

@@ -6,7 +6,7 @@
 /*   By: mpovill- <mpovill-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 12:11:32 by mpovill-          #+#    #+#             */
-/*   Updated: 2024/04/18 18:58:34 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/18 20:56:02 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,15 @@
 # define EX_NOEXEC 126
 # define EX_NOTFOUND 127
 
-# define FD_BITMAP_SIZE 32
 # define HEREDOC_MAX 16
 
 # define FS_EXISTS 0x1
 # define FS_EXECABLE 0x2
 # define FS_DIRECTORY 0x10
 # define FS_READABLE 0x40
+
+# define AND_AND 288
+# define OR_OR 289
 
 /* ************************************************************************** */
 /*       Instructions describing what kind of thing to do for a redirection.  */
@@ -139,7 +141,8 @@ typedef struct s_builtin
 /* ************************************************************************** */
 /*                               Readline functions                           */
 /* ************************************************************************** */
-char						*readline(const char *prompt);
+char						*readline(const char *);
+void						add_history(const char *);
 
 /* ************************************************************************** */
 /*                                Prompt Functions                            */

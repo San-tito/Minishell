@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 00:01:28 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/14 14:30:24 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/18 20:54:49 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,7 @@ char	*read_command(void)
 	const char	*prompt = get_primary_prompt();
 
 	line = readline(prompt);
+	if (line && *line)
+		add_history(line);
 	return (line);
 }

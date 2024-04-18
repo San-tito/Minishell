@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 20:51:58 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/18 18:34:40 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/18 20:42:43 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,12 +91,54 @@ static int	execute_disk_command(t_simple_com *simple, int pipe_in,
 	return (EXECUTION_SUCCESS);
 }
 
-static int	execute_connection(t_connection *command)
+static int	execute_pipeline(t_command *command, int pipe_in, int pipe_out)
 {
-	int	exec_result;
+	t_command	*cmd;
+	int			prev;
+	int			exec_result;
+	int			fildes[2];
 
-	(void)command;
+	prev = pipe_in;
+	cmd = command;
+	while (cmd && cmd->type == cm_connection && (t_connection *)cmd->value
+		&& ((t_connection *)cmd->value)->connector == '|')
+	{
+		if (pipe(fildes) < 0)
+		{
+			g_last_exit_value = EXECUTION_FAILURE;
+			return (EXECUTION_FAILURE);
+		}
+		execute_command(((t_connection *)cmd->value)->first, prev, fildes[1]);
+		if (prev >= 0)
+			close(prev);
+		prev = fildes[0];
+		close(fildes[1]);
+		cmd = ((t_connection *)cmd->value)->second;
+	}
+	exec_result = execute_command(cmd, prev, pipe_out);
+	if (prev >= 0)
+		close(prev);
+	return (exec_result);
+}
+
+static int	execute_connection(t_command *command, int pipe_in, int pipe_out)
+{
+	int				exec_result;
+	t_connection	*connect;
+
+	connect = ((t_connection *)command->value);
 	exec_result = EXECUTION_SUCCESS;
+	if (connect->connector == '|')
+		exec_result = execute_pipeline(command, pipe_in, pipe_out);
+	if (connect->connector == AND_AND || connect->connector == OR_OR)
+	{
+		exec_result = execute_command(connect->first, pipe_in, pipe_out);
+		if (((connect->connector == AND_AND)
+				&& (exec_result == EXECUTION_SUCCESS))
+			|| ((connect->connector == OR_OR)
+				&& (exec_result != EXECUTION_SUCCESS)))
+			exec_result = execute_command(connect->second, pipe_in, pipe_out);
+	}
 	return (exec_result);
 }
 
@@ -137,7 +179,7 @@ int	execute_command(t_command *command, int pipe_in, int pipe_out)
 		}
 	}
 	else if (command->type == cm_connection)
-		exec_result = execute_connection((t_connection *)command->value);
+		exec_result = execute_connection(command, pipe_in, pipe_out);
 	g_last_exit_value = exec_result;
 	return (g_last_exit_value);
 }
