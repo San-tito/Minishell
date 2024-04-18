@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:55:43 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/18 19:28:35 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/18 19:35:39 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,16 @@ void	update_env(const char *env_prefix, const char *value)
 
 void	initialize_shell_level(void)
 {
-	char	*old_SHLVL;
+	char	*old_shlvl;
 	size_t	old_level;
 	int		shell_level;
 	char	*new_level;
 
+	old_level = 0;
 	shell_level = 0;
-	old_SHLVL = getenv("SHLVL");
-	if (old_SHLVL)
-		old_level = ft_atoi(old_SHLVL);
+	old_shlvl = getenv("SHLVL");
+	if (old_shlvl)
+		old_level = ft_atoi(old_shlvl);
 	shell_level = old_level + 1;
 	if (shell_level < 0)
 		shell_level = 0;
