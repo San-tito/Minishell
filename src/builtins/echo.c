@@ -6,13 +6,14 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 18:41:45 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/11 16:52:24 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/19 16:56:56 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <stdio.h>
 
-int	echo(t_word_list *list)
+int	echo_builtin(t_word_list *list)
 {
 	char	*temp;
 	int		display_nl;

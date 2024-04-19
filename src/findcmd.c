@@ -6,11 +6,12 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 16:32:10 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/06 18:38:08 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/19 17:04:52 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <sys/stat.h>
 
 int	file_status(const char *name)
 {

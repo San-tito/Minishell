@@ -6,11 +6,12 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 13:33:48 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/19 13:57:36 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/19 17:06:36 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <stdio.h>
 
 static void	print_redirection_list(t_redirect *redirects)
 {

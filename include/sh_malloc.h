@@ -1,19 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export.c                                           :+:      :+:    :+:   */
+/*   sh_malloc.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/13 15:44:52 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/19 16:57:45 by sguzman          ###   ########.fr       */
+/*   Created: 2024/04/19 16:43:05 by sguzman           #+#    #+#             */
+/*   Updated: 2024/04/19 16:44:28 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef SH_MALLOC_H
+# define SH_MALLOC_H
 
-int	export_builtin(t_word_list *list)
-{
-	(void)list;
-	return (EXECUTION_SUCCESS);
-}
+/* ************************************************************************** */
+/*                defines for the `sh' memory allocation functions            */
+/* ************************************************************************** */
+void	*sh_malloc(size_t bytes);
+void	sh_free(void *string);
+void	sh_doublefree(void **array);
+
+#endif

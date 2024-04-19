@@ -6,14 +6,15 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 13:21:31 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/14 15:06:36 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/19 17:05:26 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "jobs.h"
 #include "minishell.h"
 
-volatile pid_t	last_made_pid = NO_PID;
-int				already_making_children = 0;
+pid_t	last_made_pid = NO_PID;
+int		already_making_children = 0;
 
 pid_t	make_child(void)
 {

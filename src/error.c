@@ -6,11 +6,12 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 16:18:30 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/12 11:47:41 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/19 16:59:46 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <stdio.h>
 
 void	internal_error(const char *format, ...)
 {

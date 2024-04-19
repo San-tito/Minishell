@@ -6,10 +6,11 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 00:01:48 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/14 14:32:14 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/19 17:15:08 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "input.h"
 #include "minishell.h"
 
 t_command	*make_command(t_command_type type, void *pointer)

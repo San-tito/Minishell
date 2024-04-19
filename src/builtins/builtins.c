@@ -6,19 +6,19 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 18:23:18 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/14 15:12:19 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/19 16:45:49 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "builtins.h"
 
 t_builtin_func	*find_builtin(char *name)
 {
-	static t_builtin	builtins[] = {{"cd", cd}, {"echo", echo}, {"env", env},
-			{"export", export}, {"pwd", pwd}, {"unset", unset}, {"exit",
-			exit_builtin}};
-	const int			num_builtins = sizeof(builtins) / sizeof(*builtins);
-	int					i;
+	t_builtin	builtins[] = {{"cd", cd_builtin}, {"echo", echo_builtin},
+			{"env", env_builtin}, {"export", export_builtin}, {"pwd",
+			pwd_builtin}, {"unset", unset_builtin}, {"exit", exit_builtin}};
+	const int	num_builtins = sizeof(builtins) / sizeof(*builtins);
+	int			i;
 
 	i = 0;
 	while (i < num_builtins)
@@ -29,15 +29,4 @@ t_builtin_func	*find_builtin(char *name)
 		i++;
 	}
 	return (NULL);
-}
-
-int	execute_builtin(t_builtin_func *builtin, t_word_list *words,
-		t_redirect *redirects)
-{
-	int	result;
-
-	if (redirects && (do_redirections(redirects) != 0))
-		return (EXECUTION_FAILURE);
-	result = ((*builtin)(words->next));
-	return (result);
 }

@@ -6,15 +6,18 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 20:51:58 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/18 20:42:43 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/19 17:14:49 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "execute_cmd.h"
+#include "findcmd.h"
+#include "jobs.h"
 #include "minishell.h"
+#include <errno.h>
+#include <string.h>
 
-int				g_last_exit_value;
-extern pid_t	last_made_pid;
-extern int		already_making_children;
+int			g_last_exit_value;
 
 static void	close_pipes(int in, int out)
 {
@@ -42,7 +45,7 @@ static void	do_piping(int pipe_in, int pipe_out)
 	}
 }
 
-static int	shell_execve(const char *command, char **args, char **env)
+int	shell_execve(const char *command, char **args, char **env)
 {
 	int	errnum;
 
@@ -89,6 +92,17 @@ static int	execute_disk_command(t_simple_com *simple, int pipe_in,
 	close_pipes(pipe_in, pipe_out);
 	sh_free((void *)command);
 	return (EXECUTION_SUCCESS);
+}
+
+int	execute_builtin(t_builtin_func *builtin, t_word_list *words,
+		t_redirect *redirects)
+{
+	int	result;
+
+	if (redirects && (do_redirections(redirects) != 0))
+		return (EXECUTION_FAILURE);
+	result = ((*builtin)(words->next));
+	return (result);
 }
 
 static int	execute_pipeline(t_command *command, int pipe_in, int pipe_out)

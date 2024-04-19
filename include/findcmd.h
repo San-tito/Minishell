@@ -1,19 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export.c                                           :+:      :+:    :+:   */
+/*   findcmd.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/04/13 15:44:52 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/19 16:57:45 by sguzman          ###   ########.fr       */
+/*   Created: 2024/04/19 16:25:37 by sguzman           #+#    #+#             */
+/*   Updated: 2024/04/19 16:26:28 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#ifndef FINDCMD_H
+# define FINDCMD_H
 
-int	export_builtin(t_word_list *list)
-{
-	(void)list;
-	return (EXECUTION_SUCCESS);
-}
+/* ************************************************************************** */
+/*                          functions from findcmd.c                          */
+/* ************************************************************************** */
+char	*search_for_command(const char *pathname);
+int		file_status(const char *name);
+
+#endif

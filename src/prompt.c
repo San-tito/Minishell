@@ -6,19 +6,13 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 14:22:26 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/14 15:07:04 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/19 17:15:54 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "execute_cmd.h"
+#include "input.h"
 #include "minishell.h"
-
-/* Replace the '➜' symbol in the prompt with '❯' */
-#define SYMBOL "❯ "
-#define CYAN "\001\033[1;36m\002"
-#define GREEN "\001\033[1;32m\002"
-#define RED "\001\033[1;31m\002"
-#define YELLOW "\001\033[1;33m\002"
-#define RESET "\001\033[0m\002"
 
 char	*get_primary_prompt(void)
 {
