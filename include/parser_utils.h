@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.h                                            :+:      :+:    :+:   */
+/*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mpovill- <mpovill-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,26 +10,23 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEXER_H
-# define LEXER_H
+#ifndef PARSER_UTILS_H
+# define PARSER_UTILS_H
 
 # include "libft.h"
+# include "executor_structs.h"
 # include "token.h"
+# include <fcntl.h>
+# include "malloc_func.h"
 
-t_list	*separate_words(char *job);
-void	remove_empty_words(t_list **words);
-t_list	*tokenizer(t_list **words);
-void	remove_quotes(t_list **tokens);
-void	check_tokens(t_list **tokens);
+t_command	*create_simple_command(t_list **tokens);
+t_command	*manage_subshell(t_list **tokens);
+t_command	*make_command(t_command_type type, void *pointer);
+t_command	*make_simple_command(t_word_list *words, t_redirect *redirects);
+t_word_list	*make_word_list(char *word, t_word_list *head);
+t_redirect	*make_redirection(char *filename, t_instruction instruction, t_redirect *head);
+//void		make_here_document(t_redirect *temp);
 
-//error management
-void	handle_word_error(t_list **words, char *error_msg);
-void	handle_token_error(t_list **tokens, char *error_msg);
-void	handle_error(t_list **words, t_list **tokens, char *error_msg);
-
-
-//only used on testing I think
-void	clear_word_list(t_list **words);
-void	clear_tokens(t_list **tokens);
+void	clear_command(t_command **command);
 
 #endif

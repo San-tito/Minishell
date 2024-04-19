@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer.h                                            :+:      :+:    :+:   */
+/*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mpovill- <mpovill-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,26 +10,14 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LEXER_H
-# define LEXER_H
+#ifndef PARSER_H
+# define PARSER_H
 
-# include "libft.h"
-# include "token.h"
+# include "parser_utils.h"
 
-t_list	*separate_words(char *job);
-void	remove_empty_words(t_list **words);
-t_list	*tokenizer(t_list **words);
-void	remove_quotes(t_list **tokens);
-void	check_tokens(t_list **tokens);
-
-//error management
-void	handle_word_error(t_list **words, char *error_msg);
-void	handle_token_error(t_list **tokens, char *error_msg);
-void	handle_error(t_list **words, t_list **tokens, char *error_msg);
-
-
-//only used on testing I think
-void	clear_word_list(t_list **words);
-void	clear_tokens(t_list **tokens);
+t_command	*parser(char *job); //goes to minishell.h
+void	    lexer(char *job, t_list **tokens);
+t_command	*convert_tokens(t_list **tokens);
+void        handle_heredocs(t_list **tokens);
 
 #endif

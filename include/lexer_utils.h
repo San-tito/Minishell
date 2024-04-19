@@ -79,6 +79,7 @@
 # ifndef MAX_HEREDOC
 #  define MAX_HEREDOC 16
 # endif
+
 //error management
 void	handle_word_error(t_list **words, char *error_msg);
 void	handle_token_error(t_list **tokens, char *error_msg);
@@ -87,7 +88,7 @@ void    handle_check_error(t_list **words, t_list **tokens, char *error_msg);
 
 //only used on testing I think
 void	del_word(void *content);
-void	clear_words(t_list **words);
+void	clear_word_list(t_list **words);
 void	del_token(void *content);
 void	clear_tokens(t_list **tokens);
 
