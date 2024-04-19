@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 18:23:18 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/19 17:23:03 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/19 17:23:48 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 t_builtin_func	*find_builtin(char *name)
 {
-	const t_builtin	builtins[] = {{"cd", cd_builtin}, {"echo", echo_builtin},
+	const t_builtin	builtins[] = {
+	{"cd", cd_builtin},
+	{"echo", echo_builtin},
 	{"env", env_builtin},
 	{"export", export_builtin},
 	{"pwd", pwd_builtin},
