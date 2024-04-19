@@ -37,7 +37,7 @@ static void	check_adjacents(t_list **tokens)
 	while (lst != NULL)
 	{
 		token = (t_token *)(lst->content);
-		if (last_token_type > CLOSE_PARENTHESIS_TOKEN && token->type > CLOSE_PARENTHESIS_TOKEN)
+		if (last_token_type > CLOSE_PARENTHESIS_TOKEN && token->type > CLOSE_PARENTHESIS_TOKEN && token->type < INPUT_TOKEN)
 			handle_token_error(tokens, get_error_msg(last_token_type));
 		last_token_type = token->type;
 		lst = lst->next;

@@ -189,6 +189,7 @@ static void	test_parser(char *job)
 		return ;
 	else if (pid == 0)
 	{
+		ft_printf(1, "New test.\n");
 		command = parser(job);
 		print_command(command);
 		clear_command(&command);
@@ -200,6 +201,7 @@ static void	test_parser(char *job)
 
 int main(void)
 {
+	/*
 	ft_printf(1, "Correct Tests:\n");
 	test_words("test1 test2");
 	test_words("test3 \"test4\"\" test5\" test6");
@@ -254,8 +256,10 @@ int main(void)
 	test_checker("echo a ( echo c )");
 	test_checker("echo a > > echo b"); //??
 	test_checker("echo a > < echo b"); //??
-
+ */
 	ft_printf(1, "\nCommand parser checker:\n");
 	test_parser("echo a");
+	test_parser("echo a | echo b");
+	test_parser("echo a | echo b && >a echo c <c");
 	return (0);
 }

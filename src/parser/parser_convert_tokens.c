@@ -25,6 +25,11 @@ static t_command	*create_connection(t_command *first, char connect, t_command *s
 	return (make_command(cm_connection, (void *)connection));
 }
 
+static void	print_token(t_token *token)
+{
+	ft_printf(1, "Token type: [%d], Token data: [%s].\n", token->type, token->content);
+}
+
 t_command	*convert_tokens(t_list **tokens)
 {
 	t_command	*first;
@@ -39,8 +44,9 @@ t_command	*convert_tokens(t_list **tokens)
 		first = create_simple_command(tokens);
 	if (*tokens == NULL)
 		return (first);
+	token = (t_token*)((*tokens)->content);
 	connection = token->type;
-	(*tokens)++;
+	*tokens = (*tokens)->next;
 	second = convert_tokens(tokens);
 	return (create_connection(first, connection, second));
 }
