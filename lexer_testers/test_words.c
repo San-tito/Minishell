@@ -1,6 +1,8 @@
 
 #include "lexer.h"
 #include "separate_words.h"
+#include "parser.h"
+#include "executor_structs.h"
 #include <sys/wait.h>
 
 static void print_words(t_list *lst)
@@ -26,7 +28,7 @@ static void	test_words(char *job)
 	{
 		words = separate_words(job);
 		print_words(words);
-		clear_words(&words);
+		clear_word_list(&words);
 		exit(0);
 	}
 	else
@@ -47,7 +49,7 @@ static void	test_empty(char *job)
 		words = separate_words(job);
 		remove_empty_words(&words);
 		print_words(words);
-		clear_words(&words);
+		clear_word_list(&words);
 		exit(0);
 	}
 	else
@@ -86,7 +88,7 @@ static void	test_tokenizer(char *job)
 		print_words(words);
 		tokens = tokenizer(&words);
 		print_tokens(tokens);
-		clear_words(&words);
+		clear_word_list(&words);
 		clear_tokens(&tokens);
 		exit(0);
 	}
@@ -110,7 +112,7 @@ static void test_quotes(char *job)
 		remove_empty_words(&words);
 		print_words(words);
 		tokens = tokenizer(&words);
-		clear_words(&words);
+		clear_word_list(&words);
 		remove_quotes(&tokens);
 		print_tokens(tokens);
 		clear_tokens(&tokens);
@@ -135,11 +137,61 @@ static void	test_checker(char *job)
 		words = separate_words(job);
 		remove_empty_words(&words);
 		tokens = tokenizer(&words);
-		clear_words(&words);
+		clear_word_list(&words);
 		remove_quotes(&tokens);
 		check_tokens(&tokens);
 		print_tokens(tokens);
 		clear_tokens(&tokens);
+		exit(0);
+	}
+	else
+		waitpid(pid, &status, 0);
+}
+
+static void	print_simple_command(t_simple_com *command)
+{
+	ft_printf(1, "Node is simple command.\n");
+	//print words
+	//print redirects
+}
+
+static void	print_command(t_command *command);
+
+static void	print_connection(t_connection *connection)
+{
+	ft_printf(1, "Node is connection. Connection is: [%d].\n", connection->connector);
+	print_command(connection->first);
+	print_command(connection->second);
+}
+
+static void	print_command(t_command *command)
+{
+	t_command_type	type;
+
+	type = command->type;
+	if (type == cm_simple)
+		print_simple_command((t_simple_com *)(command->value));
+	else if (type == cm_connection)
+		print_connection((t_connection *)(command->value));
+	else
+        ft_printf(1, "clear_subshell.\n");
+		//clear_subshell((t_simple_com *)((*command)->value));
+}
+
+static void	test_parser(char *job)
+{
+	pid_t	pid;
+	int		status;
+	t_command	*command;
+
+	pid = fork();
+	if (pid < 0)
+		return ;
+	else if (pid == 0)
+	{
+		command = parser(job);
+		print_command(command);
+		clear_command(&command);
 		exit(0);
 	}
 	else
@@ -203,5 +255,7 @@ int main(void)
 	test_checker("echo a > > echo b"); //??
 	test_checker("echo a > < echo b"); //??
 
+	ft_printf(1, "\nCommand parser checker:\n");
+	test_parser("echo a");
 	return (0);
 }

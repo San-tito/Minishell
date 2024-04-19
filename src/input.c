@@ -23,8 +23,16 @@ int	reader_loop(void)
 	while (42)
 	{
 		line = read_command();
-		current_command = parse_command(line);
-		execute_command(current_command);
+		if (pid < 0)
+			return ;
+		else if (pid == 0)
+		{
+			current_command = parse_command(line);
+			execute_command(current_command);
+			exit(0);
+		}
+		else
+			waitpid(pid, &status, 0);
 	}
 	return (last_command_exit_value);
 }
@@ -32,7 +40,7 @@ int	reader_loop(void)
 char	*read_command(void)
 {
 	char		*line;
-	const char	*prompt = "\001\033[1;32m\002minishell>\001\033[0m\002 ";
+	const char	*prompt = "\001\033[1;32m\002minishell>\001\033[0m\002";
 
 	line = readline(prompt);
 	return (line);

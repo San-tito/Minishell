@@ -11,29 +11,17 @@
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "parser.h"
 
 t_command	*parser(char *job)
 {
 	t_list	*tokens;
-	pid_t	pid;
-	int		status;
 
-	if (job == NULL || *jop == '\0')
+	if (job == NULL || *job == '\0')
 		return (NULL);
-	pid = fork();
-	if (pid == -1)
-		return (NULL);
-	else if (pid == 0)
-	{
-		tokens = NULL;
-		lexer(job, &tokens);
-		handle_heredocs(&tokens);
-		expansor(&tokens);
-		exit(0);
-	}
-	else
-		waitpid(pid, &status, 0);
-	if (status != 0)
-		return (NULL);
+	tokens = NULL;
+	lexer(job, &tokens);
+	handle_heredocs(&tokens);
+	//expansor(&tokens);
 	return (convert_tokens(&tokens));
 }

@@ -32,7 +32,7 @@ void	remove_empty_words(t_list **words)
 void	handle_word_error(t_list **words, char *error_msg)
 {
 	ft_printf(1, "%s", error_msg);
-	clear_words(words);
+	clear_word_list(words);
 	exit(1);
 }
 
@@ -47,6 +47,6 @@ void	handle_error(t_list **words, t_list **tokens, char *error_msg)
 {
 	ft_printf(1, "%s", error_msg);
 	clear_tokens(tokens);
-	clear_words(words);
+	clear_word_list(words);
 	exit(1);
 }

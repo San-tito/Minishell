@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_clear_structs.c                              :+:      :+:    :+:   */
+/*   parser_clear_structs.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,30 +10,35 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer_utils.h"
+#include "parser_utils.h"
 
-
-void	del_word(void *content)
+static void clear_simple_command(t_simple_com *command)
 {
-	free(content);
+    //clear words
+    //clear redirects
+    free(command);
 }
 
-void	clear_word_list(t_list **words)
+static void clear_connection(t_connection *connection)
 {
-	ft_lstclear(words, del_word);
+    clear_command(&(connection->first));
+    clear_command(&(connection->second));
+    free(connection);
 }
 
-void	del_token(void *content)
-{
-	t_token	*token;
+//static void clear_subshell(){}
 
-	token = (t_token *)content;
-	if (token->content != NULL)
-		free(token->content);
-	free(token);
-}
-
-void	clear_tokens(t_list **tokens)
+void	clear_command(t_command **command)
 {
-	ft_lstclear(tokens, del_token);
+	t_command_type	type;
+
+	type = (*command)->type;
+	if (type == cm_simple)
+		clear_simple_command((t_simple_com *)((*command)->value));
+	else if (type == cm_connection)
+		clear_connection((t_connection *)((*command)->value));
+	else
+        ft_printf(1, "clear_subshell.\n");
+		//clear_subshell((t_simple_com *)((*command)->value));
+    free(*command);
 }

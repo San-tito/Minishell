@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "token.h"
+#include "parser_utils.h"
 
 static char	is_token_boundary(t_token *token)
 {
@@ -34,24 +33,24 @@ static t_instruction	select_instruction(char redirect)
 	return (r_reading_until);
 }
 
-static t_command	*create_simple_command(t_list **tokens)
+t_command	*create_simple_command(t_list **tokens)
 {
 	t_word_list	*words;
 	t_redirect	*redirect;
 	t_token		*token;
 	char		redir;
 
-	while (*tokens && !is_token_boundary((t_token *)((*tokens)->data)))
+	while (*tokens && !is_token_boundary((t_token *)((*tokens)->content)))
 	{
-		token = (t_token *)((*tokens)->data);
+		token = (t_token *)((*tokens)->content);
 		if (token->type == STR_TOKEN)
-			words = make_word_list(token->data, words);
+			words = make_word_list(token->content, words);
 		else
 		{
 			(*tokens)++;
 			redir = token->type;
-			token = (t_token *)((*tokens)->data);
-			redirect = make_redirection(token->data, select_instruction(redir), redirect);
+			token = (t_token *)((*tokens)->content);
+			redirect = make_redirection(token->content, select_instruction(redir), redirect);
 		}
 		(*tokens)++;
 	}

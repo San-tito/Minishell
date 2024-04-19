@@ -10,8 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-#include "token.h"
+#include "parser.h"
 
 static t_command	*create_connection(t_command *first, char connect, t_command *second)
 {
@@ -43,7 +42,7 @@ t_command	*convert_tokens(t_list **tokens)
 	if (token == NULL)
 		return (first);
 	connection = token->type;
-	(*tokens)++
+	(*tokens)++;
 	second = convert_tokens(tokens);
 	return (create_connection(first, connection, second));
 }
