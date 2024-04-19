@@ -37,9 +37,7 @@ t_command	*convert_tokens(t_list **tokens)
 		first = manage_subshell(tokens);
 	else
 		first = create_simple_command(tokens);
-	//here we have the connector in *tokens
-	token = (t_token*)((*tokens)->content);
-	if (token == NULL)
+	if (*tokens == NULL)
 		return (first);
 	connection = token->type;
 	(*tokens)++;

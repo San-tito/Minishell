@@ -40,6 +40,8 @@ t_command	*create_simple_command(t_list **tokens)
 	t_token		*token;
 	char		redir;
 
+	words = NULL;
+	redirect = NULL;
 	while (*tokens && !is_token_boundary((t_token *)((*tokens)->content)))
 	{
 		token = (t_token *)((*tokens)->content);
@@ -47,12 +49,12 @@ t_command	*create_simple_command(t_list **tokens)
 			words = make_word_list(token->content, words);
 		else
 		{
-			(*tokens)++;
+			*tokens = (*tokens)->next;
 			redir = token->type;
 			token = (t_token *)((*tokens)->content);
 			redirect = make_redirection(token->content, select_instruction(redir), redirect);
 		}
-		(*tokens)++;
+		*tokens = (*tokens)->next;
 	}
 	return (make_simple_command(words, redirect));
 }
