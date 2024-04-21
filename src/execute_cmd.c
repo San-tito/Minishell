@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 20:51:58 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/19 17:14:49 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/21 11:04:22 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -163,6 +163,7 @@ static int	execute_simple_command(t_simple_com *simple_command, int pipe_in,
 	int				result;
 	char			*this_command_name;
 
+	print_simple_command(simple_command);
 	result = EXECUTION_SUCCESS;
 	this_command_name = simple_command->words->word;
 	builtin = find_builtin(this_command_name);

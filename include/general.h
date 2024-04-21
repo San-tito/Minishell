@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 16:49:04 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/19 17:12:40 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/21 10:37:24 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,11 @@ void						exit_shell(int s);
 /*                         Miscellaneous functions from parsing               */
 /* ************************************************************************** */
 t_command					*parse_command(char *token);
+
+/* ************************************************************************** */
+/*                           Functions from print_cmd.c                       */
+/* ************************************************************************** */
+void						print_command(t_command *command);
+void						print_simple_command(t_simple_com *simple_command);
 
 #endif

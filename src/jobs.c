@@ -6,12 +6,13 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 13:21:31 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/19 17:05:26 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/21 10:55:11 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "jobs.h"
 #include "minishell.h"
+#include <errno.h>
 
 pid_t	last_made_pid = NO_PID;
 int		already_making_children = 0;
@@ -41,12 +42,20 @@ int	process_exit_status(int status)
 
 int	wait_for(pid_t pid)
 {
-	int	status;
-	int	return_val;
+	pid_t	got_pid;
+	int		status;
+	int		return_val;
 
-	if (waitpid(pid, &status, WUNTRACED | WCONTINUED) != pid)
-		/* Handle Error  */
-		exit(EXECUTION_FAILURE);
+	got_pid = waitpid(-1, &status, WUNTRACED | WCONTINUED);
+	while (got_pid != pid)
+	{
+		if (got_pid < 0 && errno == ECHILD)
+		{
+			status = 0;
+			break ;
+		}
+		got_pid = waitpid(-1, &status, WUNTRACED | WCONTINUED);
+	}
 	return_val = process_exit_status(status);
 	return (return_val);
 }

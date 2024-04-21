@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 00:01:48 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/19 17:15:08 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/21 10:30:40 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,23 @@ t_command	*make_command(t_command_type type, void *pointer)
 
 t_command	*make_simple_command(t_word_list *words, t_redirect *redirects)
 {
-	t_command		*command;
 	t_simple_com	*simple;
 
 	simple = sh_malloc(sizeof(t_simple_com));
 	simple->words = words;
 	simple->redirects = redirects;
-	command = make_command(cm_simple, simple);
-	return (command);
+	return (make_command(cm_simple, simple));
+}
+
+t_command	*make_connect(t_command *com1, t_command *com2, int connector)
+{
+	t_connection	*temp;
+
+	temp = sh_malloc(sizeof(t_connection));
+	temp->connector = connector;
+	temp->first = com1;
+	temp->second = com2;
+	return (make_command(cm_connection, temp));
 }
 
 t_word_list	*make_word_list(char *word, t_word_list *head)
