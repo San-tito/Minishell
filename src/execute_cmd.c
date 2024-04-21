@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 20:51:58 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/21 11:04:22 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/21 18:52:21 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 #include <string.h>
 
 int			g_last_exit_value;
+int			already_forked;
 
 static void	close_pipes(int in, int out)
 {
@@ -75,7 +76,10 @@ static int	execute_disk_command(t_simple_com *simple, int pipe_in,
 
 	if (command)
 		update_env("_=", command);
-	pid = make_child();
+	if (already_forked && pipe_in == NO_PIPE && pipe_out == NO_PIPE)
+		pid = 0;
+	else
+		pid = make_child();
 	if (pid == 0)
 	{
 		do_piping(pipe_in, pipe_out);
@@ -163,10 +167,27 @@ static int	execute_simple_command(t_simple_com *simple_command, int pipe_in,
 	int				result;
 	char			*this_command_name;
 
-	print_simple_command(simple_command);
+	// print_simple_command(simple_command);
 	result = EXECUTION_SUCCESS;
 	this_command_name = simple_command->words->word;
+	already_forked = 0;
 	builtin = find_builtin(this_command_name);
+	if (pipe_in != NO_PIPE || pipe_out != NO_PIPE)
+	{
+		if (make_child() == 0)
+		{
+			already_forked = 1;
+			do_piping(pipe_in, pipe_out);
+			pipe_in = pipe_out = NO_PIPE;
+		}
+		else
+		{
+			if (pipe_out != NO_PIPE)
+				result = g_last_exit_value;
+			close_pipes(pipe_in, pipe_out);
+			return (result);
+		}
+	}
 	if (builtin)
 		result = execute_builtin(builtin, simple_command->words,
 				simple_command->redirects);
