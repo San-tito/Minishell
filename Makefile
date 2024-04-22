@@ -51,7 +51,16 @@ READLINE = $(READLINE_PATH)/libhistory.a $(READLINE_PATH)/libreadline.a
 
 HEADER	= $(INCLUDE_PATH)/minishell.h
 
-SRCS = clear_cmd.c error.c execute_cmd.c findcmd.c jobs.c list.c make_cmd.c print_cmd.c parse.c read_cmd.c prompt.c redir.c sh_malloc.c stringvec.c variables.c
+SRCS = clear_cmd.c error.c execute_cmd.c findcmd.c jobs.c list.c make_cmd.c print_cmd.c read_cmd.c prompt.c redir.c sh_malloc.c stringvec.c variables.c
+
+PARSER_SRC = parser
+PARSER_FILES = ${PARSER_SRC}/lexer_check_tokens_2.c ${PARSER_SRC}/lexer_check_tokens.c ${PARSER_SRC}/lexer_clear.c \
+				${PARSER_SRC}/lexer_remove_quotes.c ${PARSER_SRC}/lexer_separate_words.c ${PARSER_SRC}/lexer_utils.c \
+				${PARSER_SRC}/lexer.c ${PARSER_SRC}/parser_handle_heredocs.c ${PARSER_SRC}/parser_manage_subshell.c \
+				${PARSER_SRC}/parser_simple_command.c ${PARSER_SRC}/parser_utils.c ${PARSER_SRC}/parser.c \
+				${PARSER_SRC}/tokenizer_utils.c ${PARSER_SRC}/tokenizer.c
+
+SRCS += ${PARSER_FILES}
 
 BUILTINS = builtins.c cd.c echo.c env.c exit.c export.c pwd.c unset.c
 

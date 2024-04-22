@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "parser_utils.h"
 
 void	clear_redirects(t_redirect *list)
 {
@@ -41,25 +41,33 @@ void	clear_words(t_word_list *list)
 	}
 }
 
-void	clear_command(t_command *command)
+static void clear_simple_command(t_simple_com *command)
 {
-	void	*c;
-
-	if (command == 0)
-		return ;
-	if (command->type == cm_simple)
-	{
-		c = command->value;
-		clear_words(((t_simple_com *)c)->words);
-		clear_redirects(((t_simple_com *)c)->redirects);
-		sh_free(c);
-	}
-	else if (command->type == cm_connection)
-	{
-		c = command->value;
-		clear_command(((t_connection *)c)->first);
-		clear_command(((t_connection *)c)->second);
-		sh_free(c);
-	}
+	clear_words(command->words);
+	clear_redirects(command->redirects);
 	sh_free(command);
+}
+
+static void clear_connection(t_connection *connection)
+{
+	clear_command(&(connection->first));
+	clear_command(&(connection->second));
+	sh_free(connection);
+}
+
+//static void clear_subshell(){}
+
+void	clear_command(t_command **command)
+{
+	t_command_type	type;
+
+	type = (*command)->type;
+	if (type == cm_simple)
+		clear_simple_command((t_simple_com *)((*command)->value));
+	else if (type == cm_connection)
+		clear_connection((t_connection *)((*command)->value));
+	else
+		ft_printf("clear_subshell.\n");
+		//clear_subshell((t_simple_com *)((*command)->value));
+	free(*command);
 }

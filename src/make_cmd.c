@@ -33,15 +33,15 @@ t_command	*make_simple_command(t_word_list *words, t_redirect *redirects)
 	return (make_command(cm_simple, simple));
 }
 
-t_command	*make_connect(t_command *com1, t_command *com2, int connector)
+t_command	*make_connect(t_command *first, t_command *second, char connector)
 {
-	t_connection	*temp;
+	t_connection	*connection;
 
-	temp = sh_malloc(sizeof(t_connection));
-	temp->connector = connector;
-	temp->first = com1;
-	temp->second = com2;
-	return (make_command(cm_connection, temp));
+	connection = sh_malloc(sizeof(t_connection));
+	connection->first = first;
+	connection->second = second;
+	connection->connector = connector;
+	return (make_command(cm_connection, (void *)connection));
 }
 
 t_word_list	*make_word_list(char *word, t_word_list *head)

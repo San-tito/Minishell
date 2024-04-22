@@ -18,7 +18,7 @@
 /* ************************************************************************** */
 /*                       Functions appearing in clear_cmd.c                   */
 /* ************************************************************************** */
-void	clear_command(t_command *command);
+void	clear_command(t_command **command);
 void	clear_words(t_word_list *list);
 void	clear_redirects(t_redirect *list);
 

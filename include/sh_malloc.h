@@ -13,6 +13,8 @@
 #ifndef SH_MALLOC_H
 # define SH_MALLOC_H
 
+#include <stddef.h>
+
 /* ************************************************************************** */
 /*                defines for the `sh' memory allocation functions            */
 /* ************************************************************************** */
