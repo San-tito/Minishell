@@ -6,7 +6,7 @@
 /*   By: mpovill- <mpovill-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 12:11:32 by mpovill-          #+#    #+#             */
-/*   Updated: 2024/04/19 17:12:42 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/23 14:52:14 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@
 
 # define HEREDOC_MAX 16
 
-# define AND_AND 288
-# define OR_OR 289
+# define AND_AND 3
+# define OR_OR 5
 
 /* ************************************************************************** */
 /*                               Readline functions                           */

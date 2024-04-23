@@ -6,7 +6,7 @@
 /*   By: mpovill- <mpovill-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 12:11:32 by mpovill-          #+#    #+#             */
-/*   Updated: 2024/03/10 16:29:45 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/23 14:51:49 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ typedef struct s_token
 # endif
 
 # ifndef PIPE_TOKEN
-#  define PIPE_TOKEN 4
+#  define PIPE_TOKEN 124
 # endif
 
 # ifndef OR_TOKEN

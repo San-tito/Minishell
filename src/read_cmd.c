@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 00:01:28 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/21 18:32:04 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/23 14:56:03 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,25 +19,13 @@ int	reader_loop(void)
 {
 	char		*line;
 	t_command	*current_command;
-	pid_t		pid;
-	int			value;
 
 	current_command = NULL;
 	while (42)
 	{
 		line = read_command();
-		//temporal
-		pid = fork();
-		if (pid < 0)
-			return 1;
-		else if (pid == 0)
-		{
-			current_command = parse_command(line);
-			execute_command(current_command, NO_PIPE, NO_PIPE);
-			exit (0);
-		}
-		else
-			wait(&value);
+		current_command = parse_command(line);
+		execute_command(current_command, NO_PIPE, NO_PIPE, 0);
 	}
 	return (g_last_exit_value);
 }
