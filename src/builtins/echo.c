@@ -6,12 +6,11 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 18:41:45 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/19 16:56:56 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/24 23:30:56 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <stdio.h>
 
 int	echo_builtin(t_word_list *list)
 {
@@ -22,7 +21,7 @@ int	echo_builtin(t_word_list *list)
 	while (list && *list->word == '-')
 	{
 		temp = list->word;
-		while (*temp++)
+		while (*(++temp))
 			if (ft_strchr("n", *temp) == 0)
 				break ;
 		if (*temp || *(list->word + 1) == 0)
@@ -33,13 +32,12 @@ int	echo_builtin(t_word_list *list)
 	while (list)
 	{
 		temp = list->word;
-		if (temp)
-			printf("%s", temp);
+		ft_putstr_fd(temp, 1);
 		list = list->next;
 		if (list)
-			printf("%c", ' ');
+			ft_putchar_fd(' ', 1);
 	}
 	if (display_nl)
-		printf("%c", '\n');
+		ft_putchar_fd('\n', 1);
 	return (EXECUTION_SUCCESS);
 }
