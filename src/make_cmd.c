@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 00:01:48 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/21 10:30:40 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/24 16:13:19 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ t_redirect	*make_redirection(char *filename, t_instruction instruction,
 	temp = sh_malloc(sizeof(t_redirect));
 	temp->dest = 0;
 	temp->filename = filename;
-	temp->here_doc_eof = 0;
 	temp->instruction = instruction;
 	temp->flags = 0;
 	temp->next = NULL;
@@ -80,6 +79,8 @@ t_redirect	*make_redirection(char *filename, t_instruction instruction,
 	}
 	if (instruction == r_input_direction)
 		temp->flags = O_RDONLY;
+	if (instruction == r_reading_until)
+		make_here_document(temp);
 	temp = (t_redirect *)list_append((t_generic_list *)head,
 			(t_generic_list *)temp);
 	return (temp);
@@ -94,7 +95,6 @@ void	make_here_document(t_redirect *temp)
 	document = sh_malloc(1);
 	*document = '\0';
 	redir_word = temp->filename;
-	temp->here_doc_eof = redir_word;
 	line = readline(get_secondary_prompt());
 	while (line)
 	{

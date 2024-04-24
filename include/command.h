@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 16:08:42 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/19 16:11:43 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/24 16:06:00 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ typedef struct s_redirect
 	char					*filename;
 	int						flags;
 	t_instruction			instruction;
-	char					*here_doc_eof;
 }							t_redirect;
 
 /* ************************************************************************** */

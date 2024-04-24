@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:28:37 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/19 17:03:33 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/24 16:07:46 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,7 @@ void	clear_redirects(t_redirect *list)
 	{
 		t = list;
 		list = list->next;
-		if (t->instruction == r_reading_until)
-			sh_free(t->here_doc_eof);
-		else
-			sh_free(t->filename);
+		sh_free(t->filename);
 	}
 	sh_free(t);
 }
@@ -41,21 +38,21 @@ void	clear_words(t_word_list *list)
 	}
 }
 
-static void clear_simple_command(t_simple_com *command)
+static void	clear_simple_command(t_simple_com *command)
 {
 	clear_words(command->words);
 	clear_redirects(command->redirects);
 	sh_free(command);
 }
 
-static void clear_connection(t_connection *connection)
+static void	clear_connection(t_connection *connection)
 {
 	clear_command(&(connection->first));
 	clear_command(&(connection->second));
 	sh_free(connection);
 }
 
-//static void clear_subshell(){}
+// static void clear_subshell(){}
 
 void	clear_command(t_command **command)
 {
@@ -68,6 +65,6 @@ void	clear_command(t_command **command)
 		clear_connection((t_connection *)((*command)->value));
 	else
 		ft_printf("clear_subshell.\n");
-		//clear_subshell((t_simple_com *)((*command)->value));
+	// clear_subshell((t_simple_com *)((*command)->value));
 	free(*command);
 }
