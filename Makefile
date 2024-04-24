@@ -6,7 +6,7 @@
 #    By: sguzman <sguzman@student.42barcelo>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 15:31:23 by sguzman           #+#    #+#              #
-#    Updated: 2024/04/24 12:45:47 by sguzman          ###   ########.fr        #
+#    Updated: 2024/04/24 12:55:03 by sguzman          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #    
 
@@ -64,7 +64,7 @@ PARSERS = lexer_check_tokens_2.c lexer_check_tokens.c lexer_clear.c \
           parser_simple_command.c parser_utils.c parser.c \
           tokenizer_utils.c tokenizer.c
 
-EXECUTORS = execute_cmd.c findcmd.c	jobs.c redir.c
+EXECUTORS = connection.c execute_cmd.c findcmd.c jobs.c	pipeline.c redir.c simple.c
 
 BUILTINS = builtins.c cd.c echo.c env.c exit.c export.c pwd.c unset.c
 
