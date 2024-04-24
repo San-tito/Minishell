@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 20:51:58 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/24 11:13:19 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/24 12:38:49 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ static int	execute_disk_command(t_simple_com *simple, int pipe_in,
 			internal_error("%s: command not found", pathname);
 			exit(EX_NOTFOUND);
 		}
-		args = strvec_from_word_list(simple->words);
+		args = wlist_to_carray(simple->words);
 		exit(shell_execve(command, args, environ));
 	}
 	close_pipes(pipe_in, pipe_out);
@@ -199,11 +199,9 @@ static int	execute_simple_command(t_simple_com *simple, int pipe_in,
 	{
 		if (already_forked)
 		{
-			exit(execute_builtin(builtin, simple_command->words,
-					simple_command->redirects));
+			exit(execute_builtin(builtin, simple->words, simple->redirects));
 		}
-		result = execute_builtin(builtin, simple_command->words,
-				simple_command->redirects);
+		result = execute_builtin(builtin, simple->words, simple->redirects);
 	}
 	else
 		result = execute_disk_command(simple, pipe_in, pipe_out);

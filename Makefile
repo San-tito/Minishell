@@ -6,7 +6,7 @@
 #    By: sguzman <sguzman@student.42barcelo>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 15:31:23 by sguzman           #+#    #+#              #
-#    Updated: 2024/04/23 14:49:22 by sguzman          ###   ########.fr        #
+#    Updated: 2024/04/24 12:45:47 by sguzman          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #    
 
@@ -43,6 +43,8 @@ BUILTINS_PATH	= $(SRCS_PATH)/builtins
 
 PARSER_PATH	= $(SRCS_PATH)/parser
 
+EXECUTOR_PATH = $(SRCS_PATH)/executor
+
 LIBFTPRINTF_PATH = ./libs/libftprintf
 
 LIBFTPRINTF		= $(LIBFTPRINTF_PATH)/libftprintf.a
@@ -53,15 +55,16 @@ READLINE = $(READLINE_PATH)/libhistory.a $(READLINE_PATH)/libreadline.a
 
 HEADER	= $(INCLUDE_PATH)/minishell.h
 
-SRCS = clear_cmd.c error.c execute_cmd.c findcmd.c jobs.c list.c make_cmd.c \
-       print_cmd.c read_cmd.c prompt.c redir.c sh_malloc.c stringvec.c \
-       variables.c
+SRCS = clear_cmd.c error.c list.c make_cmd.c \
+       print_cmd.c read_cmd.c prompt.c sh_malloc.c variables.c
 
 PARSERS = lexer_check_tokens_2.c lexer_check_tokens.c lexer_clear.c \
           lexer_remove_quotes.c lexer_separate_words.c lexer_utils.c \
           lexer.c parser_handle_heredocs.c parser_manage_subshell.c \
           parser_simple_command.c parser_utils.c parser.c \
           tokenizer_utils.c tokenizer.c
+
+EXECUTORS = execute_cmd.c findcmd.c	jobs.c redir.c
 
 BUILTINS = builtins.c cd.c echo.c env.c exit.c export.c pwd.c unset.c
 
@@ -77,6 +80,8 @@ OBJS_BUILTIN		= $(addprefix $(OBJS_PATH)/, ${BUILTINS:.c=.o})
 
 OBJS_PARSER	= $(addprefix $(OBJS_PATH)/, ${PARSERS:.c=.o})
 
+OBJS_EXECUTOR = $(addprefix $(OBJS_PATH)/, ${EXECUTORS:.c=.o})
+
 OBJS_MAIN	= $(addprefix $(OBJS_PATH)/, ${MAIN:.c=.o})
 
 DEPS		= $(addprefix $(OBJS_PATH)/, ${SRCS:.c=.d})
@@ -84,6 +89,8 @@ DEPS		= $(addprefix $(OBJS_PATH)/, ${SRCS:.c=.d})
 DEPS_BUILTIN		= $(addprefix $(OBJS_PATH)/, ${BUILTINS:.c=.d})
 
 DEPS_PARSER	= $(addprefix $(OBJS_PATH)/, ${PARSERS:.c=.d})
+
+DEPS_EXECUTOR = $(addprefix $(OBJS_PATH)/, ${EXECUTORS:.c=.d})
 
 DEPS_MAIN	= $(addprefix $(OBJS_PATH)/, ${MAIN:.c=.d})
 
@@ -122,8 +129,8 @@ banner:
 	@echo
 	@printf "%b" "$(RESET)"
 
--include $(DEPS) $(DEPS_BUILTIN) $(DEPS_PARSER) $(DEPS_MAIN)
-$(NAME):	$(OBJS_BUILTIN) $(OBJS_PARSER) $(OBJS) $(OBJS_MAIN) $(READLINE) $(LIBFTPRINTF)
+-include $(DEPS) $(DEPS_BUILTIN) $(DEPS_PARSER) $(DEPS_EXECUTOR) $(DEPS_MAIN)
+$(NAME):	$(OBJS_BUILTIN) $(OBJS_PARSER) $(OBJS_EXECUTOR) $(OBJS) $(OBJS_MAIN) $(READLINE) $(LIBFTPRINTF)
 			@$(CC) $(CFLAGS) $(DFLAGS) -I $(INCLUDE_PATH) $^ $(RLFLAGS) -o $@ 
 			@printf "%b%-42s%-42b%-24s%b%s%b\n" "$(BLUE)" "Building program:" "$(CYAN)" $@ "$(GREEN)" "[✓]" "$(RESET)"
 
@@ -146,6 +153,11 @@ $(OBJS_PATH)/%.o: 	$(BUILTINS_PATH)/%.c $(HEADER) Makefile
 			@printf "%b%-42s%-42b%-24s%b%s%b\n" "$(BLUE)" "Compiling:" "$(CYAN)" $< "$(GREEN)" "[✓]" "$(RESET)"
 
 $(OBJS_PATH)/%.o: 	$(PARSER_PATH)/%.c $(HEADER) Makefile
+			@mkdir -p $(dir $@)
+			@$(CC) $(CFLAGS) $(DFLAGS) -c $< -o $@ -I $(INCLUDE_PATH) -I $(LIBFTPRINTF_PATH)/include
+			@printf "%b%-42s%-42b%-24s%b%s%b\n" "$(BLUE)" "Compiling:" "$(CYAN)" $< "$(GREEN)" "[✓]" "$(RESET)"
+
+$(OBJS_PATH)/%.o: 	$(EXECUTOR_PATH)/%.c $(HEADER) Makefile
 			@mkdir -p $(dir $@)
 			@$(CC) $(CFLAGS) $(DFLAGS) -c $< -o $@ -I $(INCLUDE_PATH) -I $(LIBFTPRINTF_PATH)/include
 			@printf "%b%-42s%-42b%-24s%b%s%b\n" "$(BLUE)" "Compiling:" "$(CYAN)" $< "$(GREEN)" "[✓]" "$(RESET)"
