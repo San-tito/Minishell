@@ -6,7 +6,7 @@
 #    By: sguzman <sguzman@student.42barcelo>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 15:31:23 by sguzman           #+#    #+#              #
-#    Updated: 2024/04/24 12:55:03 by sguzman          ###   ########.fr        #
+#    Updated: 2024/04/24 13:03:26 by sguzman          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #    
 
@@ -55,18 +55,47 @@ READLINE = $(READLINE_PATH)/libhistory.a $(READLINE_PATH)/libreadline.a
 
 HEADER	= $(INCLUDE_PATH)/minishell.h
 
-SRCS = clear_cmd.c error.c list.c make_cmd.c \
-       print_cmd.c read_cmd.c prompt.c sh_malloc.c variables.c
+SRCS = clear_cmd.c \
+       error.c \
+       list.c \
+       make_cmd.c \
+       print_cmd.c \
+       read_cmd.c \
+       prompt.c \
+       sh_malloc.c \
+       variables.c
 
-PARSERS = lexer_check_tokens_2.c lexer_check_tokens.c lexer_clear.c \
-          lexer_remove_quotes.c lexer_separate_words.c lexer_utils.c \
-          lexer.c parser_handle_heredocs.c parser_manage_subshell.c \
-          parser_simple_command.c parser_utils.c parser.c \
-          tokenizer_utils.c tokenizer.c
+PARSERS = lexer_check_tokens_2.c \
+          lexer_check_tokens.c \
+          lexer_clear.c \
+          lexer_remove_quotes.c \
+          lexer_separate_words.c \
+          lexer_utils.c \
+          lexer.c \
+          parser_handle_heredocs.c \
+          parser_manage_subshell.c \
+          parser_simple_command.c \
+          parser_utils.c \
+          parser.c \
+          tokenizer_utils.c \
+          tokenizer.c
 
-EXECUTORS = connection.c execute_cmd.c findcmd.c jobs.c	pipeline.c redir.c simple.c
+EXECUTORS = connection.c \
+            execute_cmd.c \
+            findcmd.c \
+            jobs.c \
+            pipeline.c \
+            redir.c \
+            simple.c
 
-BUILTINS = builtins.c cd.c echo.c env.c exit.c export.c pwd.c unset.c
+BUILTINS = builtins.c \
+           cd.c \
+           echo.c \
+           env.c \
+           exit.c \
+           export.c \
+           pwd.c \
+           unset.c
 
 MAIN = minishell.c
 
