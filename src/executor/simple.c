@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 12:50:11 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/24 15:54:26 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/25 11:59:20 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,15 @@ static int	shell_execve(const char *command, char **args, char **env)
 static int	execute_builtin(t_builtin_func *builtin, t_word_list *words,
 		t_redirect *redirects)
 {
-	int	result;
+	int			result;
+	const int	in = dup(0);
+	const int	out = dup(1);
 
 	if (redirects && (do_redirections(redirects) != 0))
 		return (EXECUTION_FAILURE);
 	result = ((*builtin)(words->next));
+	do_piping(in, out);
+	close_pipes(in, out);
 	return (result);
 }
 
