@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 12:50:11 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/25 11:59:20 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/25 19:50:55 by santito          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,17 @@ static int	shell_execve(const char *command, char **args, char **env)
 	return (g_last_exit_value);
 }
 
+static int	execute_subshell_builtin(t_builtin_func *builtin,
+		t_word_list *words, t_redirect *redirects)
+{
+	int	result;
+
+	if (redirects && (do_redirections(redirects) != 0))
+		return (EXECUTION_FAILURE);
+	result = ((*builtin)(words->next));
+	exit(result);
+}
+
 static int	execute_builtin(t_builtin_func *builtin, t_word_list *words,
 		t_redirect *redirects)
 {
@@ -61,14 +72,14 @@ static int	execute_disk_command(t_word_list *words, t_redirect *redirects)
 	if (command)
 		update_env("_=", command);
 	if (redirects && (do_redirections(redirects) != 0))
-		return (EXECUTION_FAILURE);
+		exit(EXECUTION_FAILURE);
 	if (command == 0)
 	{
 		internal_error("%s: command not found", pathname);
-		return (EX_NOTFOUND);
+		exit(EX_NOTFOUND);
 	}
 	args = wlist_to_carray(words);
-	return (shell_execve(command, args, environ));
+	exit(shell_execve(command, args, environ));
 }
 
 int	execute_simple_command(t_simple_com *simple, int pipe_in, int pipe_out,
@@ -87,9 +98,10 @@ int	execute_simple_command(t_simple_com *simple, int pipe_in, int pipe_out,
 			close(fd_to_close);
 		do_piping(pipe_in, pipe_out);
 		if (builtin)
-			exit(execute_builtin(builtin, simple->words, simple->redirects));
+			return (execute_subshell_builtin(builtin, simple->words,
+					simple->redirects));
 		else
-			exit(execute_disk_command(simple->words, simple->redirects));
+			return (execute_disk_command(simple->words, simple->redirects));
 	}
 	if (pipe_out != NO_PIPE)
 		result = g_last_exit_value;
