@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 16:18:30 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/26 18:14:22 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/26 18:20:18 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	sys_error(const char *format, ...)
 
 	e = errno;
 	fprintf(stderr, "%s: ", ename);
-	fprintf(stderr, "warning: ");
 	va_start(args, format);
 	vfprintf(stderr, format, args);
 	fprintf(stderr, ": %s\n", strerror(e));
