@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 12:50:00 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/24 12:58:29 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/26 18:23:48 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,25 +20,22 @@ static int	execute_pipeline(t_command *command, int pipe_in, int pipe_out,
 	t_command	*cmd;
 	int			prev;
 	int			exec_result;
-	int			fildes[2];
+	int			sewer[2];
 
 	prev = pipe_in;
 	cmd = command;
 	while (cmd && cmd->type == cm_connection && (t_connection *)cmd->value
 		&& ((t_connection *)cmd->value)->connector == '|')
 	{
-		if (pipe(fildes) < 0)
-		{
-			g_last_exit_value = EXECUTION_FAILURE;
-			return (EXECUTION_FAILURE);
-		}
-		fd_to_close = fildes[0];
-		execute_command(((t_connection *)cmd->value)->first, prev, fildes[1],
+		if (pipe(sewer) < 0)
+			return (g_last_exit_value = EXECUTION_FAILURE);
+		fd_to_close = sewer[0];
+		execute_command(((t_connection *)cmd->value)->first, prev, sewer[1],
 			fd_to_close);
 		if (prev >= 0)
 			close(prev);
-		prev = fildes[0];
-		close(fildes[1]);
+		prev = sewer[0];
+		close(sewer[1]);
 		cmd = ((t_connection *)cmd->value)->second;
 	}
 	exec_result = execute_command(cmd, prev, pipe_out, 0);
