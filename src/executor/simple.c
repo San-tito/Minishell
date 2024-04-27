@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 12:50:11 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/25 19:50:55 by santito          ###   ########.fr       */
+/*   Updated: 2024/04/27 13:23:58 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,29 +82,29 @@ static int	execute_disk_command(t_word_list *words, t_redirect *redirects)
 	exit(shell_execve(command, args, environ));
 }
 
-int	execute_simple_command(t_simple_com *simple, int pipe_in, int pipe_out,
-		int fd_to_close)
+int	execute_simple_command(t_simple_com *simple, int pipeline[2],
+		pid_t *last_made_pid, int fd_to_close)
 {
 	t_builtin_func	*builtin;
 	int				result;
 
 	result = EXECUTION_SUCCESS;
 	builtin = find_builtin(simple->words->word);
-	if (builtin && pipe_in == NO_PIPE && pipe_out == NO_PIPE)
+	if (builtin && pipeline[0] == NO_PIPE && pipeline[1] == NO_PIPE)
 		return (execute_builtin(builtin, simple->words, simple->redirects));
-	if (make_child() == 0)
+	if ((*last_made_pid = make_child()) == 0)
 	{
 		if (fd_to_close)
 			close(fd_to_close);
-		do_piping(pipe_in, pipe_out);
+		do_piping(pipeline[0], pipeline[1]);
 		if (builtin)
-			return (execute_subshell_builtin(builtin, simple->words,
-					simple->redirects));
+			result = execute_subshell_builtin(builtin, simple->words,
+					simple->redirects);
 		else
-			return (execute_disk_command(simple->words, simple->redirects));
+			result = execute_disk_command(simple->words, simple->redirects);
 	}
-	if (pipe_out != NO_PIPE)
+	if (pipeline[1] != NO_PIPE)
 		result = g_last_exit_value;
-	close_pipes(pipe_in, pipe_out);
+	close_pipes(pipeline[0], pipeline[1]);
 	return (result);
 }

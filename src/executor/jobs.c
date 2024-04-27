@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 13:21:31 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/25 20:47:03 by santito          ###   ########.fr       */
+/*   Updated: 2024/04/27 13:16:25 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	waitchld(pid_t pid)
 
 	while (errno != ECHILD)
 	{
-		got_pid = waitpid(pid, &status, WUNTRACED | WCONTINUED);
+		got_pid = waitpid(-1, &status, WUNTRACED | WCONTINUED);
 		if (got_pid == pid)
 			return_val = process_exit_status(status);
 	}

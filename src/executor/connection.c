@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 12:50:00 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/26 18:23:48 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/27 13:24:53 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,15 +32,13 @@ static int	execute_pipeline(t_command *command, int pipe_in, int pipe_out,
 		fd_to_close = sewer[0];
 		execute_command(((t_connection *)cmd->value)->first, prev, sewer[1],
 			fd_to_close);
-		if (prev >= 0)
-			close(prev);
+		close_pipes(prev, NO_PIPE);
 		prev = sewer[0];
 		close(sewer[1]);
 		cmd = ((t_connection *)cmd->value)->second;
 	}
 	exec_result = execute_command(cmd, prev, pipe_out, 0);
-	if (prev >= 0)
-		close(prev);
+	close_pipes(prev, NO_PIPE);
 	return (exec_result);
 }
 
