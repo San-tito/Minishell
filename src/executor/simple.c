@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 12:50:11 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/27 13:23:58 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/27 18:44:32 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static int	execute_subshell_builtin(t_builtin_func *builtin,
 	int	result;
 
 	if (redirects && (do_redirections(redirects) != 0))
-		return (EXECUTION_FAILURE);
+		exit(EXECUTION_FAILURE);
 	result = ((*builtin)(words->next));
 	exit(result);
 }
@@ -91,8 +91,8 @@ int	execute_simple_command(t_simple_com *simple, int pipeline[2],
 	result = EXECUTION_SUCCESS;
 	builtin = find_builtin(simple->words->word);
 	if (builtin && pipeline[0] == NO_PIPE && pipeline[1] == NO_PIPE)
-		return (execute_builtin(builtin, simple->words, simple->redirects));
-	if ((*last_made_pid = make_child()) == 0)
+		result = (execute_builtin(builtin, simple->words, simple->redirects));
+	else if ((*last_made_pid = make_child()) == 0)
 	{
 		if (fd_to_close)
 			close(fd_to_close);

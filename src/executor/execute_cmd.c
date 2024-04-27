@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 20:51:58 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/27 13:22:53 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/27 13:50:53 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,7 @@ int	execute_command(t_command *command, int pipe_in, int pipe_out,
 			exec_result = waitchld(last_made_pid);
 	}
 	else if (command->type == cm_connection)
-		exec_result = execute_connection(command, pipe_in, pipe_out,
-				fd_to_close);
+		exec_result = execute_connection(command, pipe_in, pipe_out);
 	g_last_exit_value = exec_result;
 	return (g_last_exit_value);
 }
