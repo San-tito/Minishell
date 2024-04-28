@@ -6,13 +6,14 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 20:51:58 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/28 15:40:25 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/28 17:28:55 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute_cmd.h"
 #include "jobs.h"
 #include "minishell.h"
+#include <stdio.h>
 
 extern pid_t	last_made_pid;
 extern int		already_making_children;
@@ -23,6 +24,8 @@ int	execute_command(t_command *command, int pipe_in, int pipe_out,
 {
 	int	exec_result;
 
+	//print_command(command);
+	//printf("\nin -> %i; out -> %i\n",pipe_in,pipe_out);
 	if (command == 0)
 		return (EXECUTION_SUCCESS);
 	exec_result = EXECUTION_SUCCESS;

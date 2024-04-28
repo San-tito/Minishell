@@ -6,13 +6,14 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 14:22:26 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/19 17:15:54 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/28 17:30:31 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute_cmd.h"
 #include "input.h"
 #include "minishell.h"
+#include <stdio.h>
 
 char	*get_primary_prompt(void)
 {
@@ -34,6 +35,7 @@ char	*get_primary_prompt(void)
 	else
 		ft_strlcat(prompt, RED, sizeof(prompt));
 	ft_strlcat(prompt, SYMBOL RESET, sizeof(prompt));
+	printf("\nexit -> %i\n",g_last_exit_value);
 	return (prompt);
 }
 
