@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 12:50:00 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/27 13:52:41 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/28 17:41:13 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	execute_connection(t_command *command, int pipe_in, int pipe_out)
 		exec_result = execute_pipeline(command, pipe_in, pipe_out);
 	if (connect->connector == AND_AND || connect->connector == OR_OR)
 	{
-		exec_result = execute_command(connect->first, NO_PIPE, NO_PIPE, 0);
+		exec_result = execute_command(connect->first, pipe_in, pipe_out, 0);
 		if (((connect->connector == AND_AND)
 				&& (exec_result == EXECUTION_SUCCESS))
 			|| ((connect->connector == OR_OR)
