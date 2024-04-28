@@ -13,7 +13,6 @@
 #include "execute_cmd.h"
 #include "jobs.h"
 #include "minishell.h"
-#include <stdio.h>
 
 extern pid_t	last_made_pid;
 extern int		already_making_children;
