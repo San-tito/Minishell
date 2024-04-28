@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 15:44:52 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/28 19:03:14 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/28 23:20:03 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,35 +14,26 @@
 
 static int	legal_identifier(char *name)
 {
-	int			append;
-	char		*assign;
-	const char	*s;
+	int		i;
+	int		len;
+	char	*assign;
 
-	append = 0;
+	if (!name || !*name || (ft_isalpha(*name) || (*name == '_')) == 0)
+		return (0);
+	len = ft_strlen(name);
 	assign = ft_strchr(name, '=');
 	if (assign)
 	{
-		name[assign - name] = '\0';
+		len = assign - name;
 		if (name[assign - name - 1] == '+')
-		{
-			append++;
-			name[assign - name - 1] = '\0';
-		}
+			len = assign - name - 1;
 	}
-	if (!name || !*name || (ft_isalpha(*name) || (*name == '_')) == 0)
-		return (0);
-	s = name + 1;
-	while (*s)
+	i = 1;
+	while (*(name + i) && i < len)
 	{
-		if ((ft_isalnum(*s) || *s == '_') == 0)
+		if ((ft_isalnum(*(name + i)) || *(name + i) == '_') == 0)
 			return (0);
-		s++;
-	}
-	if (assign)
-	{
-		name[assign - name] = '=';
-		if (append)
-			name[assign - name - 1] = '+';
+		i++;
 	}
 	return (1);
 }
@@ -72,3 +63,4 @@ int	export_builtin(t_word_list *list)
 	}
 	return (result);
 }
+
