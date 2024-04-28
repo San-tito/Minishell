@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 12:50:00 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/27 13:52:41 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/28 15:36:56 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 #include "minishell.h"
 #include <unistd.h>
 
-static int	execute_pipeline(t_command *command, int pipe_in, int pipe_out)
+static int	execute_pipeline(t_command *command, int pipe_in, int pipe_out,
+		int fd_to_close)
 {
 	t_command	*cmd;
 	int			prev;
@@ -28,19 +29,24 @@ static int	execute_pipeline(t_command *command, int pipe_in, int pipe_out)
 	{
 		if (pipe(sewer) < 0)
 			return (g_last_exit_value = EXECUTION_FAILURE);
+		fd_to_close = sewer[0];
 		execute_command(((t_connection *)cmd->value)->first, prev, sewer[1],
-			sewer[0]);
-		close_pipes(prev, NO_PIPE);
+			fd_to_close);
+		if (prev >= 0)
+			close(prev);
 		prev = sewer[0];
 		close(sewer[1]);
+		fd_to_close = 0;
 		cmd = ((t_connection *)cmd->value)->second;
 	}
-	exec_result = execute_command(cmd, prev, pipe_out, 0);
-	close_pipes(prev, NO_PIPE);
+	exec_result = execute_command(cmd, prev, pipe_out, fd_to_close);
+	if (prev >= 0)
+		close(prev);
 	return (exec_result);
 }
 
-int	execute_connection(t_command *command, int pipe_in, int pipe_out)
+int	execute_connection(t_command *command, int pipe_in, int pipe_out,
+		int fd_to_close)
 {
 	int				exec_result;
 	t_connection	*connect;
@@ -48,15 +54,17 @@ int	execute_connection(t_command *command, int pipe_in, int pipe_out)
 	connect = ((t_connection *)command->value);
 	exec_result = EXECUTION_SUCCESS;
 	if (connect->connector == '|')
-		exec_result = execute_pipeline(command, pipe_in, pipe_out);
+		exec_result = execute_pipeline(command, pipe_in, pipe_out, fd_to_close);
 	if (connect->connector == AND_AND || connect->connector == OR_OR)
 	{
-		exec_result = execute_command(connect->first, NO_PIPE, NO_PIPE, 0);
+		exec_result = execute_command(connect->first, NO_PIPE, NO_PIPE,
+				fd_to_close);
 		if (((connect->connector == AND_AND)
 				&& (exec_result == EXECUTION_SUCCESS))
 			|| ((connect->connector == OR_OR)
 				&& (exec_result != EXECUTION_SUCCESS)))
-			exec_result = execute_command(connect->second, NO_PIPE, NO_PIPE, 0);
+			exec_result = execute_command(connect->second, NO_PIPE, NO_PIPE,
+					fd_to_close);
 	}
 	return (exec_result);
 }

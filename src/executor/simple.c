@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 12:50:11 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/27 18:44:32 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/28 15:42:52 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,48 +63,86 @@ static int	execute_builtin(t_builtin_func *builtin, t_word_list *words,
 	return (result);
 }
 
-static int	execute_disk_command(t_word_list *words, t_redirect *redirects)
+static int	execute_disk_command(t_simple_com *simple, int pipe_in,
+		int pipe_out, int fd_to_close, int nofork)
 {
+	int			result;
+	pid_t		pid;
 	char		**args;
-	const char	*pathname = words->word;
+	const char	*pathname = simple->words->word;
 	const char	*command = search_for_command(pathname);
 
+	result = EXECUTION_SUCCESS;
 	if (command)
 		update_env("_=", command);
-	if (redirects && (do_redirections(redirects) != 0))
-		exit(EXECUTION_FAILURE);
-	if (command == 0)
+	if (nofork && pipe_in == NO_PIPE && pipe_out == NO_PIPE)
+		pid = 0;
+	else
+		pid = make_child();
+	if (pid == 0)
 	{
-		internal_error("%s: command not found", pathname);
-		exit(EX_NOTFOUND);
+		if (fd_to_close)
+		{
+			close(fd_to_close);
+			fd_to_close = 0;
+		}
+		do_piping(pipe_in, pipe_out);
+		if (simple->redirects && (do_redirections(simple->redirects) != 0))
+			exit(EXECUTION_FAILURE);
+		if (command == 0)
+		{
+			internal_error("%s: command not found", pathname);
+			exit(EX_NOTFOUND);
+		}
+		args = wlist_to_carray(simple->words);
+		exit(shell_execve(command, args, environ));
 	}
-	args = wlist_to_carray(words);
-	exit(shell_execve(command, args, environ));
+	close_pipes(pipe_in, pipe_out);
+	sh_free((void *)command);
+	return (result);
 }
 
-int	execute_simple_command(t_simple_com *simple, int pipeline[2],
-		pid_t *last_made_pid, int fd_to_close)
+int	execute_simple_command(t_simple_com *simple, int pipe_in, int pipe_out,
+		int fd_to_close)
 {
 	t_builtin_func	*builtin;
 	int				result;
+	int				already_forked;
 
 	result = EXECUTION_SUCCESS;
-	builtin = find_builtin(simple->words->word);
-	if (builtin && pipeline[0] == NO_PIPE && pipeline[1] == NO_PIPE)
-		result = (execute_builtin(builtin, simple->words, simple->redirects));
-	else if ((*last_made_pid = make_child()) == 0)
+	already_forked = 0;
+	if (pipe_in != NO_PIPE || pipe_out != NO_PIPE)
 	{
-		if (fd_to_close)
-			close(fd_to_close);
-		do_piping(pipeline[0], pipeline[1]);
-		if (builtin)
-			result = execute_subshell_builtin(builtin, simple->words,
-					simple->redirects);
+		if (make_child() == 0)
+		{
+			already_forked = 1;
+			if (fd_to_close)
+			{
+				close(fd_to_close);
+				fd_to_close = 0;
+			}
+			do_piping(pipe_in, pipe_out);
+			pipe_in = pipe_out = NO_PIPE;
+		}
 		else
-			result = execute_disk_command(simple->words, simple->redirects);
+		{
+			if (pipe_out != NO_PIPE)
+				result = g_last_exit_value;
+			close_pipes(pipe_in, pipe_out);
+			return (result);
+		}
 	}
-	if (pipeline[1] != NO_PIPE)
-		result = g_last_exit_value;
-	close_pipes(pipeline[0], pipeline[1]);
+	builtin = find_builtin(simple->words->word);
+	if (builtin)
+	{
+		if (already_forked)
+			execute_subshell_builtin(builtin, simple->words, simple->redirects);
+		else
+			result = (execute_builtin(builtin, simple->words,
+						simple->redirects));
+	}
+	else
+		result = execute_disk_command(simple, pipe_in, pipe_out, fd_to_close,
+				already_forked);
 	return (result);
 }

@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 20:51:58 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/27 13:50:53 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/28 15:40:25 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,32 @@
 #include "jobs.h"
 #include "minishell.h"
 
-int	g_last_exit_value;
+extern pid_t	last_made_pid;
+extern int		already_making_children;
+int				g_last_exit_value;
 
 int	execute_command(t_command *command, int pipe_in, int pipe_out,
 		int fd_to_close)
 {
-	pid_t	last_made_pid;
-	int		exec_result;
+	int	exec_result;
 
 	if (command == 0)
 		return (EXECUTION_SUCCESS);
 	exec_result = EXECUTION_SUCCESS;
 	if (command->type == cm_simple)
 	{
-		last_made_pid = NO_PID;
 		exec_result = execute_simple_command((t_simple_com *)command->value,
-				(int[2]){pipe_in, pipe_out}, &last_made_pid, fd_to_close);
-		if (pipe_out == NO_PIPE && last_made_pid != NO_PID)
-			exec_result = waitchld(last_made_pid);
+				pipe_in, pipe_out, fd_to_close);
+		if (already_making_children && pipe_out == NO_PIPE)
+		{
+			already_making_children = 0;
+			if (last_made_pid != NO_PID)
+				exec_result = waitchld(last_made_pid);
+		}
 	}
 	else if (command->type == cm_connection)
-		exec_result = execute_connection(command, pipe_in, pipe_out);
+		exec_result = execute_connection(command, pipe_in, pipe_out,
+				fd_to_close);
 	g_last_exit_value = exec_result;
 	return (g_last_exit_value);
 }
