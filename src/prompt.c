@@ -35,7 +35,6 @@ char	*get_primary_prompt(void)
 	else
 		ft_strlcat(prompt, RED, sizeof(prompt));
 	ft_strlcat(prompt, SYMBOL RESET, sizeof(prompt));
-	printf("\nexit -> %i\n",g_last_exit_value);
 	return (prompt);
 }
 
