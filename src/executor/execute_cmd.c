@@ -24,8 +24,6 @@ int	execute_command(t_command *command, int pipe_in, int pipe_out,
 {
 	int	exec_result;
 
-	//print_command(command);
-	//printf("\nin -> %i; out -> %i\n",pipe_in,pipe_out);
 	if (command == 0)
 		return (EXECUTION_SUCCESS);
 	exec_result = EXECUTION_SUCCESS;
