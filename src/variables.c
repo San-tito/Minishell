@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:55:43 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/18 19:35:39 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/29 11:29:42 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,23 @@ void	add_to_env(char *envstr)
 		env_index++;
 	environ[env_index++] = envstr;
 	environ[env_index] = NULL;
+}
+
+char	**unset_var(const char *name)
+{
+	int	i;
+
+	i = 0;
+	while (environ[i])
+	{
+		if (ft_strncmp(name, environ[i], ft_strlen(name)) == 0)
+		{
+			environ[i] = environ[i + 1];
+			return (environ);
+		}
+		i++;
+	}
+	return (environ);
 }
 
 char	**add_or_replace_exported_var(char *assign)
