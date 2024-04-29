@@ -6,23 +6,22 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 00:01:28 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/27 13:21:43 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/04/29 11:50:14 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute_cmd.h"
 #include "input.h"
 #include "minishell.h"
-#include <sys/wait.h>
 
 int	reader_loop(void)
 {
 	char		*line;
 	t_command	*current_command;
 
-	current_command = NULL;
 	while (42)
 	{
+        /* Control Ctrl+D[EXITBLTIN] Signal */ 
 		line = read_command();
 		current_command = parse_command(line);
 		execute_command(current_command, NO_PIPE, NO_PIPE, 0);

@@ -1,34 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   sig.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/19 16:20:05 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/29 12:07:44 by sguzman          ###   ########.fr       */
+/*   Created: 2024/04/29 11:56:46 by sguzman           #+#    #+#             */
+/*   Updated: 2024/04/29 12:07:19 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execute_cmd.h"
-#include "minishell.h"
 #include "sig.h"
 
-static void	shell_initialize(void)
+void	initialize_signals(void)
 {
-	initialize_signals();
-	initialize_shell_level();
-}
-
-int	main(void)
-{
-	shell_initialize();
-	reader_loop();
-	exit_shell(g_last_exit_value);
-}
-
-void	exit_shell(int s)
-{
-	/* Clean up */
-	exit(s);
+	signal(SIGQUIT, SIG_IGN);
 }

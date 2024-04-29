@@ -6,7 +6,7 @@
 #    By: sguzman <sguzman@student.42barcelo>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 15:31:23 by sguzman           #+#    #+#              #
-#    Updated: 2024/04/24 13:03:26 by sguzman          ###   ########.fr        #
+#    Updated: 2024/04/29 12:03:18 by sguzman          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #    
 
@@ -63,6 +63,7 @@ SRCS = clear_cmd.c \
        read_cmd.c \
        prompt.c \
        sh_malloc.c \
+	   sig.c \
        variables.c
 
 PARSERS = lexer_check_tokens_2.c \
