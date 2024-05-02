@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 12:50:11 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/28 15:42:52 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/05/02 12:50:16 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static int	execute_builtin(t_builtin_func *builtin, t_word_list *words,
 }
 
 static int	execute_disk_command(t_simple_com *simple, int pipe_in,
-		int pipe_out, int fd_to_close, int nofork)
+		int pipe_out, int fd_to_close, pid_t *last_made_pid)
 {
 	int			result;
 	pid_t		pid;
@@ -75,10 +75,10 @@ static int	execute_disk_command(t_simple_com *simple, int pipe_in,
 	result = EXECUTION_SUCCESS;
 	if (command)
 		update_env("_=", command);
-	if (nofork && pipe_in == NO_PIPE && pipe_out == NO_PIPE)
+	if (*last_made_pid != NO_PID)
 		pid = 0;
 	else
-		pid = make_child();
+		*last_made_pid = pid = make_child();
 	if (pid == 0)
 	{
 		if (fd_to_close)
@@ -103,19 +103,16 @@ static int	execute_disk_command(t_simple_com *simple, int pipe_in,
 }
 
 int	execute_simple_command(t_simple_com *simple, int pipe_in, int pipe_out,
-		int fd_to_close)
+		pid_t *last_made_pid, int fd_to_close)
 {
 	t_builtin_func	*builtin;
 	int				result;
-	int				already_forked;
 
 	result = EXECUTION_SUCCESS;
-	already_forked = 0;
 	if (pipe_in != NO_PIPE || pipe_out != NO_PIPE)
 	{
-		if (make_child() == 0)
+		if ((*last_made_pid = make_child()) == 0)
 		{
-			already_forked = 1;
 			if (fd_to_close)
 			{
 				close(fd_to_close);
@@ -135,7 +132,7 @@ int	execute_simple_command(t_simple_com *simple, int pipe_in, int pipe_out,
 	builtin = find_builtin(simple->words->word);
 	if (builtin)
 	{
-		if (already_forked)
+		if (*last_made_pid != NO_PID)
 			execute_subshell_builtin(builtin, simple->words, simple->redirects);
 		else
 			result = (execute_builtin(builtin, simple->words,
@@ -143,6 +140,6 @@ int	execute_simple_command(t_simple_com *simple, int pipe_in, int pipe_out,
 	}
 	else
 		result = execute_disk_command(simple, pipe_in, pipe_out, fd_to_close,
-				already_forked);
+				last_made_pid);
 	return (result);
 }

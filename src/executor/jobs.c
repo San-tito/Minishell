@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 13:21:31 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/28 15:44:05 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/05/02 12:48:25 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,16 @@
 #include "minishell.h"
 #include <errno.h>
 
-pid_t	last_made_pid = NO_PID;
-int		already_making_children = 0;
-
 pid_t	make_child(void)
 {
 	pid_t	pid;
 
-	already_making_children = 1;
 	pid = fork();
 	if (pid < 0)
 	{
 		/* Handle Error Exit Status EX_NOEXEC */
 		exit(EX_NOEXEC);
 	}
-	last_made_pid = pid;
 	/* Clean process that has the same pid */
 	/* add process */
 	return (pid);
