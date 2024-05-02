@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.c                                        :+:      :+:    :+:   */
+/*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,34 +10,37 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "lexer.h"
-#include "tokenizer.h"
+#include "tokenizer_utils.h"
 
-static char	handle_boundary(char **word, t_token_range *token_range, t_list **tokens, t_list **words)
+static void	check_boundary(char **word, t_token_range *token_rng,
+		t_list **tokens, t_list **words)
 {
-	char	update_value;
+	char	update;
 
 	if (**word == ' ' || **word == '\0')
-		update_value = handle_str(token_range, tokens, words);
+		update = handle_str(token_rng, tokens, words);
 	else if (**word == '(')
-		update_value = handle_parentheses(token_range, tokens, words, OPEN_PARENTHESIS_TOKEN);
+		update = handle_parentheses(token_rng, tokens, words, OPEN_PAR_TOKEN);
 	else if (**word == ')')
-		update_value = handle_parentheses(token_range, tokens, words, CLOSE_PARENTHESIS_TOKEN);
+		update = handle_parentheses(token_rng, tokens, words, CLOSE_PAR_TOKEN);
 	else if (**word == '&')
-		update_value = handle_and(token_range, tokens, words, *(*word + 1) == '&');
+		update = handle_and(token_rng, tokens, words, *(*word + 1) == '&');
 	else if (**word == '|')
-		update_value = handle_or(token_range, tokens, words, *(*word + 1) == '|');
+		update = handle_or(token_rng, tokens, words, *(*word + 1) == '|');
 	else if (**word == '<')
-		update_value = handle_in(token_range, tokens, words, *(*word + 1) == '<');
+		update = handle_in(token_rng, tokens, words, *(*word + 1) == '<');
 	else if (**word == '>')
-		update_value = handle_out(token_range, tokens, words, *(*word + 1) == '>');
-	else
-		return (0);
-	*word = (*word + update_value);
-	return (1);
+		update = handle_out(token_rng, tokens, words, *(*word + 1) == '>');
+	else 
+	{
+		(*word)++;
+		(token_rng->len)++;
+		return ;
+	}
+	*word = (*word + update);
 }
 
-static char	handle_quotes(char **word, t_token_range *token_range)
+static char	is_quote(char **word, t_token_range *token_range)
 {
 	if (**word == '\'')
 	{
@@ -64,21 +67,32 @@ static char	handle_quotes(char **word, t_token_range *token_range)
 	return (0);
 }
 
-static void	append_tokens(char *word, t_list **tokens, t_list **words)
+static t_token_range	init_token_range(char *word)
 {
 	t_token_range	token_range;
 
 	token_range.first = word;
 	token_range.len = 0;
+	token_range.error = 0;
+	return (token_range);
+}
+
+/*
+ *	Searches a word and extracts and converts all the tokens inside of it.
+ *	Add said tokens to a t_list of tokens.
+ */
+static char	append_tokens(char *word, t_list **tokens, t_list **words)
+{
+	t_token_range	token_range;
+
+	token_range = init_token_range(word);
 	while (*word)
 	{
-		if (!handle_quotes(&word, &token_range))
+		if (!is_quote(&word, &token_range))
 		{
-			if (!handle_boundary(&word, &token_range, tokens, words))
-			{
-				word++;
-				token_range.len++;
-			}
+			check_boundary(&word, &token_range, tokens, words);
+			if (token_range.error)
+				return (0);
 		}
 		else
 		{
@@ -86,9 +100,13 @@ static void	append_tokens(char *word, t_list **tokens, t_list **words)
 			token_range.len++;
 		}
 	}
-	handle_boundary(&word, &token_range, tokens, words);
+	check_boundary(&word, &token_range, tokens, words);
+	return (!token_range.error);
 }
 
+/*
+ *	Converts words into tokens.
+ */
 t_list	*tokenizer(t_list **words)
 {
 	t_list	*tokens;
@@ -98,7 +116,8 @@ t_list	*tokenizer(t_list **words)
 	lst = *words;
 	while (lst)
 	{
-		append_tokens((char *)lst->content, &tokens, words);
+		if (!append_tokens((char *)lst->content, &tokens, words))
+			return (NULL);
 		lst = lst->next;
 	}
 	return (tokens);

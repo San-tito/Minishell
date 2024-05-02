@@ -10,7 +10,6 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "handle_quotes.h"
 #include "lexer_utils.h"
 
 static void	count_quotes(char *str, t_handle_quotes *handle_quotes)
@@ -88,7 +87,7 @@ static char	manage_quotes(t_token *token)
 	return (1);
 }
 
-void	remove_quotes(t_list **tokens)
+char	remove_quotes(t_list **tokens)
 {
 	t_list	*lst;
 
@@ -96,7 +95,8 @@ void	remove_quotes(t_list **tokens)
 	while (lst != NULL)
 	{
 		if (!manage_quotes((t_token *)lst->content))
-			handle_token_error(tokens, MALLOC_ERROR);
+			return (handle_token_error(tokens, MALLOC_ERROR));
 		lst = lst->next;
 	}
+	return (1);
 }

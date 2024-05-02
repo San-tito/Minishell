@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "parser_utils.h"
+#include "sh_malloc.h"
 
 void	clear_redirects(t_redirect *list)
 {

@@ -23,12 +23,12 @@ typedef struct s_token
 #  define STR_TOKEN 0
 # endif
 
-# ifndef OPEN_PARENTHESIS_TOKEN
-#  define OPEN_PARENTHESIS_TOKEN 1
+# ifndef OPEN_PAR_TOKEN
+#  define OPEN_PAR_TOKEN 1
 # endif
 
-# ifndef CLOSE_PARENTHESIS_TOKEN
-#  define CLOSE_PARENTHESIS_TOKEN 2
+# ifndef CLOSE_PAR_TOKEN
+#  define CLOSE_PAR_TOKEN 2
 # endif
 
 # ifndef AND_TOKEN

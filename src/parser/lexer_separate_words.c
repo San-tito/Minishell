@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   separate_words.c                                   :+:      :+:    :+:   */
+/*   lexer_separate_words.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "separate_words.h"
+#include "lexer_utils.h"
 
 static void	init_word_data(t_list **words, t_word_data *word_data, char *job)
 {
@@ -21,33 +21,24 @@ static void	init_word_data(t_list **words, t_word_data *word_data, char *job)
 	word_data->double_q = 0;
 }
 
-static void	create_word(t_list **words, t_word_data *word_data, char **job)
+static char	create_word(t_list **words, t_word_data *word_data, char *job)
 {
 	char	*word;
 	t_list	*node;
 
 	word = ft_substr(word_data->first, 0, word_data->len);
 	if (word == NULL)
-		handle_word_error(words, MALLOC_ERROR);
+		return (handle_word_error(words, MALLOC_ERROR));
 	node = ft_lstnew(word);
 	if (node == NULL)
 	{
 		free(word);
-		handle_word_error(words, MALLOC_ERROR);
+		return (handle_word_error(words, MALLOC_ERROR));
 	}
 	ft_lstadd_back(words, node);
-	word_data->first = (*job + 1);
+	word_data->first = job + 1;
 	word_data->len = 0;
-}
-
-static t_list	*check_word_errors(t_list **words, t_word_data word_data, char *job)
-{
-	if (word_data.single_q)
-		handle_word_error(words, SINGLE_Q_ERROR);
-	if (word_data.double_q)
-		handle_word_error(words, DOUBLE_Q_ERROR);
-	create_word(words, &word_data, &job);
-	return (*words);
+	return (1);
 }
 
 static char	managa_quotes(char c, t_word_data *word_data)
@@ -71,6 +62,27 @@ static char	managa_quotes(char c, t_word_data *word_data)
 	return (1);
 }
 
+static t_list	*check_final_data(t_list **words, t_word_data word_data, char *job)
+{
+	if (word_data.single_q)
+	{
+		handle_word_error(words, SINGLE_Q_ERROR);
+		return (NULL);
+	}
+	if (word_data.double_q)
+	{
+		handle_word_error(words, DOUBLE_Q_ERROR);
+		return (NULL);
+	}
+	if (!create_word(words, &word_data, job))
+		return (NULL);
+	return (*words);
+}
+
+/*
+ *	Separates the job into words separated by spaces,
+ *	respecting the single and double quotes.
+ */
 t_list	*separate_words(char *job)
 {
 	t_word_data	word_data;
@@ -80,10 +92,13 @@ t_list	*separate_words(char *job)
 	while (*job)
 	{
 		if (!managa_quotes(*job, &word_data))
-			create_word(&words, &word_data, &job);
+		{
+			if (!create_word(&words, &word_data, job))
+				return (NULL);
+		}
 		else
 			word_data.len++;
 		job++;
 	}
-	return (check_word_errors(&words, word_data, job));
+	return (check_final_data(&words, word_data, job));
 }
