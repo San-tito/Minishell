@@ -1,6 +1,6 @@
 
-#include "lexer_utils.h" //test words
-#include "parser_error.h"
+#include "lexer_utils.h"
+#include "parser_utils.h"
 
 static void print_words(t_list *lst)
 {
@@ -31,16 +31,14 @@ static void	test_empty(char *job)
 	clear_word_list(&words);
 }
 
-
- /*
 static void	print_token(t_token *token)
 {
-	ft_printf(1, "Token type: [%d], Token data: [%s].\n", token->type, token->content);
+	ft_printf("Token type: [%d], Token data: [%s].\n", token->type, token->content);
 }
 
 static void	print_tokens(t_list *tokens)
 {
-	ft_printf(1, "New token list:\n");
+	ft_printf("New token list:\n");
 	while (tokens != NULL)
 	{
 		print_token((t_token*)tokens->content);
@@ -48,83 +46,45 @@ static void	print_tokens(t_list *tokens)
 	}
 }
 
-static void	test_tokenizer(char *job)
+static void	test_token(char *job)
 {
-	pid_t	pid;
-	int		status;
 	t_list  *words;
 	t_list	*tokens;
 
-	pid = fork();
-	if (pid < 0)
-		return ;
-	else if (pid == 0)
-	{
-		words = separate_words(job);
-		remove_empty_words(&words);
-		print_words(words);
-		tokens = tokenizer(&words);
-		print_tokens(tokens);
-		clear_word_list(&words);
-		clear_tokens(&tokens);
-		exit(0);
-	}
-	else
-		waitpid(pid, &status, 0);
+	words = separate_words(job);
+	remove_empty_words(&words);
+	print_words(words);
+	tokens = tokenizer(&words);
+	print_tokens(tokens);
+	clear_word_list(&words);
+	clear_tokens(&tokens);
 }
 
 static void test_quotes(char *job)
 {
-	pid_t	pid;
-	int		status;
 	t_list  *words;
 	t_list	*tokens;
 
-	pid = fork();
-	if (pid < 0)
-		return ;
-	else if (pid == 0)
-	{
-		words = separate_words(job);
-		remove_empty_words(&words);
-		print_words(words);
-		tokens = tokenizer(&words);
-		clear_word_list(&words);
-		remove_quotes(&tokens);
-		print_tokens(tokens);
-		clear_tokens(&tokens);
-		exit(0);
-	}
-	else
-		waitpid(pid, &status, 0);
+	words = separate_words(job);
+	remove_empty_words(&words);
+	print_words(words);
+	tokens = tokenizer(&words);
+	clear_word_list(&words);
+	remove_quotes(&tokens);
+	print_tokens(tokens);
+	clear_tokens(&tokens);
 }
 
 static void	test_checker(char *job)
 {
-	pid_t	pid;
-	int		status;
-	t_list  *words;
 	t_list	*tokens;
 
-	pid = fork();
-	if (pid < 0)
-		return ;
-	else if (pid == 0)
-	{
-		words = separate_words(job);
-		remove_empty_words(&words);
-		tokens = tokenizer(&words);
-		clear_word_list(&words);
-		remove_quotes(&tokens);
-		check_tokens(&tokens);
-		print_tokens(tokens);
+	tokens = lexer(job);
+	if (tokens != NULL)
 		clear_tokens(&tokens);
-		exit(0);
-	}
-	else
-		waitpid(pid, &status, 0);
 }
 
+/*
 static void	print_simple_command(t_simple_com *command)
 {
 	ft_printf(1, "Node is simple command.\n");
@@ -202,27 +162,29 @@ static void	test_remove_empty_words()
 	//test_empty("");??
 }
 
-int main(void)
+static void	test_tokenizer()
 {
-	test_separate_words();
-	test_remove_empty_words();
-/*
+	ft_printf("\nTokenize:\n");
+	test_token("test1 test2");
+	test_token("test1|||test2");
+	test_token("test1|test2|test3|test4");
+	test_token("test1)test2(test3)test4");
+	test_token(")");
+	test_token("&");
+	//test_token("")??
+}
 
-	ft_printf(1, "\nTokenize:\n");
-	test_tokenizer("test1 test2");
-	test_tokenizer("test1|||test2");
-	test_tokenizer("test1|test2|test3|test4");
-	test_tokenizer("test1)test2(test3)test4");
-	test_tokenizer(")");
-	test_tokenizer("&");
-	//test_tokenizer("")??
-
-	ft_printf(1, "\nRemove quotes:\n");
+static void	test_q()
+{
+	ft_printf("\nRemove quotes:\n");
 	test_quotes("test1 \"test4\"\" test5\" test2");
 	test_quotes("test1 \"test4\'\' test5\" test2");
 	test_quotes("test1 \"test4\'\'\'\"\'\"\'\" \'\'test5\" test2");
+}
 
-	ft_printf(1, "\nToken checker:\n");
+static void	test_lexer()
+{
+	ft_printf("\nLexer:\n");
 	test_checker("test1 () test2");
 	test_checker("test1 | test2 |");
 	test_checker("|");
@@ -243,7 +205,16 @@ int main(void)
 	test_checker("echo a ( echo c )");
 	test_checker("echo a > > echo b"); //??
 	test_checker("echo a > < echo b"); //??
- */
+}
+
+int main(void)
+{
+	test_separate_words();
+	test_remove_empty_words();
+	test_tokenizer();
+	test_q();
+	test_lexer();
+
 	//ft_printf(1, "\nCommand parser checker:\n");
 	//test_parser("echo a");
 	//test_parser("echo a | echo b");
