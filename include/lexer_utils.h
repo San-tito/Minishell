@@ -14,7 +14,6 @@
 # define LEXER_UTILS_H
 
 # include "parser_error.h"
-# include "libft.h"
 # include "token.h"
 
 // Struct used inside separate_words
@@ -62,5 +61,8 @@ char	remove_quotes(t_list **tokens);
 char	check_tokens(t_list **tokens);
 
 char	check_parentheses(t_list **tokens);
+
+//could be static inside lexer but is used in testing
+void	remove_empty_words(t_list **words);
 
 #endif

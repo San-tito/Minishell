@@ -66,19 +66,20 @@ SRCS = clear_cmd.c \
 	   sig.c \
        variables.c
 
-PARSERS = lexer_check_tokens_2.c \
-          lexer_check_tokens.c \
+PARSERS = lexer_check_tokens_1.c \
+          lexer_check_tokens_2.c \
           lexer_clear.c \
           lexer_remove_quotes.c \
           lexer_separate_words.c \
-          lexer_utils.c \
           lexer.c \
+		  parser_convert_tokens.c \
+		  parser_handle_error.c \
           parser_handle_heredocs.c \
           parser_manage_subshell.c \
           parser_simple_command.c \
-          parser_utils.c \
           parser.c \
-          tokenizer_utils.c \
+          tokenizer_utils_1.c \
+		  tokenizer_utils_2.c \
           tokenizer.c
 
 EXECUTORS = connection.c \
@@ -99,6 +100,8 @@ BUILTINS = builtins.c \
            unset.c
 
 MAIN = minishell.c
+
+TEST_FILES = tests/parser_tester.c
 
 ################################################################################
 #                                  Makefile  objs                              #
@@ -216,6 +219,9 @@ fclean:		banner clean
 			@make $@ -C $(LIBFTPRINTF_PATH) > /dev/null
 			@rm -rf $(NAME)
 			@printf "%b%-42s%-42b%b%s%b\n" "$(BLUE)" "$@:" "$(CYAN)" "$(GREEN)" "[✓]" "$(RESET)"
+
+test:		
+			$(CC) $(CFLAGS) -I $(INCLUDE_PATH) -I $(LIBFTPRINTF_PATH)/include ${OBJS_PARSER} src/make_cmd.c src/sh_malloc.c src/list.c $(LIBFTPRINTF) $(TEST_FILES) $(RLFLAGS) -o word_separator_tester
 
 re:			fclean all
 

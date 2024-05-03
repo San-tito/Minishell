@@ -12,7 +12,7 @@
 
 #include "lexer_utils.h"
 
-static void	remove_empty_words(t_list **words)
+void	remove_empty_words(t_list **words)
 {
 	t_list	*current;
 
