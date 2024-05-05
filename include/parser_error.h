@@ -67,6 +67,14 @@
 #  define APPEND_BOUNDARY_ERROR "'>>'."
 # endif
 
+# ifndef INPUT_BOUNDARY_ERROR
+#  define INPUT_BOUNDARY_ERROR "'<'."
+# endif
+
+# ifndef OUTPUT_BOUNDARY_ERROR
+#  define OUTPUT_BOUNDARY_ERROR "'>'."
+# endif
+
 # ifndef NEWLINE_BOUNDARY_ERROR
 #  define NEWLINE_BOUNDARY_ERROR "'newline'."
 # endif
