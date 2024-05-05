@@ -6,13 +6,14 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 00:01:28 by sguzman           #+#    #+#             */
-/*   Updated: 2024/05/05 20:42:28 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/05/05 20:56:36 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "builtins.h"
+#include "clear_cmd.h"
 #include "execute_cmd.h"
 #include "input.h"
-#include "clear_cmd.h"
 #include "minishell.h"
 
 int	reader_loop(void)
@@ -22,7 +23,7 @@ int	reader_loop(void)
 
 	while (42)
 	{
-        /* Control Ctrl+D[EXITBLTIN] Signal */ 
+		/* Control Ctrl+D[EXITBLTIN] Signal */
 		line = read_command();
 		current_command = parse_command(line);
 		execute_command(current_command, NO_PIPE, NO_PIPE, 0);
@@ -38,5 +39,7 @@ char	*read_command(void)
 	line = readline(prompt);
 	if (line && *line)
 		add_history(line);
+	else if (line == 0)
+		exit_builtin(NULL);
 	return (line);
 }
