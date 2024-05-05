@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:28:37 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/24 16:07:46 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/05/05 20:40:31 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,24 +48,26 @@ static void	clear_simple_command(t_simple_com *command)
 
 static void	clear_connection(t_connection *connection)
 {
-	clear_command(&(connection->first));
-	clear_command(&(connection->second));
+	clear_command(connection->first);
+	clear_command(connection->second);
 	sh_free(connection);
 }
 
-// static void clear_subshell(){}
-
-void	clear_command(t_command **command)
+void	clear_command(t_command *command)
 {
 	t_command_type	type;
 
-	type = (*command)->type;
+	if (command == 0)
+		return ;
+	type = command->type;
 	if (type == cm_simple)
-		clear_simple_command((t_simple_com *)((*command)->value));
+		clear_simple_command((t_simple_com *)(command->value));
 	else if (type == cm_connection)
-		clear_connection((t_connection *)((*command)->value));
-	else
-		ft_printf("clear_subshell.\n");
-	// clear_subshell((t_simple_com *)((*command)->value));
-	free(*command);
+		clear_connection((t_connection *)(command->value));
+	else if (type == cm_subshell)
+	{
+		clear_command((t_command *)command->value);
+		sh_free(command->value);
+	}
+	sh_free(command);
 }

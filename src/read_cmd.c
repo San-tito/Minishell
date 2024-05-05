@@ -6,12 +6,13 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 00:01:28 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/29 11:50:14 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/05/05 20:42:28 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute_cmd.h"
 #include "input.h"
+#include "clear_cmd.h"
 #include "minishell.h"
 
 int	reader_loop(void)
