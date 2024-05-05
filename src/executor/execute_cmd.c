@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 20:51:58 by sguzman           #+#    #+#             */
-/*   Updated: 2024/05/05 19:41:58 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/05/05 19:49:55 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	execute_in_subshell(t_command *command, int pipe_in, int pipe_out,
 	if (pid == 0)
 	{
 		g_last_exit_value = execute_command((t_command *)command->value,
-				asynchronous, NO_PIPE, NO_PIPE, fd_to_close);
+				NO_PIPE, NO_PIPE, fd_to_close);
 		exit(g_last_exit_value);
 	}
 	else
@@ -42,7 +42,7 @@ int	execute_command(t_command *command, int pipe_in, int pipe_out,
 		int fd_to_close)
 {
 	pid_t	last_made_pid;
-	int		pipeline[2];
+	int		exec_result;
 
 	if (command == 0)
 		return (EXECUTION_SUCCESS);
