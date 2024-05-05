@@ -77,11 +77,11 @@ PARSERS = lexer_check_tokens_1.c \
           lexer_remove_quotes.c \
           lexer_separate_words.c \
           lexer.c \
-		  parser_convert_tokens.c \
+		  parser_create_simple_command.c \
+          parser_create_subshell.c \
 		  parser_handle_error.c \
           parser_handle_heredocs.c \
-          parser_manage_subshell.c \
-          parser_simple_command.c \
+		  parser_parse_tokens.c \
           parser.c \
           tokenizer_utils_1.c \
 		  tokenizer_utils_2.c \

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_manage_subshell.c                           :+:      :+:    :+:   */
+/*   parser_parse_tokens.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,8 +12,23 @@
 
 #include "parser_utils.h"
 
-t_command	*manage_subshell(t_list **tokens)
+t_command	*parse_tokens(t_list **tokens)
 {
-	(void)tokens;
-	return (NULL);
+	t_command	*first;
+	t_command	*second;
+	t_token		*token;
+	char		connection;
+
+	token = (t_token*)((*tokens)->content);
+	if (token->type == OPEN_PAR_TOKEN)
+		first = manage_subshell(tokens);
+	else
+		first = create_simple_command(tokens);
+	if (*tokens == NULL)
+		return (first);
+	token = (t_token*)((*tokens)->content);
+	connection = token->type;
+	*tokens = (*tokens)->next;
+	second = parse_tokens(tokens);
+	return (make_connect(first, second, connection));
 }

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_utils.c                                     :+:      :+:    :+:   */
+/*   parser_create_subshell.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,23 +12,8 @@
 
 #include "parser_utils.h"
 
-t_command	*convert_tokens(t_list **tokens)
+t_command	*create_subshell(t_list **tokens)
 {
-	t_command	*first;
-	t_command	*second;
-	t_token		*token;
-	char		connection;
-
-	token = (t_token*)((*tokens)->content);
-	if (token->type == OPEN_PAR_TOKEN)
-		first = manage_subshell(tokens);
-	else
-		first = create_simple_command(tokens);
-	if (*tokens == NULL)
-		return (first);
-	token = (t_token*)((*tokens)->content);
-	connection = token->type;
-	*tokens = (*tokens)->next;
-	second = convert_tokens(tokens);
-	return (make_connect(first, second, connection));
+	(void)tokens;
+	return (NULL);
 }

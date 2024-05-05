@@ -21,9 +21,9 @@
 
 t_list		*lexer(char *job);
 void		handle_heredocs(t_list **tokens);
-t_command	*convert_tokens(t_list **tokens);
+t_command	*parse_tokens(t_list **tokens);
 
-t_command	*manage_subshell(t_list **tokens);
+t_command	*create_subshell(t_list **tokens);
 t_command	*create_simple_command(t_list **tokens);
 
 #endif
