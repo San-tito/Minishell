@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 00:01:48 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/24 16:13:19 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/05/05 19:04:20 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,10 +98,8 @@ void	make_here_document(t_redirect *temp)
 	line = readline(get_secondary_prompt());
 	while (line)
 	{
-		if (*line == 0)
-			continue ;
-		if (ft_strncmp(line, redir_word, ft_strlen(redir_word)) && *(line
-				+ ft_strlen(redir_word)) == '\n')
+		if (!ft_strncmp(line, redir_word, ft_strlen(redir_word))
+			&& ft_strlen(redir_word) == ft_strlen(line))
 			break ;
 		document = ft_strjoin(document, line);
 		line = readline(get_secondary_prompt());
