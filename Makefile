@@ -6,7 +6,7 @@
 #    By: sguzman <sguzman@student.42barcelo>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 15:31:23 by sguzman           #+#    #+#              #
-#    Updated: 2024/05/05 18:50:34 by sguzman          ###   ########.fr        #
+#    Updated: 2024/05/05 18:52:05 by sguzman          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #    
 
@@ -230,7 +230,7 @@ fclean:		banner clean
 			@rm -rf $(NAME)
 			@printf "%b%-42s%-42b%b%s%b\n" "$(BLUE)" "$@:" "$(CYAN)" "$(GREEN)" "[✓]" "$(RESET)"
 
-test: $(OBJS_TEST)
+test: banner $(OBJS_TEST)
 	@for test in $(TESTS); do \
 		printf "%b%-42s%-42b%-24s%b%s%b\n" "$(BLUE)" "Running test:" "$(CYAN)" $$test "$(GREEN)" "[✓]" "$(RESET)"; \
 		./$<; \
