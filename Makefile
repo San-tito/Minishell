@@ -200,7 +200,7 @@ $(OBJS_PATH)/%.o: 	$(EXECUTOR_PATH)/%.c $(HEADER) Makefile
 			@$(CC) $(CFLAGS) $(DFLAGS) -c $< -o $@ -I $(INCLUDE_PATH) -I $(LIBFTPRINTF_PATH)/include
 			@printf "%b%-42s%-42b%-24s%b%s%b\n" "$(BLUE)" "Compiling:" "$(CYAN)" $< "$(GREEN)" "[✓]" "$(RESET)"
 
-$(OBJS_PATH)/%.o:	$(TESTS_PATH)/%.c $(OBJS_PARSER) $(OBJS_PATH)/make_cmd.o $(OBJS_PATH)/sh_malloc.o $(OBJS_PATH)/list.o $(LIBFTPRINTF)
+$(OBJS_PATH)/%.o:	$(TESTS_PATH)/%.c $(OBJS_BUILTIN) $(OBJS_PARSER) $(OBJS_EXECUTOR) $(OBJS) $(READLINE) $(LIBFTPRINTF)
 			@mkdir -p $(dir $@)
 			$(CC) $(CFLAGS) -I $(INCLUDE_PATH) -I $(LIBFTPRINTF_PATH)/include $^ $(RLFLAGS) -o $@
 			@printf "%b%-42s%-42b%-24s%b%s%b\n" "$(BLUE)" "Testing:" "$(CYAN)" $< "$(GREEN)" "[✓]" "$(RESET)"
