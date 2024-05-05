@@ -202,7 +202,7 @@ $(OBJS_PATH)/%.o: 	$(EXECUTOR_PATH)/%.c $(HEADER) Makefile
 
 $(OBJS_PATH)/%.o:	$(TESTS_PATH)/%.c $(OBJS_BUILTIN) $(OBJS_PARSER) $(OBJS_EXECUTOR) $(OBJS) $(READLINE) $(LIBFTPRINTF)
 			@mkdir -p $(dir $@)
-			@$(CC) $(CFLAGS) -I $(INCLUDE_PATH) -I $(LIBFTPRINTF_PATH)/include $^ $(RLFLAGS) -o $@
+			@$(CC) -Wall -I $(INCLUDE_PATH) -I $(LIBFTPRINTF_PATH)/include $^ $(RLFLAGS) -o $@
 			@printf "%b%-42s%-42b%-24s%b%s%b\n" "$(BLUE)" "Compiling:" "$(CYAN)" $< "$(GREEN)" "[✓]" "$(RESET)"
 
 installdirs:
@@ -230,7 +230,7 @@ fclean:		banner clean
 			@rm -rf $(NAME)
 			@printf "%b%-42s%-42b%b%s%b\n" "$(BLUE)" "$@:" "$(CYAN)" "$(GREEN)" "[✓]" "$(RESET)"
 
-test: banner $(OBJS_TEST)
+test: $(OBJS_TEST)
 	@for test in $(TESTS); do \
 		printf "%b%-42s%-42b%-24s%b%s%b\n" "$(BLUE)" "Running test:" "$(CYAN)" $$test "$(GREEN)" "[✓]" "$(RESET)"; \
 		./$<; \
