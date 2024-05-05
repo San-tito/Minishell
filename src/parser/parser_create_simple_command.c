@@ -17,7 +17,8 @@ static char	is_token_boundary(t_token *token)
 	char	type;
 
 	type = token->type;
-	if (type == AND_TOKEN || type == PIPE_TOKEN || type == OR_TOKEN)
+	if (type == AND_TOKEN || type == PIPE_TOKEN || type == OR_TOKEN
+		|| type == OPEN_PAR_TOKEN || type == CLOSE_PAR_TOKEN)
 		return (1);
 	return (0);
 }

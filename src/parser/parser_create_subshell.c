@@ -12,8 +12,15 @@
 
 #include "parser_utils.h"
 
+/*
+ *	Will enter only when tokens is '('.
+ */
 t_command	*create_subshell(t_list **tokens)
 {
-	(void)tokens;
-	return (NULL);
+	t_command	command;
+
+	*tokens = (*tokens)->next;
+	command = parse_tokens(tokens);
+	*tokens = (*tokens)->next;
+	return (make_command(cm_subshell, (void *)command));
 }
