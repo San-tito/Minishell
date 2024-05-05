@@ -6,7 +6,7 @@
 #    By: sguzman <sguzman@student.42barcelo>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 15:31:23 by sguzman           #+#    #+#              #
-#    Updated: 2024/04/29 12:03:18 by sguzman          ###   ########.fr        #
+#    Updated: 2024/05/05 15:47:12 by sguzman          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #    
 
@@ -31,6 +31,7 @@ man1dir = $(prefix)/man/man1
 ################################################################################
 #                                 PROGRAM'S SRCS                               #
 ################################################################################
+
 SRCS_PATH	= ./src
 
 OBJS_PATH 	= ./build
@@ -38,6 +39,8 @@ OBJS_PATH 	= ./build
 INCLUDE_PATH	= ./include
 
 DOCS_PATH	= ./docs
+
+TESTS_PATH	= ./tests
 
 BUILTINS_PATH	= $(SRCS_PATH)/builtins
 
@@ -55,6 +58,8 @@ READLINE = $(READLINE_PATH)/libhistory.a $(READLINE_PATH)/libreadline.a
 
 HEADER	= $(INCLUDE_PATH)/minishell.h
 
+TESTS = parsertests.c
+
 SRCS = clear_cmd.c \
        error.c \
        list.c \
@@ -63,7 +68,7 @@ SRCS = clear_cmd.c \
        read_cmd.c \
        prompt.c \
        sh_malloc.c \
-	   sig.c \
+       sig.c \
        variables.c
 
 PARSERS = lexer_check_tokens_1.c \
@@ -101,8 +106,6 @@ BUILTINS = builtins.c \
 
 MAIN = minishell.c
 
-TEST_FILES = tests/parser_tester.c
-
 ################################################################################
 #                                  Makefile  objs                              #
 ################################################################################
@@ -116,6 +119,8 @@ OBJS_PARSER	= $(addprefix $(OBJS_PATH)/, ${PARSERS:.c=.o})
 OBJS_EXECUTOR = $(addprefix $(OBJS_PATH)/, ${EXECUTORS:.c=.o})
 
 OBJS_MAIN	= $(addprefix $(OBJS_PATH)/, ${MAIN:.c=.o})
+
+OBJS_TEST	= $(addprefix $(OBJS_PATH)/, ${TESTS:.c=.o})
 
 DEPS		= $(addprefix $(OBJS_PATH)/, ${SRCS:.c=.d})
 
@@ -195,6 +200,11 @@ $(OBJS_PATH)/%.o: 	$(EXECUTOR_PATH)/%.c $(HEADER) Makefile
 			@$(CC) $(CFLAGS) $(DFLAGS) -c $< -o $@ -I $(INCLUDE_PATH) -I $(LIBFTPRINTF_PATH)/include
 			@printf "%b%-42s%-42b%-24s%b%s%b\n" "$(BLUE)" "Compiling:" "$(CYAN)" $< "$(GREEN)" "[✓]" "$(RESET)"
 
+$(OBJS_PATH)/%.o:	$(TESTS_PATH)/%.c $(OBJS_PARSER) $(OBJS_PATH)/make_cmd.o $(OBJS_PATH)/sh_malloc.o $(OBJS_PATH)/list.o $(LIBFTPRINTF)
+			@mkdir -p $(dir $@)
+			$(CC) $(CFLAGS) -I $(INCLUDE_PATH) -I $(LIBFTPRINTF_PATH)/include $^ $(RLFLAGS) -o $@
+			@printf "%b%-42s%-42b%-24s%b%s%b\n" "$(BLUE)" "Testing:" "$(CYAN)" $< "$(GREEN)" "[✓]" "$(RESET)"
+
 installdirs:
 			@mkdir -p $(bindir)
 			@mkdir -p $(man1dir)
@@ -220,8 +230,8 @@ fclean:		banner clean
 			@rm -rf $(NAME)
 			@printf "%b%-42s%-42b%b%s%b\n" "$(BLUE)" "$@:" "$(CYAN)" "$(GREEN)" "[✓]" "$(RESET)"
 
-test:		
-			$(CC) $(CFLAGS) -I $(INCLUDE_PATH) -I $(LIBFTPRINTF_PATH)/include ${OBJS_PARSER} src/make_cmd.c src/sh_malloc.c src/list.c $(LIBFTPRINTF) $(TEST_FILES) $(RLFLAGS) -o word_separator_tester
+test:	$(OBJS_TEST)		
+	for test in $(TESTS); do ./$$test; done
 
 re:			fclean all
 
