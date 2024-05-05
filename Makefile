@@ -6,7 +6,7 @@
 #    By: sguzman <sguzman@student.42barcelo>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 15:31:23 by sguzman           #+#    #+#              #
-#    Updated: 2024/05/05 18:52:05 by sguzman          ###   ########.fr        #
+#    Updated: 2024/05/05 20:13:20 by sguzman          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #    
 
@@ -172,7 +172,10 @@ $(NAME):	$(OBJS_BUILTIN) $(OBJS_PARSER) $(OBJS_EXECUTOR) $(OBJS) $(OBJS_MAIN) $(
 			@$(CC) $(CFLAGS) $(DFLAGS) -I $(INCLUDE_PATH) $^ $(RLFLAGS) -o $@ 
 			@printf "%b%-42s%-42b%-24s%b%s%b\n" "$(BLUE)" "Building program:" "$(CYAN)" $@ "$(GREEN)" "[✓]" "$(RESET)"
 
-$(READLINE):
+$(READLINE_PATH)/Makefile:
+			@cd $(READLINE_PATH) && ./configure > /dev/null
+
+$(READLINE): $(READLINE_PATH)/Makefile
 			@make -C $(READLINE_PATH) > /dev/null
 			@printf "%b%-42s%-42b%-24s%b%s%b\n" "$(BLUE)" "Building Readline library:" "$(CYAN)" $@ "$(GREEN)" "[✓]" "$(RESET)"
 
