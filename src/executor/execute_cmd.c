@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 20:51:58 by sguzman           #+#    #+#             */
-/*   Updated: 2024/05/05 19:39:16 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/05/05 19:41:58 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ int	execute_command(t_command *command, int pipe_in, int pipe_out,
 		return (EXECUTION_SUCCESS);
 	exec_result = EXECUTION_SUCCESS;
 	if (command->type == cm_subshell)
-		execute_in_subshell(command, pipe_in, pipe_out, fd_to_close);
+		exec_result = execute_in_subshell(command, pipe_in, pipe_out,
+				fd_to_close);
 	else if (command->type == cm_simple)
 	{
 		last_made_pid = NO_PID;
