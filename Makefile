@@ -6,7 +6,7 @@
 #    By: sguzman <sguzman@student.42barcelo>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 15:31:23 by sguzman           #+#    #+#              #
-#    Updated: 2024/05/05 15:47:12 by sguzman          ###   ########.fr        #
+#    Updated: 2024/05/05 18:43:04 by sguzman          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #    
 
@@ -231,7 +231,7 @@ fclean:		banner clean
 			@printf "%b%-42s%-42b%b%s%b\n" "$(BLUE)" "$@:" "$(CYAN)" "$(GREEN)" "[✓]" "$(RESET)"
 
 test:	$(OBJS_TEST)		
-	for test in $(TESTS); do ./$$test; done
+	for test in $(TESTS); do ./$<; done
 
 re:			fclean all
 
