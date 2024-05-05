@@ -17,7 +17,7 @@
  */
 t_command	*create_subshell(t_list **tokens)
 {
-	t_command	command;
+	t_command	*command;
 
 	*tokens = (*tokens)->next;
 	command = parse_tokens(tokens);
