@@ -6,7 +6,7 @@
 #    By: sguzman <sguzman@student.42barcelo>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 15:31:23 by sguzman           #+#    #+#              #
-#    Updated: 2024/05/05 18:43:04 by sguzman          ###   ########.fr        #
+#    Updated: 2024/05/05 18:50:34 by sguzman          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #    
 
@@ -202,8 +202,8 @@ $(OBJS_PATH)/%.o: 	$(EXECUTOR_PATH)/%.c $(HEADER) Makefile
 
 $(OBJS_PATH)/%.o:	$(TESTS_PATH)/%.c $(OBJS_BUILTIN) $(OBJS_PARSER) $(OBJS_EXECUTOR) $(OBJS) $(READLINE) $(LIBFTPRINTF)
 			@mkdir -p $(dir $@)
-			$(CC) $(CFLAGS) -I $(INCLUDE_PATH) -I $(LIBFTPRINTF_PATH)/include $^ $(RLFLAGS) -o $@
-			@printf "%b%-42s%-42b%-24s%b%s%b\n" "$(BLUE)" "Testing:" "$(CYAN)" $< "$(GREEN)" "[✓]" "$(RESET)"
+			@$(CC) $(CFLAGS) -I $(INCLUDE_PATH) -I $(LIBFTPRINTF_PATH)/include $^ $(RLFLAGS) -o $@
+			@printf "%b%-42s%-42b%-24s%b%s%b\n" "$(BLUE)" "Compiling:" "$(CYAN)" $< "$(GREEN)" "[✓]" "$(RESET)"
 
 installdirs:
 			@mkdir -p $(bindir)
@@ -230,8 +230,11 @@ fclean:		banner clean
 			@rm -rf $(NAME)
 			@printf "%b%-42s%-42b%b%s%b\n" "$(BLUE)" "$@:" "$(CYAN)" "$(GREEN)" "[✓]" "$(RESET)"
 
-test:	$(OBJS_TEST)		
-	for test in $(TESTS); do ./$<; done
+test: $(OBJS_TEST)
+	@for test in $(TESTS); do \
+		printf "%b%-42s%-42b%-24s%b%s%b\n" "$(BLUE)" "Running test:" "$(CYAN)" $$test "$(GREEN)" "[✓]" "$(RESET)"; \
+		./$<; \
+	done
 
 re:			fclean all
 
