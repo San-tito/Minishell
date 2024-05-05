@@ -21,7 +21,7 @@ t_command	*parse_tokens(t_list **tokens)
 
 	token = (t_token*)((*tokens)->content);
 	if (token->type == OPEN_PAR_TOKEN)
-		first = manage_subshell(tokens);
+		first = create_subshell(tokens);
 	else
 		first = create_simple_command(tokens);
 	if (*tokens == NULL)

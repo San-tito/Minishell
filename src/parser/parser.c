@@ -23,5 +23,5 @@ t_command	*parse_command(char *job)
 		return (NULL);
 	handle_heredocs(&tokens); //to fix
 	//expansor(&tokens);
-	return (convert_tokens(&tokens)); //to fix
+	return (parse_tokens(&tokens)); //to fix
 }
