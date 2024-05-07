@@ -21,6 +21,8 @@ typedef struct s_word
 {
 	char	*start;
 	int		len;
+	char	single_q;
+	char	double_q;
 }		t_word;
 
 #endif

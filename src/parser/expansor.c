@@ -92,18 +92,20 @@ static char	manage_variable(t_token *token)
 	char	*str;
 	char	*new;
 	t_word	word;
-    char    single_q;
 
 	str = token->content;
 	word.start = str;
 	word.len = 0;
+    word.single_q = 0;
+    word.double_q = 0;
 	new = NULL;
-    single_q = 0;
 	while (*str)
 	{
-        if (*str == '\'')
-            single_q = !single_q;
-		if (*str == '$' && *(str + 1) != ' ' && *(str + 1) != '\0' && !single_q)
+        if (*str == '\'' && !word.double_q)
+            word.single_q = !word.single_q;
+        else if (*str == '\"' && !word.single_q)
+            word.double_q = !word.double_q;
+		if (*str == '$' && *(str + 1) != ' ' && *(str + 1) != '\0' && !word.single_q)
 		{
 			if (!copy_word(&new, word))
 				return (0);

@@ -190,17 +190,20 @@ static void	test_expansor()
 {
 	ft_printf("\nExpand:\n");
 	test_expand("expand $HOME b");
+	test_expand("expand \'$HOME\' b");
+	test_expand("expand \"$HOME\" b");
+	test_expand("expand \"\'$HOME\'\" b");
+	test_expand("expand \'\"$HOME\"\' b");
 	test_expand("test1 $SHLVL test2");
 	test_expand("test1 $$ test2");
-	test_expand("test1 \'$$\' test2");
-	test_expand("test1 \"$$\" test2");
 }
 
 static void	test_q()
 {
 	ft_printf("\nRemove quotes:\n");
 	test_quotes("test1 \"test4\"\" test5\" test2");
-	test_quotes("test1 \"test4\'\' test5\" test2");
+	test_quotes("test1 \"test4$HOME\"\" test5\" test2");
+	test_quotes("test1 \"test4\'$HOME\' test5\" test2");
 	test_quotes("test1 \"test4\'\'\'\"\'\"\'\" \'\'test5\" test2");
 }
 
