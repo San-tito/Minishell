@@ -14,7 +14,9 @@
 
 t_command	*parse_command(char *job)
 {
-	t_list	*tokens;
+	t_list		*tokens;
+	t_list		*tokens_init;
+	t_command	*command;
 
 	if (job == NULL || *job == '\0')
 		return (NULL);
@@ -23,5 +25,10 @@ t_command	*parse_command(char *job)
 		return (NULL);
 	handle_heredocs(&tokens); //to fix
 	//expansor(&tokens);
-	return (parse_tokens(&tokens));
+	tokens_init = tokens;
+	//maybe print malloc error if command == NULL
+	command = parse_tokens(&tokens);
+	ft_lstclear(&tokens_init, NULL);
+	//clear_tokens(&tokens_init);
+	return (command);
 }

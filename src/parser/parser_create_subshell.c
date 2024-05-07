@@ -21,6 +21,8 @@ t_command	*create_subshell(t_list **tokens)
 
 	*tokens = (*tokens)->next;
 	command = parse_tokens(tokens);
+	if (command == NULL)
+		return (NULL);
 	*tokens = (*tokens)->next;
 	return (make_command(cm_subshell, (void *)command));
 }

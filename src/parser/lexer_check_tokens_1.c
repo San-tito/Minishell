@@ -39,7 +39,9 @@ static char	boundary_valid(char last_token_type, t_token *token)
 	char	curr_token_type;
 
 	curr_token_type = token->type;
-	if (last_token_type >= AND_TOKEN && curr_token_type != STR_TOKEN)
+	if (last_token_type <= APPEND_TOKEN && last_token_type >= INPUT_TOKEN && curr_token_type >= AND_TOKEN)
+		return (0);
+	else if ((last_token_type == AND_TOKEN || last_token_type == OR_TOKEN || last_token_type == PIPE_TOKEN) && (curr_token_type == AND_TOKEN || curr_token_type == OR_TOKEN || curr_token_type == PIPE_TOKEN))
 		return (0);
 	return (1);
 }
