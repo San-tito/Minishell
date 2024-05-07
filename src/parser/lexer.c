@@ -42,6 +42,8 @@ t_list	*lexer(char *job)
 	if (tokens == NULL)
 		return (NULL);
 	clear_word_list(&words);
+	if (!expansor(&tokens))
+		return (NULL);
 	if (!remove_quotes(&tokens))
 		return (NULL);
 	if (!check_tokens(&tokens))

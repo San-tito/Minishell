@@ -16,9 +16,10 @@ static char	*obtain_word(char **str)
 {
 	t_word	word;
 
+    (*str)++;
 	word.start = *str;
 	word.len = 0;
-	while (**str != ' ' && **str)
+	while (**str != ' ' && **str != '\'' && **str != '\"' && **str)
 	{
 		(*str)++;
 		word.len++;
@@ -60,7 +61,14 @@ static char	expand_value(char **str, char **new)
 	free(word);
 	if (env == NULL)
 		return (1);
-	return (append_str(new, &env));
+    word = ft_strdup(env);
+    if (word == NULL)
+    {
+		if (*new != NULL)
+			free(*new);
+		return (0);
+	}
+	return (append_str(new, &word));
 }
 
 static char	copy_word(char **new, t_word word)
@@ -84,14 +92,18 @@ static char	manage_variable(t_token *token)
 	char	*str;
 	char	*new;
 	t_word	word;
+    char    single_q;
 
 	str = token->content;
 	word.start = str;
 	word.len = 0;
 	new = NULL;
+    single_q = 0;
 	while (*str)
 	{
-		if (*str == '$' && *(str + 1) != ' ' && *(str + 1) != '\0')
+        if (*str == '\'')
+            single_q = !single_q;
+		if (*str == '$' && *(str + 1) != ' ' && *(str + 1) != '\0' && !single_q)
 		{
 			if (!copy_word(&new, word))
 				return (0);
@@ -100,8 +112,6 @@ static char	manage_variable(t_token *token)
 				return (0);
 			word.start = str;
 		}
-		//else if (*str == '=')
-			//assign
 		else
 		{
 			str++;

@@ -61,6 +61,21 @@ static void	test_token(char *job)
 	clear_tokens(&tokens);
 }
 
+static void	test_expand(char *job)
+{
+	t_list  *words;
+	t_list	*tokens;
+
+	words = separate_words(job);
+	remove_empty_words(&words);
+	print_words(words);
+	tokens = tokenizer(&words);
+	expansor(&tokens);
+	print_tokens(tokens);
+	clear_word_list(&words);
+	clear_tokens(&tokens);
+}
+
 static void test_quotes(char *job)
 {
 	t_list  *words;
@@ -171,6 +186,16 @@ static void	test_tokenizer()
 	//test_token("")??
 }
 
+static void	test_expansor()
+{
+	ft_printf("\nExpand:\n");
+	test_expand("expand $HOME b");
+	test_expand("test1 $SHLVL test2");
+	test_expand("test1 $$ test2");
+	test_expand("test1 \'$$\' test2");
+	test_expand("test1 \"$$\" test2");
+}
+
 static void	test_q()
 {
 	ft_printf("\nRemove quotes:\n");
@@ -219,8 +244,9 @@ int main(void)
 	//test_separate_words();
 	//test_remove_empty_words();
 	//test_tokenizer();
+	test_expansor();
 	//test_q();
 	//test_lexer();
-	test_parser();
+	//test_parser();
 	return (0);
 }

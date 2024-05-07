@@ -57,6 +57,7 @@ void	clear_tokens(t_list **tokens);
 // Functions called inside lexer.
 t_list	*separate_words(char *job);
 t_list	*tokenizer(t_list **words);
+char	expansor(t_list **tokens);
 char	remove_quotes(t_list **tokens);
 char	check_tokens(t_list **tokens);
 

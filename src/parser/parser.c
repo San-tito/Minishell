@@ -24,10 +24,10 @@ t_command	*parse_command(char *job)
 	if (tokens == NULL)
 		return (NULL);
 	handle_heredocs(&tokens); //to fix
-	//expansor(&tokens);
 	tokens_init = tokens;
 	//maybe print malloc error if command == NULL
 	command = parse_tokens(&tokens);
 	ft_lstclear(&tokens_init, NULL);
+
 	return (command);
 }
