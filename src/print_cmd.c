@@ -55,6 +55,13 @@ void	print_simple_command(t_simple_com *simple_command)
 	}
 }
 
+void	print_subshell(t_command *command)
+{
+	printf("(");
+	print_command(command);
+	printf(")");
+}
+
 void	print_command(t_command *command)
 {
 	t_connection	*connect;
@@ -75,4 +82,6 @@ void	print_command(t_command *command)
 			printf(" || ");
 		print_command(connect->second);
 	}
+	else if (command->type == cm_subshell)
+		print_subshell((t_command *)command->value);
 }

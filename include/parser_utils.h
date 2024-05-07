@@ -20,6 +20,7 @@
 # include "parser_error.h"
 
 t_list		*lexer(char *job);
+char		expansor(t_list **tokens);
 void		handle_heredocs(t_list **tokens);
 t_command	*parse_tokens(t_list **tokens);
 
