@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:55:43 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/29 11:29:42 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/05/07 22:12:42 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,17 @@ char	**add_or_replace_exported_var(char *assign)
 void	update_env(const char *env_prefix, const char *value)
 {
 	char	*evar;
+	int		preflen;
+	int		valuelen;
 
-	evar = ft_strjoin(env_prefix, value);
+	valuelen = 0;
+	if (value)
+		valuelen = ft_strlen(value);
+	preflen = ft_strlen(env_prefix);
+	evar = sh_malloc(valuelen + preflen + 1);
+	ft_strlcpy(evar, env_prefix, preflen + 1);
+	if (value)
+		ft_strlcpy(evar + preflen, value, valuelen + 1);
 	environ = add_or_replace_exported_var(evar);
 }
 

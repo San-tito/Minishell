@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelo>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 16:25:49 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/24 15:11:52 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/05/07 22:33:13 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ static int	setpwd(void)
 	char	*dirname;
 
 	pwdvar = getenv("PWD");
-	if (pwdvar)
-		update_env("OLDPWD=", pwdvar);
+	update_env("OLDPWD=", pwdvar);
 	dirname = getcwd(0, 0);
 	update_env("PWD=", dirname);
 	return (EXECUTION_SUCCESS);
