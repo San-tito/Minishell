@@ -211,6 +211,7 @@ static void	test_parser()
 	test_parse_command("echo a | echo b");
 	test_parse_command("echo a | echo b && >a echo c <c");
 	test_parse_command("echo a | (echo b) | echo c");
+	test_parse_command("echo a | (echo b| (echo c)) | echo c");
 }
 
 int main(void)
@@ -219,7 +220,7 @@ int main(void)
 	//test_remove_empty_words();
 	//test_tokenizer();
 	//test_q();
-	test_lexer();
-	//test_parser();
+	//test_lexer();
+	test_parser();
 	return (0);
 }

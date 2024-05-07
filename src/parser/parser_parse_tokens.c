@@ -46,6 +46,7 @@ t_command	*parse_tokens(t_list **tokens)
 	t_token		*token;
 	char		connector;
 
+	
 	first = create_first_node(tokens);
 	if (first == NULL)
 		return (NULL);
@@ -53,6 +54,8 @@ t_command	*parse_tokens(t_list **tokens)
 		return (first);
 	token = (t_token*)((*tokens)->content);
 	connector = token->type;
+	if (connector == CLOSE_PAR_TOKEN)
+		return (first);
 	second = create_second_node(tokens, &first);
 	if (second == NULL)
 		return (NULL);
