@@ -80,6 +80,7 @@ static void	test_checker(char *job)
 {
 	t_list	*tokens;
 
+	ft_printf("Job: [%s]\n\t", job);
 	tokens = lexer(job);
 	if (tokens != NULL)
 	{
@@ -201,6 +202,7 @@ static void	test_lexer()
 	test_checker("echo a ( echo c )");
 	test_checker("echo a > > echo b"); //??
 	test_checker("echo a > < echo b"); //??
+	test_checker("echo a | (echo b) | echo c");
 }
 
 static void	test_parser()
@@ -208,15 +210,16 @@ static void	test_parser()
 	ft_printf("\nCommand parser checker:\n");
 	test_parse_command("echo a | echo b");
 	test_parse_command("echo a | echo b && >a echo c <c");
+	test_parse_command("echo a | (echo b) | echo c");
 }
 
 int main(void)
 {
-	test_separate_words();
-	test_remove_empty_words();
-	test_tokenizer();
-	test_q();
+	//test_separate_words();
+	//test_remove_empty_words();
+	//test_tokenizer();
+	//test_q();
 	test_lexer();
-	test_parser();
+	//test_parser();
 	return (0);
 }

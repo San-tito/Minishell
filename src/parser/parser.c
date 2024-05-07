@@ -29,6 +29,5 @@ t_command	*parse_command(char *job)
 	//maybe print malloc error if command == NULL
 	command = parse_tokens(&tokens);
 	ft_lstclear(&tokens_init, NULL);
-	//clear_tokens(&tokens_init);
 	return (command);
 }

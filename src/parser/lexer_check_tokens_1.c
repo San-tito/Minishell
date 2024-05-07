@@ -27,6 +27,10 @@ static char	*get_error_msg(char token_type)
 		return (INPUT_BOUNDARY_ERROR);
 	else if (token_type == OUTPUT_TOKEN)
 		return (OUTPUT_BOUNDARY_ERROR);
+	else if (token_type == OPEN_PAR_TOKEN)
+		return (OPENPAR_BOUNDARY_ERROR);
+	else if (token_type == CLOSE_PAR_TOKEN)
+		return (CLOSEPAR_BOUNDARY_ERROR);
 	return (APPEND_BOUNDARY_ERROR);
 }
 

@@ -75,6 +75,14 @@
 #  define OUTPUT_BOUNDARY_ERROR "'>'."
 # endif
 
+# ifndef CLOSEPAR_BOUNDARY_ERROR
+#  define CLOSEPAR_BOUNDARY_ERROR "')'."
+# endif
+
+# ifndef OPENPAR_BOUNDARY_ERROR
+#  define OPENPAR_BOUNDARY_ERROR "'('."
+# endif
+
 # ifndef NEWLINE_BOUNDARY_ERROR
 #  define NEWLINE_BOUNDARY_ERROR "'newline'."
 # endif
