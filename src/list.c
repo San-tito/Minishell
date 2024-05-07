@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 17:42:45 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/24 12:37:53 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/05/07 23:32:41 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,19 @@ t_generic_list	*list_append(t_generic_list *head, t_generic_list *tail)
 		t_head = t_head->next;
 	t_head->next = tail;
 	return (head);
+}
+
+void	list_remove(t_generic_list **list)
+{
+	t_generic_list	*temp;
+
+	temp = *list;
+	while (*list)
+	{
+		temp = (*list)->next;
+		free(*list);
+		*list = temp;
+	}
 }
 
 char	**wlist_to_carray(t_word_list *list)

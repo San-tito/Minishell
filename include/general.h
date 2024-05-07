@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 16:49:04 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/24 12:38:23 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/05/07 23:34:37 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ typedef struct s_generic_list
 int							list_length(t_generic_list *list);
 t_generic_list				*list_append(t_generic_list *head,
 								t_generic_list *tail);
+void						list_remove(t_generic_list **list);
 char						**wlist_to_carray(t_word_list *list);
 
 /* ************************************************************************** */
