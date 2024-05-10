@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 16:20:05 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/29 12:07:44 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/05/10 13:05:33 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,5 @@ int	main(void)
 {
 	shell_initialize();
 	reader_loop();
-	exit_shell(g_last_exit_value);
-}
-
-void	exit_shell(int s)
-{
-	/* Clean up */
-	exit(s);
+	exit(g_last_exit_value);
 }

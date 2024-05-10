@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 16:32:10 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/19 17:04:52 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/05/10 13:06:45 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ static char	*find_in_path_element(const char *name, char *path)
 	path_len = ft_strlen(path);
 	name_len = ft_strlen(name);
 	full_path = sh_malloc((path_len + name_len + 2) * sizeof(char));
-	if (!full_path)
-		return (NULL);
 	ft_strlcpy(full_path, path, path_len + 1);
 	if (*(full_path + path_len - 1) != '/')
 		ft_strlcat(full_path, "/", path_len + 2);

@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 17:09:36 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/06 17:09:48 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/05/10 13:02:06 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ void	*sh_malloc(size_t bytes)
 
 	temp = malloc(bytes);
 	if (temp == 0)
-		/* Handle Error */
-		return (0);
+		fatal_error("%s: cannot allocate %lu bytes", "sh_malloc",
+			(unsigned long)bytes);
 	return (temp);
 }
 

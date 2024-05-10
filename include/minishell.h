@@ -6,7 +6,7 @@
 /*   By: mpovill- <mpovill-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 12:11:32 by mpovill-          #+#    #+#             */
-/*   Updated: 2024/04/23 14:52:14 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/05/10 12:57:44 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 # include "make_cmd.h"
 # include "sh_malloc.h"
 # include "variables.h"
+
+# define PROGRAM "minishell"
 
 # define NO_PIPE -1
 

@@ -6,28 +6,25 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 19:30:33 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/07 13:11:50 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/05/10 12:56:43 by santito          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser_utils.h"
 
-t_command	*parse_command(char *job)
+t_command	*parse_command(char *current_line)
 {
 	t_list		*tokens;
-	t_list		*tokens_init;
 	t_command	*command;
 
-	if (job == NULL || *job == '\0')
+	if (*current_line == '\0')
 		return (NULL);
-	tokens = lexer(job);
+	tokens = lexer(current_line);
 	if (tokens == NULL)
 		return (NULL);
-	handle_heredocs(&tokens); //to fix
-	tokens_init = tokens;
-	//maybe print malloc error if command == NULL
+	handle_heredocs(&tokens); // to fix
+    // El malloc no puede fallar, si falla exit(2) <- POSIX; controlado en sh_malloc
+	// <<Malloc error printeado en sh_malloc>> maybe print malloc error if command == NULL
 	command = parse_tokens(&tokens);
-	ft_lstclear(&tokens_init, NULL);
-
 	return (command);
 }
