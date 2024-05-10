@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 16:36:22 by sguzman           #+#    #+#             */
-/*   Updated: 2024/05/05 21:06:40 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/05/10 14:11:46 by santito          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ int	exit_builtin(t_word_list *list)
 {
 	int	exit_value;
 
+    ft_putendl_fd("exit", 2);
 	exit_value = get_exitstat(list);
 	g_last_exit_value = exit_value;
 	exit(exit_value);
