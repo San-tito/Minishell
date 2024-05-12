@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 17:08:16 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/19 17:09:59 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/05/12 16:45:39 by santito          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define INPUT_H
 
 /* Replace the '➜' symbol in the prompt with '❯' */
-# define SYMBOL "❯ "
+# define SYMBOL "➜ "
 # define CYAN "\001\033[1;36m\002"
 # define GREEN "\001\033[1;32m\002"
 # define RED "\001\033[1;31m\002"

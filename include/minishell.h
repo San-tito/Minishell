@@ -6,7 +6,7 @@
 /*   By: mpovill- <mpovill-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 12:11:32 by mpovill-          #+#    #+#             */
-/*   Updated: 2024/05/10 12:57:44 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/05/12 16:48:51 by santito          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,10 @@
 /* ************************************************************************** */
 /*                               Readline functions                           */
 /* ************************************************************************** */
-char	*readline(const char *);
-void	add_history(const char *);
+char		*readline(const char *);
+void		add_history(const char *);
+extern void	rl_replace_line(const char *, int);
+extern int	rl_on_new_line(void);
+extern void	rl_redisplay(void);
 
 #endif
