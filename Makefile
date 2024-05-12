@@ -6,7 +6,7 @@
 #    By: sguzman <sguzman@student.42barcelo>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 15:31:23 by sguzman           #+#    #+#              #
-#    Updated: 2024/05/10 13:04:38 by sguzman          ###   ########.fr        #
+#    Updated: 2024/05/12 14:11:59 by santito          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #    
 
@@ -16,7 +16,7 @@
 
 NAME		= minishell
 CC 		= cc
-CFLAGS	= -Wall -Wextra -Werror 
+CFLAGS	= -Wall -Wextra -Werror -g
 DFLAGS	= -MMD -MF $(@:.o=.d)
 RLFLAGS = -lcurses
 

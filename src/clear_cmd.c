@@ -6,11 +6,11 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:28:37 by sguzman           #+#    #+#             */
-/*   Updated: 2024/05/05 20:40:31 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/05/12 14:16:49 by santito          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser_utils.h"
+#include "clear_cmd.h"
 #include "sh_malloc.h"
 
 void	clear_redirects(t_redirect *list)
@@ -22,8 +22,8 @@ void	clear_redirects(t_redirect *list)
 		t = list;
 		list = list->next;
 		sh_free(t->filename);
+		sh_free(t);
 	}
-	sh_free(t);
 }
 
 void	clear_words(t_word_list *list)
