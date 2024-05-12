@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 13:33:48 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/19 17:06:36 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/05/12 18:03:36 by santito          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,9 @@ void	print_simple_command(t_simple_com *simple_command)
 
 void	print_subshell(t_command *command)
 {
-	printf("(");
-	print_command(command);
-	printf(")");
+	printf("( ");
+	print_command((t_command *)command->value);
+	printf(" )");
 }
 
 void	print_command(t_command *command)
