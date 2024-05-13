@@ -6,7 +6,7 @@
 /*   By: mpovill- <mpovill-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 12:11:32 by mpovill-          #+#    #+#             */
-/*   Updated: 2024/05/12 16:48:51 by santito          ###   ########.fr       */
+/*   Updated: 2024/05/13 18:37:34 by santito          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # define EXECUTION_FAILURE 1
 # define EXECUTION_SUCCESS 0
 
+# define EX_BADUSAGE 2
 # define EX_NOEXEC 126
 # define EX_NOTFOUND 127
 
