@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 00:01:48 by sguzman           #+#    #+#             */
-/*   Updated: 2024/05/05 19:04:20 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/05/13 16:11:39 by santito          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,24 +88,29 @@ t_redirect	*make_redirection(char *filename, t_instruction instruction,
 
 void	make_here_document(t_redirect *temp)
 {
-	char	*redir_word;
 	char	*line;
 	char	*document;
+	char	*new_document;
 
 	document = sh_malloc(1);
 	*document = '\0';
-	redir_word = temp->filename;
 	line = readline(get_secondary_prompt());
 	while (line)
 	{
-		if (!ft_strncmp(line, redir_word, ft_strlen(redir_word))
-			&& ft_strlen(redir_word) == ft_strlen(line))
+		if (!ft_strncmp(line, temp->filename, ft_strlen(temp->filename))
+			&& line[ft_strlen(temp->filename)] == '\0')
 			break ;
-		document = ft_strjoin(document, line);
+		new_document = sh_malloc(ft_strlen(document) + ft_strlen(line) + 2);
+		ft_memcpy(new_document, document, ft_strlen(document));
+		ft_memcpy(new_document + ft_strlen(document), line, ft_strlen(line));
+		new_document[ft_strlen(document) + ft_strlen(line)] = '\n';
+		new_document[ft_strlen(document) + ft_strlen(line) + 1] = '\0';
+		sh_free(document);
+		document = new_document;
 		line = readline(get_secondary_prompt());
 	}
 	if (line == 0)
 		internal_warning("here-document delimited by end-of-file (wanted `%s')",
-			redir_word);
+			temp->filename);
 	temp->filename = document;
 }
