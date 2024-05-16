@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:55:43 by sguzman           #+#    #+#             */
-/*   Updated: 2024/05/16 13:55:19 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/05/16 15:44:11 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,13 @@ int	add_to_environ(char *envstr)
 {
 	char	**ep;
 	size_t	size;
-	//char	**new_environ;
 
 	ep = environ;
 	size = 0;
 	while (ep[size])
 		size++;
-	// new_environ = realloc(environ, (size + 2) * sizeof(char *));
-	// ft_memcpy(new_environ, environ, size * sizeof(char *));
-	environ[size] = envstr;
-	environ[size + 1] = NULL;
+	environ[size++] = envstr;
+	environ[size] = NULL;
 	return (0);
 }
 
@@ -59,21 +56,24 @@ int	unset_var(const char *name)
 char	**add_or_replace_exported_var(char *assign)
 {
 	int			i;
+	char		*new_value;
 	const char	*equal_offset = ft_strchr(assign, '=');
 
 	if (equal_offset == 0)
 		return (environ);
 	i = 0;
+	new_value = sh_malloc(ft_strlen(assign) + 1);
+	ft_strlcpy(new_value, assign, ft_strlen(assign) + 1);
 	while (environ[i])
 	{
 		if (ft_strncmp(assign, environ[i], equal_offset - assign) == 0)
 		{
-			environ[i] = assign;
+			environ[i] = new_value;
 			return (environ);
 		}
 		i++;
 	}
-	add_to_environ(assign);
+	add_to_environ(new_value);
 	return (environ);
 }
 
