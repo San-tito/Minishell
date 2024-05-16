@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:28:37 by sguzman           #+#    #+#             */
-/*   Updated: 2024/05/13 18:41:53 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/05/16 13:37:57 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	ft_isspace(int c)
 	return (c == 0x20 || c == 0xD || c == 0xA || c == 0x9);
 }
 
-int	legal_number(const char *string, int *result)
+int	legal_number(const char *string, size_t *result)
 {
 	int	value;
 

@@ -6,7 +6,7 @@
 #    By: sguzman <sguzman@student.42barcelo>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 15:31:23 by sguzman           #+#    #+#              #
-#    Updated: 2024/05/13 18:30:48 by santito          ###   ########.fr        #
+#    Updated: 2024/05/16 13:30:18 by sguzman          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #    
 
@@ -68,6 +68,7 @@ SRCS = clear_cmd.c \
        make_cmd.c \
        print_cmd.c \
        read_cmd.c \
+       setenv.c \
        prompt.c \
        sh_malloc.c \
        sig.c \

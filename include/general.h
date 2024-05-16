@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 16:49:04 by sguzman           #+#    #+#             */
-/*   Updated: 2024/05/13 18:30:13 by santito          ###   ########.fr       */
+/*   Updated: 2024/05/16 13:37:50 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ t_builtin_func				*find_builtin(char *name);
 /* ************************************************************************** */
 /*                             POSIX shell specification                      */
 /* ************************************************************************** */
-int							legal_number(const char *string, int *result);
+int							legal_number(const char *string, size_t *result);
 void						exit_shell(int s);
 
 /* ************************************************************************** */

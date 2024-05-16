@@ -6,23 +6,22 @@
 /*   By: sguzman <sguzman@student.42barcelo>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 16:25:49 by sguzman           #+#    #+#             */
-/*   Updated: 2024/05/07 22:33:13 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/05/16 13:50:59 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "variables.h"
 #include <errno.h>
 #include <string.h>
 
-static int	setpwd(void)
+static int	bindpwd(void)
 {
 	char	*pwdvar;
-	char	*dirname;
 
 	pwdvar = getenv("PWD");
 	update_env("OLDPWD=", pwdvar);
-	dirname = getcwd(0, 0);
-	update_env("PWD=", dirname);
+	set_pwd();
 	return (EXECUTION_SUCCESS);
 }
 
@@ -47,7 +46,7 @@ int	cd_builtin(t_word_list *list)
 	else
 		dirname = list->word;
 	if (chdir(dirname) == 0)
-		return (setpwd());
+		return (bindpwd());
 	internal_error("%s: %s: %s", "cd", dirname, strerror(errno));
 	return (EXECUTION_FAILURE);
 }

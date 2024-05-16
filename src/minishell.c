@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 16:20:05 by sguzman           #+#    #+#             */
-/*   Updated: 2024/05/10 13:05:33 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/05/16 13:46:00 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 static void	shell_initialize(void)
 {
 	initialize_signals();
+	set_pwd();
 	initialize_shell_level();
 }
 
