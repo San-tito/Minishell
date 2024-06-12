@@ -339,16 +339,19 @@ static void	test_all_parser()
 	test_parser("echo a | (echo b) | echo c");
 	test_parser("echo a | (echo b| (echo c)) | echo c");
 	test_parser("echo a | ( <a echo b >c <a| (echo c <a >b)) | echo c");
+	test_parser("$a");
+	test_parser("$a >b b");
+	test_parser("$a echo \"test\"");
 }
 
 int main(void)
 {
-	//test_all_separate_words();
-	//test_all_remove_empty_words();
-	//test_all_tokenizer();
-	//test_all_expansor();
-	//test_all_remove_quotes();
+	test_all_separate_words();
+	test_all_remove_empty_words();
+	test_all_tokenizer();
+	test_all_expansor();
+	test_all_remove_quotes();
 	test_all_lexer();
-	//test_all_parser();
+	test_all_parser();
 	return (0);
 }

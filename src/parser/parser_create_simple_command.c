@@ -47,7 +47,10 @@ t_command	*create_simple_command(t_list **tokens)
 	{
 		token = (t_token *)((*tokens)->content);
 		if (token->type == STR_TOKEN)
-			words = make_word_list(token->content, words);
+		{
+			if (token->content)
+				words = make_word_list(token->content, words);
+		}
 		else
 		{
 			*tokens = (*tokens)->next;
