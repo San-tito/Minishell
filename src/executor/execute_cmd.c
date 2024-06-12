@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 20:51:58 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/12 16:33:17 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/12 16:45:57 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,9 @@ int	execute_in_subshell(t_command *command, int pipe_in, int pipe_out,
 static int	execute_null_command(t_redirect *redirects, int pipe_in,
 		int pipe_out)
 {
+	int	r;
+	int	io[2];
+
 	if (pipe_in != NO_PIPE || pipe_out != NO_PIPE)
 	{
 		if (make_child() == 0)
@@ -52,25 +55,25 @@ static int	execute_null_command(t_redirect *redirects, int pipe_in,
 				exit(EXECUTION_FAILURE);
 		}
 		else
-		{
-			close_pipes(pipe_in, pipe_out);
-			return (EXECUTION_SUCCESS);
-		}
+			return (close_pipes(pipe_in, pipe_out), EXECUTION_SUCCESS);
 	}
+	io[0] = dup(0);
+	io[1] = dup(1);
+	r = do_redirections(redirects);
+	do_piping(io[0], io[1]);
+	close_pipes(io[0], io[1]);
+	if (r != 0)
+		return (EXECUTION_FAILURE);
 	else
-	{
-		if (do_redirections(redirects) == 0)
-			return (EXECUTION_SUCCESS);
-		else
-			return (EXECUTION_FAILURE);
-	}
+		return (EXECUTION_SUCCESS);
 }
 
 int	execute_command(t_command *command, int pipe_in, int pipe_out,
 		int fd_to_close)
 {
-	pid_t	last_made_pid;
-	int		exec_result;
+	pid_t			last_made_pid;
+	t_simple_com	*simple;
+	int				exec_result;
 
 	if (command == 0)
 		return (EXECUTION_SUCCESS);
@@ -81,11 +84,11 @@ int	execute_command(t_command *command, int pipe_in, int pipe_out,
 	else if (command->type == cm_simple)
 	{
 		last_made_pid = NO_PID;
-		if (((t_simple_com *)command->value)->words == 0)
-			return (execute_null_command(((t_simple_com *)command->value)->redirects,
-					pipe_in, pipe_out));
-		exec_result = execute_simple_command((t_simple_com *)command->value,
-				(int[]){pipe_in, pipe_out}, &last_made_pid, fd_to_close);
+		simple = (t_simple_com *)command->value;
+		if (simple->words == 0)
+			return (execute_null_command(simple->redirects, pipe_in, pipe_out));
+		exec_result = execute_simple_command(simple, (int[]){pipe_in, pipe_out},
+				&last_made_pid, fd_to_close);
 		if (pipe_out == NO_PIPE && last_made_pid != NO_PID)
 			exec_result = waitchld(last_made_pid);
 	}
