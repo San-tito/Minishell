@@ -67,9 +67,7 @@ static int	execute_disk_command(char *command, t_word_list *words,
 		t_redirect *redirects)
 {
 	char	**args;
-
-	if (command)
-		update_env("_=", command);
+	
 	if (redirects && (do_redirections(redirects) != 0))
 		exit(EXECUTION_FAILURE);
 	if (command == 0)
