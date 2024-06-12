@@ -42,7 +42,6 @@ static char	append_str(char **str, char **str_to_add)
 			return (0);
 		*str = word;
 	}
-	ft_printf("Word appended: %s\n", word);
 	return (1);
 }
 
