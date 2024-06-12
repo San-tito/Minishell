@@ -15,6 +15,7 @@
 
 # include "parser_error.h"
 # include "token.h"
+# include "sh_malloc.h"
 
 // Struct used inside separate_words
 typedef	struct s_word_data

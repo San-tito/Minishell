@@ -77,6 +77,8 @@ static char	manage_quotes(t_token *token)
 	if (token->type != STR_TOKEN)
 		return (1);
 	quoted_str = token->content;
+	if (quoted_str == NULL)
+		return (1);
 	count_quotes(quoted_str, &handle_quotes);
 	unquoted_str = malloc(sizeof(char) * ((ft_strlen(quoted_str) - handle_quotes.num) + 1));
 	if (unquoted_str == NULL)

@@ -16,7 +16,8 @@
 
 NAME		= minishell
 CC 		= cc
-CFLAGS	= -Wall -Wextra -Werror -g -fsanitize=address
+SANITIZE = #-fsanitize=address
+CFLAGS	= -Wall -Wextra -Werror ${SANITIZE} -g
 DFLAGS	= -MMD -MF $(@:.o=.d)
 RLFLAGS = -lcurses
 

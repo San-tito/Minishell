@@ -1,31 +1,39 @@
 
+#include "execute_cmd.h"
+#include "minishell.h"
+#include "sig.h"
 #include "lexer_utils.h"
 #include "parser_utils.h"
-#include "general.h"
 
 static void print_words(t_list *lst)
 {
-	ft_printf("New word list:\n");
+	if (lst == NULL)
+		ft_printf("Word list is NULL.");
+	else
+		ft_printf("Separated words: ");
 	while (lst != NULL)
 	{
-		ft_printf("Word: [%s]\n", (char *)lst->content);
+		ft_printf("[%s] ", (char *)lst->content);
 		lst = lst->next;
 	}
+	ft_printf("\n");
 }
 
-static void	test_words(char *job)
+static void	test_separate_words(char *job)
 {
 	t_list  *words;
 
+	ft_printf("Words to separate: [%s]\n", job);
 	words = separate_words(job);
 	print_words(words);
 	clear_word_list(&words);
 }
 
-static void	test_empty(char *job)
+static void	test_empty_words(char *job)
 {
 	t_list  *words;
 
+	ft_printf("Words to separate: [%s]\n", job);
 	words = separate_words(job);
 	remove_empty_words(&words);
 	print_words(words);
@@ -34,24 +42,29 @@ static void	test_empty(char *job)
 
 static void	print_token(t_token *token)
 {
-	ft_printf("Token type: [%d], Token data: [%s].\n", token->type, token->content);
+	ft_printf("[%d, %s] ", token->type, token->content);
 }
 
 static void	print_tokens(t_list *tokens)
 {
-	ft_printf("New token list:\n");
+	if (tokens == NULL)
+		ft_printf("Token list is NULL.");
+	else
+		ft_printf("Tokens created [TOKEN-TYPE/TOKEN-DATA]:\n");
 	while (tokens != NULL)
 	{
 		print_token((t_token*)tokens->content);
 		tokens = tokens->next;
 	}
+	ft_printf("\n");
 }
 
-static void	test_token(char *job)
+static void	test_tokenize_words(char *job)
 {
 	t_list  *words;
 	t_list	*tokens;
 
+	ft_printf("Words to separate: [%s]\n", job);
 	words = separate_words(job);
 	remove_empty_words(&words);
 	print_words(words);
@@ -61,11 +74,12 @@ static void	test_token(char *job)
 	clear_tokens(&tokens);
 }
 
-static void	test_expand(char *job)
+static void	test_expansor(char *job)
 {
 	t_list  *words;
 	t_list	*tokens;
 
+	ft_printf("Words to separate: [%s]\n", job);
 	words = separate_words(job);
 	remove_empty_words(&words);
 	print_words(words);
@@ -76,15 +90,18 @@ static void	test_expand(char *job)
 	clear_tokens(&tokens);
 }
 
-static void test_quotes(char *job)
+static void test_remove_quotes(char *job)
 {
 	t_list  *words;
 	t_list	*tokens;
 
+	ft_printf("Words to separate: [%s]\n", job);
 	words = separate_words(job);
 	remove_empty_words(&words);
 	print_words(words);
 	tokens = tokenizer(&words);
+	expansor(&tokens);
+	print_tokens(tokens);
 	clear_word_list(&words);
 	remove_quotes(&tokens);
 	print_tokens(tokens);
@@ -144,67 +161,162 @@ static void	test_parse_command(char *job)
 	if (command != NULL)
 	{
 		print_command(command);
-		printf("\n");
+		ft_printf("\n");
 		//clear_command(command);
 	}
 }
 
-static void	test_separate_words()
+static void	test_all_separate_words()
 {
-	ft_printf("Correct Tests:\n");
-	test_words("test1 test2");
-	test_words("test3 \"test4\"\" test5\" test6");
-	test_words("test7 \"\'\" test8");
-	test_words("test9 \'\"\' test10");
-	test_words("test9           test10");
-	test_words("test11 test12    ");
-
-	ft_printf("\nIncorrect Tests:\n");
-	//test_words("");??
-	test_words("test1 \" test2");
-	test_words("test3 \' test4");
+	ft_printf("{SEPARATE WORDS}-Correct Tests:\n");
+	test_separate_words("test1 test2");
+	test_separate_words("test1 test2 test3");
+	test_separate_words("test1");
+	test_separate_words("test1 \"test2\"\" test3\" test4");
+	test_separate_words("test1 \"\'\" test2");
+	test_separate_words("test1 \'\"\' test2");
+	test_separate_words("test1           test2");
+	test_separate_words("test1 test2    ");
+	test_separate_words("    test1 test2");
+	test_separate_words("                                                      ");
+	test_separate_words("");
+	test_separate_words("expand $HOME b");
+	test_separate_words("expand \'$HOME\' b");
+	test_separate_words("expand \"$HOME\" b");
+	test_separate_words("expand \"\'$HOME\'\" b");
+	test_separate_words("expand \'\"$HOME\"\' b");
+	test_separate_words("test1 $SHLVL test2");
+	test_separate_words("test1 $$ test2");
+	test_separate_words("test1 $? test2");
+	test_separate_words("test1 $ test2 $a");
+	test_separate_words("$a");
+	test_separate_words("$");
+	ft_printf("\n{SEPARATE WORDS}-Incorrect Tests:\n");
+	test_separate_words("test1 \" test2");
+	test_separate_words("test3 \' test4");
+	test_separate_words("test3 \'\" test4");
+	test_separate_words("test3 \"\' test4");
 }
 
-static void	test_remove_empty_words()
+static void	test_all_remove_empty_words()
 {
-	ft_printf("\nRemove empty words:\n");
-	test_empty("test9           test10");
-	test_empty("test11 test12    ");
-	test_empty("                                                      ");
-	//test_empty("");??
+	ft_printf("\n{REMOVE EMPTY WORDS}:\n");
+	test_empty_words("test1 test2");
+	test_empty_words("test1 test2 test3");
+	test_empty_words("test1");
+	test_empty_words("test1 \"test2\"\" test3\" test4");
+	test_empty_words("test1 \"\'\" test2");
+	test_empty_words("test1 \'\"\' test2");
+	test_empty_words("test1           test2");
+	test_empty_words("test1 test2    ");
+	test_empty_words("    test1 test2");
+	test_empty_words("                                                      ");
+	test_empty_words("");
+	test_empty_words("expand $HOME b");
+	test_empty_words("expand \'$HOME\' b");
+	test_empty_words("expand \"$HOME\" b");
+	test_empty_words("expand \"\'$HOME\'\" b");
+	test_empty_words("expand \'\"$HOME\"\' b");
+	test_empty_words("test1 $SHLVL test2");
+	test_empty_words("test1 $$ test2");
+	test_empty_words("test1 $? test2");
+	test_empty_words("test1 $ test2 $a");
+	test_empty_words("$a");
+	test_empty_words("$");
 }
 
-static void	test_tokenizer()
+static void	test_all_tokenizer()
 {
-	ft_printf("\nTokenize:\n");
-	test_token("test1 test2");
-	test_token("test1|||test2");
-	test_token("test1|test2|test3|test4");
-	test_token("test1)test2(test3)test4");
-	test_token(")");
-	test_token("&");
-	//test_token("")??
+	ft_printf("\n{TOKENIZER}-Correct Tests:\n");
+	test_tokenize_words("test1 | test2");
+	test_tokenize_words("test1|test2");
+	test_tokenize_words("test1 && test2");
+	test_tokenize_words("test1&&test2");
+	test_tokenize_words("test1 || test2");
+	test_tokenize_words("test1||test2");
+	test_tokenize_words("test1 | test2 && test3 || test4");
+	test_tokenize_words("test1 | test2 && test3 || test4 && test4 | test5");
+	test_tokenize_words("test1 >a");
+	test_tokenize_words("test1 > a");
+	test_tokenize_words("test1 >a>b>c");
+	test_tokenize_words("test1 >a>b >c");
+	test_tokenize_words("test1 >>a<<b<c>d");
+	test_tokenize_words("test1 >>a<<b<c>d | test2");
+	test_tokenize_words(" <a test1 >b < c | test2 >a && >>b test3 < c > d || test4");
+	test_tokenize_words("(test1)");
+	test_tokenize_words("(test1 < a)");
+	test_tokenize_words("(test1 < a | test2 > b)");
+	test_tokenize_words(" ( test1 < a | test2 > b )&& test3");
+	test_tokenize_words("(test1 < a | (test2 > b)) && test3");
+	test_tokenize_words("(test1 < a | (test2 > b || (test3 || (test5) && test6))) && test4");
+	test_tokenize_words("(test1 < a | (test2 > b || (>a test3 || (test5 <a) && test6))) && test4");
+	ft_printf("\n{TOKENIZER}-Incorrect Tests:\n");
+	test_tokenize_words("&");
+	test_tokenize_words("test1 ||& test2");
+	test_tokenize_words("test1 &|| test2");
+	test_tokenize_words("test1 <& test2");
+	test_tokenize_words("((&)|(&))");
 }
 
-static void	test_expansor()
+static void	test_all_expansor()
 {
-	ft_printf("\nExpand:\n");
-	test_expand("expand $HOME b");
-	test_expand("expand \'$HOME\' b");
-	test_expand("expand \"$HOME\" b");
-	test_expand("expand \"\'$HOME\'\" b");
-	test_expand("expand \'\"$HOME\"\' b");
-	test_expand("test1 $SHLVL test2");
-	test_expand("test1 $$ test2");
+	ft_printf("\n{EXPANSOR}:\n");
+	test_expansor("$HOME");
+	test_expansor("\'$HOME\'");
+	test_expansor("\"$HOME\"");
+	test_expansor("\"\'$HOME\'\"");
+	test_expansor("\'\"$HOME\"\'");
+	test_expansor("test1$HOME");
+	test_expansor("\"test1$HOME\"");
+	test_expansor("test1 \"test2$HOME\"\" test3\" test4");
+	test_expansor("test1 $SHLVL test2");
+	test_expansor("test1 $$ test2");
+	test_expansor("test1 $? test2");
+	test_expansor("$a");
+	test_expansor("$?");
+	test_expansor("$$");
+	test_expansor("$");
+	test_expansor("test1 $ test2 $a");
 }
 
-static void	test_q()
+static void	test_all_remove_quotes()
 {
-	ft_printf("\nRemove quotes:\n");
-	test_quotes("test1 \"test4\"\" test5\" test2");
-	test_quotes("test1 \"test4$HOME\"\" test5\" test2");
-	test_quotes("test1 \"test4\'$HOME\' test5\" test2");
-	test_quotes("test1 \"test4\'\'\'\"\'\"\'\" \'\'test5\" test2");
+	ft_printf("\n{REMOVE QUOTES}:\n");
+	test_remove_quotes("test1 \"test2\"\" test3\" test4");
+	test_remove_quotes("test1 \"test2$HOME\"\" test3\" test4");
+	test_remove_quotes("test1 \"test2\'$HOME\' test3\" test4");
+	test_remove_quotes("test1 \"test2\'\'\'\"\'\"\'\" \'\'test3\" test4");
+}
+
+static void	test_all_check_tokens()
+{
+	ft_printf("\n{CHECK TOKENS}-Incorrect Tests:\n");
+	test_tokenize_words("test1|");
+	test_tokenize_words("test1||");
+	test_tokenize_words("test1&&");
+	test_tokenize_words("|");
+	test_tokenize_words("||");
+	test_tokenize_words("(");
+	test_tokenize_words(")");
+	test_tokenize_words("|test1");
+	test_tokenize_words("||test1");
+	test_tokenize_words("&&test1");
+	test_tokenize_words("test1 ||| test2");
+	test_tokenize_words("test1 || | test2");
+	test_tokenize_words("test1 | || test2");
+	test_tokenize_words("test1 || || test2");
+	test_tokenize_words("test1 >< test2");
+	test_tokenize_words("test1 <> test2");
+	test_tokenize_words("test1 <<>> test2");
+	test_tokenize_words("test1 >><< test2");
+	test_tokenize_words("test1 >>> test2");
+	test_tokenize_words("test1)test2(test3 test4");
+	test_tokenize_words(" (test1)test2(test3) test4");
+	test_tokenize_words(" (test1)test2)test3( test4");
+	test_tokenize_words("(test1)test2) ");
+	test_tokenize_words("((test1)test2");
+	test_tokenize_words("((test1) (test2))");
+	test_tokenize_words("(())");
 }
 
 static void	test_lexer()
@@ -242,13 +354,15 @@ static void	test_parser()
 	test_parse_command("echo a | (echo b| (echo c)) | echo c");
 }
 
+
 int main(void)
 {
-	//test_separate_words();
-	//test_remove_empty_words();
-	//test_tokenizer();
-	test_expansor();
-	//test_q();
+	//test_all_separate_words();
+	//test_all_remove_empty_words();
+	//test_all_tokenizer();
+	//test_all_expansor();
+	test_all_remove_quotes();
+	//test_all_check_tokens();
 	//test_lexer();
 	//test_parser();
 	return (0);

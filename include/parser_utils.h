@@ -18,6 +18,7 @@
 # include "clear_cmd.h"
 # include "token.h"
 # include "parser_error.h"
+# include "sh_malloc.h"
 
 t_list		*lexer(char *job);
 void		handle_heredocs(t_list **tokens);
