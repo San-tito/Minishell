@@ -46,6 +46,8 @@ static char	boundary_valid(char last_token_type, t_token *token)
 		return (0);
 	else if ((last_token_type == AND_TOKEN || last_token_type == OR_TOKEN || last_token_type == PIPE_TOKEN) && (curr_token_type == AND_TOKEN || curr_token_type == OR_TOKEN || curr_token_type == PIPE_TOKEN))
 		return (0);
+	else if ((last_token_type == INPUT_TOKEN || last_token_type == OUTPUT_TOKEN || last_token_type == HEREDOC_TOKEN || last_token_type == APPEND_TOKEN) && token->content == NULL)
+		return (-1);
 	return (1);
 }
 
@@ -66,6 +68,7 @@ static char	check_adjacents(t_list **tokens)
 	t_token	*token;
 	char	last_token_type;
 	t_list	*lst;
+	int		err;
 
 	lst = *tokens;
 	last_token_type = ((t_token *)(lst->content))->type;
@@ -75,7 +78,10 @@ static char	check_adjacents(t_list **tokens)
 	while (lst != NULL)
 	{
 		token = (t_token *)(lst->content);
-		if (!boundary_valid(last_token_type, token))
+		err = boundary_valid(last_token_type, token);
+		if (err == -1)
+			return (handle_token_error(tokens, AMBIGUOUS_REDIR_ERR));
+		else if (err == 0)
 			return (handle_checker_error(tokens, get_error_msg(token->type)));
 		last_token_type = token->type;
 		lst = lst->next;

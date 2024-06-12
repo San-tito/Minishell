@@ -43,6 +43,10 @@
 #  define CLOSED_PARENTHESIS_BOUNDARY_ERROR "syntax error near unexpected token ')'"
 # endif
 
+# ifndef AMBIGUOUS_REDIR_ERR
+#  define AMBIGUOUS_REDIR_ERR "ambiguous redirect"
+# endif
+
 # ifndef AND_BOUNDARY_ERROR
 #  define AND_BOUNDARY_ERROR "'&&'"
 # endif
