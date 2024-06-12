@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:28:37 by sguzman           #+#    #+#             */
-/*   Updated: 2024/05/12 14:16:49 by santito          ###   ########.fr       */
+/*   Updated: 2024/06/12 21:08:49 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,6 @@ void	clear_command(t_command *command)
 	else if (type == cm_connection)
 		clear_connection((t_connection *)(command->value));
 	else if (type == cm_subshell)
-	{
 		clear_command((t_command *)command->value);
-		sh_free(command->value);
-	}
 	sh_free(command);
 }
