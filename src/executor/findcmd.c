@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 16:32:10 by sguzman           #+#    #+#             */
-/*   Updated: 2024/05/10 13:06:45 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/12 19:49:30 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static char	*find_in_path_element(const char *name, char *path)
 		ft_strlcat(full_path, "/", path_len + 2);
 	ft_strlcat(full_path, name, path_len + name_len + 2);
 	status = file_status(full_path);
-	if ((status & FS_EXISTS))
+	if ((status & FS_EXECABLE))
 		return (full_path);
 	sh_free(full_path);
 	return (NULL);

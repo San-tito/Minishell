@@ -6,7 +6,7 @@
 #    By: sguzman <sguzman@student.42barcelo>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/13 15:31:23 by sguzman           #+#    #+#              #
-#    Updated: 2024/06/12 16:26:01 by sguzman          ###   ########.fr        #
+#    Updated: 2024/06/12 19:44:20 by sguzman          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #    
 
@@ -16,8 +16,7 @@
 
 NAME		= minishell
 CC 		= cc
-SANITIZE = #-fsanitize=address
-CFLAGS	= -Wall -Wextra -Werror ${SANITIZE} -g
+CFLAGS	= -Wall -Wextra -Werror -g -fsanitize=address
 DFLAGS	= -MMD -MF $(@:.o=.d)
 RLFLAGS = -lcurses
 
