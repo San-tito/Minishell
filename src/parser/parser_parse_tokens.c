@@ -46,7 +46,6 @@ t_command	*parse_tokens(t_list **tokens)
 	t_token		*token;
 	char		connector;
 
-	
 	first = create_first_node(tokens);
 	if (first == NULL)
 		return (NULL);

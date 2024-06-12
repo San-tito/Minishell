@@ -125,18 +125,16 @@ static void	print_command2(t_command *command);
 
 static void	print_connection(t_connection *connection)
 {
-	ft_printf("Node is connection. Connection is: [%d].\n", connection->connector);
 	print_command2(connection->first);
+	ft_printf(" %d ", connection->connector);
 	print_command2(connection->second);
 }
 
 static void	print_subshell(t_command *subshell)
 {
-	t_command	*command;
-
-	ft_printf("Subshell.\n");
-	command = (t_command*)(subshell->value);
-	print_command2(command);
+	ft_printf("( ");
+	print_command((t_command *)subshell->value);
+	ft_printf(" )");
 }
 
 static void	print_command2(t_command *command)
@@ -149,14 +147,14 @@ static void	print_command2(t_command *command)
 	else if (type == cm_connection)
 		print_connection((t_connection *)(command->value));
 	else
-		print_subshell((command->value));
+		print_subshell(((t_command *)command->value));
 }
 
-static void	test_parse_command(char *job)
+static void	test_parser(char *job)
 {
 	t_command	*command;
 
-	ft_printf("New test.\n");
+	ft_printf("Job: [%s]\n\t", job);
 	command = parse_command(job);
 	if (command != NULL)
 	{
@@ -288,37 +286,6 @@ static void	test_all_remove_quotes()
 	test_remove_quotes("test1 \"test2\'\'\'\"\'\"\'\" \'\'test3\" test4");
 }
 
-static void	test_all_check_tokens()
-{
-	ft_printf("\n{CHECK TOKENS}-Incorrect Tests:\n");
-	test_tokenize_words("test1|");
-	test_tokenize_words("test1||");
-	test_tokenize_words("test1&&");
-	test_tokenize_words("|");
-	test_tokenize_words("||");
-	test_tokenize_words("(");
-	test_tokenize_words(")");
-	test_tokenize_words("|test1");
-	test_tokenize_words("||test1");
-	test_tokenize_words("&&test1");
-	test_tokenize_words("test1 ||| test2");
-	test_tokenize_words("test1 || | test2");
-	test_tokenize_words("test1 | || test2");
-	test_tokenize_words("test1 || || test2");
-	test_tokenize_words("test1 >< test2");
-	test_tokenize_words("test1 <> test2");
-	test_tokenize_words("test1 <<>> test2");
-	test_tokenize_words("test1 >><< test2");
-	test_tokenize_words("test1 >>> test2");
-	test_tokenize_words("test1)test2(test3 test4");
-	test_tokenize_words(" (test1)test2(test3) test4");
-	test_tokenize_words(" (test1)test2)test3( test4");
-	test_tokenize_words("(test1)test2) ");
-	test_tokenize_words("((test1)test2");
-	test_tokenize_words("((test1) (test2))");
-	test_tokenize_words("(())");
-}
-
 static void	test_all_lexer()
 {
 	ft_printf("\n{LEXER}-Correct Tests:\n");
@@ -368,12 +335,11 @@ static void	test_all_lexer()
 static void	test_all_parser()
 {
 	ft_printf("\nCommand parser checker:\n");
-	test_parse_command("echo a | echo b");
-	test_parse_command("echo a | echo b && >a echo c <c");
-	test_parse_command("echo a | (echo b) | echo c");
-	test_parse_command("echo a | (echo b| (echo c)) | echo c");
+	test_parser("echo a | echo b");
+	test_parser("echo a | echo b && >a echo c <c");
+	test_parser("echo a | (echo b) | echo c");
+	test_parser("echo a | (echo b| (echo c)) | echo c");
 }
-
 
 int main(void)
 {
@@ -382,7 +348,10 @@ int main(void)
 	//test_all_tokenizer();
 	//test_all_expansor();
 	//test_all_remove_quotes();
-	test_all_lexer();
-	//test_all_parser();
+	//test_all_lexer();
+	//test_tokenize_words("echo a | (echo b) | echo c");
+	//test_lexer("echo a | (echo b) | echo c");
+	//test_parser("echo a | (echo b) | echo c");
+	test_all_parser();
 	return (0);
 }

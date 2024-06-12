@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "parser_utils.h"
+#include "minishell.h"
 
 /*
  *	Will enter only when tokens is '('.

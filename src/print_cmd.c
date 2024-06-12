@@ -18,14 +18,14 @@ static void	print_redirection_list(t_redirect *redirects)
 	while (redirects)
 	{
 		if (redirects->instruction == r_input_direction)
-			printf("< %s", redirects->filename);
+			ft_printf("< %s", redirects->filename);
 		else if (redirects->instruction == r_output_direction)
-			printf("> %s", redirects->filename);
+			ft_printf("> %s", redirects->filename);
 		else if (redirects->instruction == r_appending_to)
-			printf(">> %s", redirects->filename);
+			ft_printf(">> %s", redirects->filename);
 		redirects = redirects->next;
 		if (redirects)
-			printf(" ");
+			ft_printf(" ");
 	}
 }
 
@@ -36,10 +36,10 @@ static void	print_word_list(t_word_list *list, char *separator)
 	w = list;
 	while (w)
 	{
-		printf("%s", w->word);
+		ft_printf("%s", w->word);
 		w = w->next;
 		if (w)
-			printf("%s", separator);
+			ft_printf("%s", separator);
 	}
 }
 
@@ -50,16 +50,16 @@ void	print_simple_command(t_simple_com *simple_command)
 	if (simple_command->redirects)
 	{
 		if (simple_command->words)
-			printf(" ");
+			ft_printf(" ");
 		print_redirection_list(simple_command->redirects);
 	}
 }
 
 void	print_subshell(t_command *command)
 {
-	printf("( ");
-	print_command((t_command *)command->value);
-	printf(" )");
+	ft_printf("( ");
+	print_command((t_command *)command);
+	ft_printf(" )");
 }
 
 void	print_command(t_command *command)
@@ -75,11 +75,11 @@ void	print_command(t_command *command)
 		connect = (t_connection *)command->value;
 		print_command(connect->first);
 		if (connect->connector == '|')
-			printf(" | ");
+			ft_printf(" | ");
 		else if (connect->connector == AND_AND)
-			printf(" && ");
+			ft_printf(" && ");
 		else if (connect->connector == OR_OR)
-			printf(" || ");
+			ft_printf(" || ");
 		print_command(connect->second);
 	}
 	else if (command->type == cm_subshell)
