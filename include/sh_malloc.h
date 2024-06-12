@@ -21,5 +21,6 @@
 void	*sh_malloc(size_t bytes);
 void	sh_free(void *string);
 void	sh_doublefree(void **array);
+char	*sh_strdup(char *str);
 
 #endif

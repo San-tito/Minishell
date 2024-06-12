@@ -121,35 +121,6 @@ static void	test_lexer(char *job)
 	}
 }
 
-static void	print_command2(t_command *command);
-
-static void	print_connection(t_connection *connection)
-{
-	print_command2(connection->first);
-	ft_printf(" %d ", connection->connector);
-	print_command2(connection->second);
-}
-
-static void	print_subshell(t_command *subshell)
-{
-	ft_printf("( ");
-	print_command((t_command *)subshell->value);
-	ft_printf(" )");
-}
-
-static void	print_command2(t_command *command)
-{
-	t_command_type	type;
-
-	type = command->type;
-	if (type == cm_simple)
-		print_simple_command((t_simple_com *)(command->value));
-	else if (type == cm_connection)
-		print_connection((t_connection *)(command->value));
-	else
-		print_subshell(((t_command *)command->value));
-}
-
 static void	test_parser(char *job)
 {
 	t_command	*command;
@@ -160,7 +131,7 @@ static void	test_parser(char *job)
 	{
 		print_command(command);
 		ft_printf("\n");
-		//clear_command(command);
+		clear_command(command);
 	}
 }
 
@@ -342,16 +313,18 @@ static void	test_all_parser()
 	test_parser("$a");
 	test_parser("$a >b b");
 	test_parser("$a echo \"test\"");
+	test_parser("cat > $a");
 }
 
 int main(void)
 {
-	test_all_separate_words();
-	test_all_remove_empty_words();
-	test_all_tokenizer();
-	test_all_expansor();
-	test_all_remove_quotes();
-	test_all_lexer();
+	//test_all_separate_words();
+	//test_all_remove_empty_words();
+	//test_all_tokenizer();
+	//test_all_expansor();
+	//test_all_remove_quotes();
+	//test_all_lexer();
 	test_all_parser();
+	//test_parser("echo a | echo b");
 	return (0);
 }

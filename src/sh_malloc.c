@@ -39,3 +39,13 @@ void	sh_doublefree(void **array)
 		sh_free(*ptr++);
 	sh_free(array);
 }
+
+char	*sh_strdup(char *str)
+{
+	char	*dup;
+
+	dup = ft_strdup(str);
+	if (dup == NULL)
+		fatal_error("Not enough memory to duplicate %s", str);
+	return (dup);
+}

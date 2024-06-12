@@ -49,14 +49,14 @@ t_command	*create_simple_command(t_list **tokens)
 		if (token->type == STR_TOKEN)
 		{
 			if (token->content)
-				words = make_word_list(token->content, words);
+				words = make_word_list(sh_strdup(token->content), words);
 		}
 		else
 		{
 			*tokens = (*tokens)->next;
 			redir = token->type;
 			token = (t_token *)((*tokens)->content);
-			redirect = make_redirection(token->content, select_instruction(redir), redirect);
+			redirect = make_redirection(sh_strdup(token->content), select_instruction(redir), redirect);
 		}
 		*tokens = (*tokens)->next;
 	}
