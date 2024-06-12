@@ -114,10 +114,6 @@ char	check_tokens(t_list **tokens)
 {
 	if (*tokens == NULL)
 		return (1);
-	
-	//printf("TEst.\n");
-	//check that at least there is one STR_TOKEN
-	//not sure if needed
 
 	//check that all open par are closed, and that there is always one par opened and before one closes
 	if (!check_parentheses(tokens))

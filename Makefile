@@ -85,7 +85,6 @@ PARSERS = expansor.c \
 		  parser_create_simple_command.c \
           parser_create_subshell.c \
 		  parser_handle_error.c \
-          parser_handle_heredocs.c \
 		  parser_parse_tokens.c \
           parser.c \
           tokenizer_utils_1.c \

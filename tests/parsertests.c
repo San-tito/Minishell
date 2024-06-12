@@ -294,7 +294,6 @@ static void	test_all_lexer()
 	test_lexer("te<st1");
 	test_lexer("<< test0");
 	test_lexer("echo a | (echo b) | echo c");
-
 	ft_printf("\n{LEXER}-Incorrect Tests:\n");
 	test_lexer("test1|");
 	test_lexer("test1||");
@@ -339,6 +338,7 @@ static void	test_all_parser()
 	test_parser("echo a | echo b && >a echo c <c");
 	test_parser("echo a | (echo b) | echo c");
 	test_parser("echo a | (echo b| (echo c)) | echo c");
+	test_parser("echo a | ( <a echo b >c <a| (echo c <a >b)) | echo c");
 }
 
 int main(void)
@@ -349,9 +349,6 @@ int main(void)
 	//test_all_expansor();
 	//test_all_remove_quotes();
 	//test_all_lexer();
-	//test_tokenize_words("echo a | (echo b) | echo c");
-	//test_lexer("echo a | (echo b) | echo c");
-	//test_parser("echo a | (echo b) | echo c");
 	test_all_parser();
 	return (0);
 }

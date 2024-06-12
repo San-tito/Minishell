@@ -22,7 +22,6 @@ t_command	*parse_command(char *current_line)
 	tokens = lexer(current_line);
 	if (tokens == NULL)
 		return (NULL);
-	handle_heredocs(&tokens); // to fix
     // El malloc no puede fallar, si falla exit(2) <- POSIX; controlado en sh_malloc
 	// <<Malloc error printeado en sh_malloc>> maybe print malloc error if command == NULL
 	command = parse_tokens(&tokens);
