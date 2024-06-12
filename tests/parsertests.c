@@ -348,7 +348,7 @@ int main(void)
 	//test_all_tokenizer();
 	//test_all_expansor();
 	//test_all_remove_quotes();
-	//test_all_lexer();
-	test_all_parser();
+	test_all_lexer();
+	//test_all_parser();
 	return (0);
 }

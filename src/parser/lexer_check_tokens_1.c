@@ -11,7 +11,6 @@
 /* ************************************************************************** */
 
 #include "lexer_utils.h"
-#include <stdio.h>
 
 static char	*get_error_msg(char token_type)
 {

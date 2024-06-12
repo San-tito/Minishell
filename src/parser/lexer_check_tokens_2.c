@@ -45,7 +45,7 @@ static char	check_parentheses_closure(t_list **tokens)
 		token = (t_token *)(check_par.lst->content);
 		if (token->type == CLOSE_PAR_TOKEN)
 			if(check_par.parentesis_used == 0)
-				return (handle_token_error(tokens, CLOSED_PARENTESIS_ERROR));
+				return (handle_token_error(tokens, CLOSED_PARENTHESIS_BOUNDARY_ERROR));
 			else
 				check_par.parentesis_used--;
 		else if (token->type == OPEN_PAR_TOKEN)

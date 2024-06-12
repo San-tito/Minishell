@@ -11,13 +11,14 @@
 /* ************************************************************************** */
 
 #include "parser_error.h"
+#include "error.h"
 
 /*
  *	Called when there's an error separating words.
  */
 char	handle_word_error(t_list **words, char *error_msg)
 {
-	ft_printf("%s\n", error_msg);
+	internal_error(error_msg);
 	clear_word_list(words);
 	return (0);
 }
@@ -27,7 +28,7 @@ char	handle_word_error(t_list **words, char *error_msg)
  */
 char	handle_token_error(t_list **tokens, char *error_msg)
 {
-	ft_printf("%s\n", error_msg);
+	internal_error(error_msg);
 	clear_tokens(tokens);
 	return (0);
 }
@@ -37,7 +38,7 @@ char	handle_token_error(t_list **tokens, char *error_msg)
  */
 char	handle_error(t_list **words, t_list **tokens, char *error_msg)
 {
-	ft_printf("%s\n", error_msg);
+	internal_error(error_msg);
 	clear_word_list(words);
 	clear_tokens(tokens);
 	return (0);
@@ -45,7 +46,7 @@ char	handle_error(t_list **words, t_list **tokens, char *error_msg)
 
 char	handle_checker_error(t_list **tokens, char *error_msg)
 {
-	ft_printf("Error: syntax error near unexpected token %s\n", error_msg);
+	internal_error("syntax error near unexpected token %s", error_msg);
 	clear_tokens(tokens);
 	return (0);
 }
