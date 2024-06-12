@@ -321,31 +321,51 @@ static void	test_all_check_tokens()
 
 static void	test_all_lexer()
 {
-	ft_printf("\nLexer:\n");
-	test_lexer("test1 () test2");
-	test_lexer("test1 | test2 |");
+	ft_printf("\n{LEXER}-Correct Tests:\n");
+	test_lexer("a");
+	test_lexer("test1 > test2 > test3");
+	test_lexer("te<st1");
+	test_lexer("<< test0");
+	test_lexer("echo a | (echo b) | echo c");
+
+	ft_printf("\n{LEXER}-Incorrect Tests:\n");
+	test_lexer("test1|");
+	test_lexer("test1||");
+	test_lexer("test1&&");
 	test_lexer("|");
+	test_lexer("||");
 	test_lexer("(");
 	test_lexer(")");
-	test_lexer("a");
-	test_lexer("test1 ( test2");
-	test_lexer("test1 && | test2");
+	test_lexer("|test1");
+	test_lexer("||test1");
+	test_lexer("&&test1");
 	test_lexer("test1 ||| test2");
+	test_lexer("test1 || | test2");
+	test_lexer("test1 | || test2");
+	test_lexer("test1 || || test2");
+	test_lexer("echo a > > echo b");
+	test_lexer("test1 >< test2");
 	test_lexer("test1 <> test2");
-	test_lexer("test1 > test2 >");
-	test_lexer("test1 > test2 > test3");
-	test_lexer("test1 > test2 (test4) | test5");
-	test_lexer("te<st1");
-	test_lexer("test1 | test2 || test3 && test0 test4 > test5 < test6 ( test7 ) >> test8 << test9");
-	test_lexer("<< test0");
+	test_lexer("test1 <<>> test2");
+	test_lexer("test1 >><< test2");
+	test_lexer("test1 >>> test2");
 	test_lexer("test1 <<a <<a <<a <<a <<a <<a <<a <<a <<a <<a <<a <<a <<a <<a <<a <<a <<a");
-	test_lexer("echo a ( echo c )");
-	test_lexer("echo a > > echo b"); //??
-	test_lexer("echo a > < echo b"); //??
-	test_lexer("echo a | (echo b) | echo c");
+	test_lexer("test1 > test2 >");
+	test_lexer("test1 ( test2");
+	test_lexer("test1 () test2");
+	test_lexer("test1 | test2 |");
+	test_lexer("test1 | test2 || test3 && test0 test4 > test5 < test6 ( test7 ) >> test8 << test9");
+	test_lexer("test1 > test2 (test4) | test5");
+	test_lexer("test1)test2(test3 test4");
+	test_lexer(" (test1)test2(test3) test4");
+	test_lexer(" (test1)test2)test3( test4");
+	test_lexer("(test1)test2) ");
+	test_lexer("((test1)test2");
+	test_lexer("((test1) (test2))");
+	test_lexer("(())");
 }
 
-static void	test_parser()
+static void	test_all_parser()
 {
 	ft_printf("\nCommand parser checker:\n");
 	test_parse_command("echo a | echo b");
@@ -363,6 +383,6 @@ int main(void)
 	//test_all_expansor();
 	//test_all_remove_quotes();
 	test_all_lexer();
-	//test_parser();
+	//test_all_parser();
 	return (0);
 }
