@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 12:50:11 by sguzman           #+#    #+#             */
-/*   Updated: 2024/05/05 18:08:40 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/12 21:56:24 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 #include "findcmd.h"
 #include "jobs.h"
 #include "minishell.h"
+#include "sig.h"
 #include <errno.h>
 #include <string.h>
 
@@ -67,7 +68,8 @@ static int	execute_disk_command(char *command, t_word_list *words,
 		t_redirect *redirects)
 {
 	char	**args;
-	
+
+	reset_terminating_signals();
 	if (redirects && (do_redirections(redirects) != 0))
 		exit(EXECUTION_FAILURE);
 	if (command == 0)

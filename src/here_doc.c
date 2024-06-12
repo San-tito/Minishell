@@ -6,12 +6,13 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:55:43 by sguzman           #+#    #+#             */
-/*   Updated: 2024/05/13 16:37:10 by santito          ###   ########.fr       */
+/*   Updated: 2024/06/12 21:59:02 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "input.h"
 #include "minishell.h"
+#include "sig.h"
 
 static char	*append_to_document(char *document, const char *line)
 {

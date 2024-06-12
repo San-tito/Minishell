@@ -6,13 +6,14 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 20:51:58 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/12 16:45:57 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/12 23:19:21 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute_cmd.h"
 #include "jobs.h"
 #include "minishell.h"
+#include "sig.h"
 
 int			g_last_exit_value;
 
@@ -24,8 +25,12 @@ int	execute_in_subshell(t_command *command, int pipe_in, int pipe_out,
 	pid = make_child();
 	if (pid == 0)
 	{
+		reset_terminating_signals();
+		if (fd_to_close)
+			close(fd_to_close);
+		do_piping(pipe_in, pipe_out);
 		g_last_exit_value = execute_command((t_command *)command->value,
-				NO_PIPE, NO_PIPE, fd_to_close);
+				NO_PIPE, NO_PIPE, 0);
 		exit(g_last_exit_value);
 	}
 	else
@@ -33,7 +38,6 @@ int	execute_in_subshell(t_command *command, int pipe_in, int pipe_out,
 		close_pipes(pipe_in, pipe_out);
 		if (pipe_out != NO_PIPE)
 			return (EXECUTION_SUCCESS);
-		g_last_exit_value = waitchld(pid);
 		return (g_last_exit_value);
 	}
 }
