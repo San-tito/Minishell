@@ -6,13 +6,25 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 13:21:31 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/27 13:16:25 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/13 16:51:42 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "jobs.h"
 #include "minishell.h"
+#include "sig.h"
 #include <errno.h>
+#include <stdio.h>
+
+static void	print_status(int status)
+{
+	if (WIFSIGNALED(status))
+		if (WTERMSIG(status) == SIGQUIT)
+			fprintf(stderr, "%s ", "Quit");
+	if ((WIFSTOPPED(status) == 0) && (WIFCONTINUED(status) == 0)
+		&& WCOREDUMP(status))
+		fprintf(stderr, "%s\n", "(core dumped) ");
+}
 
 pid_t	make_child(void)
 {
@@ -20,17 +32,13 @@ pid_t	make_child(void)
 
 	pid = fork();
 	if (pid < 0)
-	{
-		/* Handle Error Exit Status EX_NOEXEC */
 		exit(EX_NOEXEC);
-	}
-	/* Clean process that has the same pid */
-	/* add process */
 	return (pid);
 }
 
 int	process_exit_status(int status)
 {
+	print_status(status);
 	if (WIFSIGNALED(status))
 		return (128 + WTERMSIG(status));
 	else

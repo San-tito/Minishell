@@ -6,24 +6,29 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 11:56:46 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/12 21:52:48 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/13 17:06:21 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "execute_cmd.h"
 #include "minishell.h"
 #include "sig.h"
 
 void	sigint_sighandler(int sig)
 {
-	(void)sig;
+	signal(sig, sigint_sighandler);
 	ft_putchar_fd(10, 1);
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
+	if (rl_readline_state & RL_STATE_SIGHANDLER)
+	{
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+	}
 }
 
 void	reset_terminating_signals(void)
 {
+	signal(SIGQUIT, SIG_DFL);
 	signal(SIGINT, SIG_DFL);
 }
 

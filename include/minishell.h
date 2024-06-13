@@ -6,7 +6,7 @@
 /*   By: mpovill- <mpovill-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 12:11:32 by mpovill-          #+#    #+#             */
-/*   Updated: 2024/05/13 18:37:34 by santito          ###   ########.fr       */
+/*   Updated: 2024/06/13 17:03:24 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,16 @@
 # define AND_AND 3
 # define OR_OR 5
 
+# define RL_STATE_SIGHANDLER 0x0008000
+
 /* ************************************************************************** */
 /*                               Readline functions                           */
 /* ************************************************************************** */
-char		*readline(const char *);
-void		add_history(const char *);
-extern void	rl_replace_line(const char *, int);
-extern int	rl_on_new_line(void);
-extern void	rl_redisplay(void);
+char					*readline(const char *);
+void					add_history(const char *);
+extern void				rl_replace_line(const char *, int);
+extern int				rl_on_new_line(void);
+extern void				rl_redisplay(void);
+extern unsigned long	rl_readline_state;
 
 #endif
