@@ -17,12 +17,18 @@
 # include "token.h"
 # include "parser_error.h"
 
-typedef struct s_word
+# define CORRECT 1
+# define ERROR -1
+
+typedef struct s_content_data
 {
 	char	*start;
 	int		len;
 	char	single_q;
 	char	double_q;
-}		t_word;
+}		t_content_data;
+
+char	append_content(char **new_content, t_content_data content_data);
+char	expand_value(char **new_content, char **content);
 
 #endif

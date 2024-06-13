@@ -16,7 +16,7 @@
 
 NAME		= minishell
 CC 		= cc
-CFLAGS	= -Wall -Wextra -Werror -g #-fsanitize=address
+CFLAGS	= -Wall -Wextra -Werror -g -fsanitize=address
 DFLAGS	= -MMD -MF $(@:.o=.d)
 RLFLAGS = -lcurses
 
@@ -74,7 +74,8 @@ SRCS = clear_cmd.c \
        sig.c \
        variables.c
 
-PARSERS = expansor.c \
+PARSERS = expansor_utils.c \
+		  expansor.c \
 		  lexer_check_tokens_1.c \
           lexer_check_tokens_2.c \
           lexer_clear.c \
