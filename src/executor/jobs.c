@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 13:21:31 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/13 16:51:42 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/13 17:26:21 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 #include <errno.h>
 #include <stdio.h>
 
-static void	print_status(int status)
+void	print_status(int status)
 {
 	if (WIFSIGNALED(status))
 		if (WTERMSIG(status) == SIGQUIT)

@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 16:17:53 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/23 14:54:56 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/13 17:26:48 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct s_process
 /*               structures and definitions used by the jobs.c file           */
 /* ************************************************************************** */
 pid_t					make_child(void);
+void					print_status(int status);
 int						waitchld(pid_t pid);
 
 #endif
