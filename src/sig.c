@@ -6,34 +6,24 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 11:56:46 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/13 18:35:48 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/14 00:24:12 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute_cmd.h"
+#include "input.h"
 #include "minishell.h"
 #include "sig.h"
 
 void	sigint_sighandler(int sig)
 {
-	static volatile sig_atomic_t	interrupt_state = 0;
-
 	signal(sig, sigint_sighandler);
-	if (interrupt_state == 0)
-		interrupt_state++;
-	if (interrupt_state)
-	{
-		if (g_last_exit_value < 128)
-			g_last_exit_value = 128 + SIGINT;
-		interrupt_state--;
-	}
-	if (interrupt_state == 0)
-	{
-		g_last_exit_value |= 128;
-		ft_putchar_fd(10, 1);
-	}
+	if (g_last_exit_value < 128)
+		g_last_exit_value = 128 + SIGINT;
+	ft_putchar_fd(10, 1);
 	if (rl_readline_state & RL_STATE_SIGHANDLER)
 	{
+		rl_visible_prompt_length = rl_expand_prompt(get_primary_prompt());
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();

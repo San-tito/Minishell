@@ -6,18 +6,22 @@
 /*   By: mpovill- <mpovill-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 12:11:32 by mpovill-          #+#    #+#             */
-/*   Updated: 2024/06/13 17:03:24 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/14 00:21:51 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
+# include "colors.h"
 # include "command.h"
 # include "error.h"
 # include "ft_printf.h"
 # include "general.h"
+# include "history.h"
 # include "make_cmd.h"
+# include "readline.h"
+# include "rlprivate.h"
 # include "sh_malloc.h"
 # include "variables.h"
 
@@ -36,17 +40,5 @@
 
 # define AND_AND 3
 # define OR_OR 5
-
-# define RL_STATE_SIGHANDLER 0x0008000
-
-/* ************************************************************************** */
-/*                               Readline functions                           */
-/* ************************************************************************** */
-char					*readline(const char *);
-void					add_history(const char *);
-extern void				rl_replace_line(const char *, int);
-extern int				rl_on_new_line(void);
-extern void				rl_redisplay(void);
-extern unsigned long	rl_readline_state;
 
 #endif
