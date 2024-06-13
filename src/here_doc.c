@@ -6,10 +6,11 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:55:43 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/12 21:59:02 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/14 01:08:54 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "execute_cmd.h"
 #include "input.h"
 #include "minishell.h"
 #include "sig.h"
