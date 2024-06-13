@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 11:56:46 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/13 17:06:21 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/13 18:35:48 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,22 @@
 
 void	sigint_sighandler(int sig)
 {
+	static volatile sig_atomic_t	interrupt_state = 0;
+
 	signal(sig, sigint_sighandler);
-	ft_putchar_fd(10, 1);
+	if (interrupt_state == 0)
+		interrupt_state++;
+	if (interrupt_state)
+	{
+		if (g_last_exit_value < 128)
+			g_last_exit_value = 128 + SIGINT;
+		interrupt_state--;
+	}
+	if (interrupt_state == 0)
+	{
+		g_last_exit_value |= 128;
+		ft_putchar_fd(10, 1);
+	}
 	if (rl_readline_state & RL_STATE_SIGHANDLER)
 	{
 		rl_replace_line("", 0);
