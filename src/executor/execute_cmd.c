@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 20:51:58 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/12 23:32:44 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/13 14:33:20 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,7 @@ int	execute_in_subshell(t_command *command, int pipe_in, int pipe_out,
 	else
 	{
 		close_pipes(pipe_in, pipe_out);
-		if (pipe_out != NO_PIPE)
-			return (EXECUTION_SUCCESS);
-		if (pipe_out == NO_PIPE)
-			waitchld(pid);
+		waitpid(pid, &g_last_exit_value, WUNTRACED | WCONTINUED);
 		return (g_last_exit_value);
 	}
 }
