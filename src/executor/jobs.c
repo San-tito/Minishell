@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 13:21:31 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/14 00:27:47 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/14 15:15:57 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ void	print_status(int status)
 	if ((WIFSTOPPED(status) == 0) && (WIFCONTINUED(status) == 0)
 		&& WCOREDUMP(status))
 		fprintf(stderr, "%s", "(core dumped) ");
-	fprintf(stderr, "\n");
+	if (WIFSIGNALED(status))
+		fprintf(stderr, "\n");
 }
 
 pid_t	make_child(void)
