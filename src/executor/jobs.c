@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 13:21:31 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/14 15:15:57 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/15 22:31:06 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,23 @@
 
 void	print_status(int status)
 {
+	int	term_signal;
+
 	if (WIFSIGNALED(status))
-		if (WTERMSIG(status) == SIGQUIT)
-			fprintf(stderr, "%s ", "Quit");
-	if ((WIFSTOPPED(status) == 0) && (WIFCONTINUED(status) == 0)
-		&& WCOREDUMP(status))
-		fprintf(stderr, "%s", "(core dumped) ");
-	if (WIFSIGNALED(status))
+	{
+		term_signal = WTERMSIG(status);
+		if (term_signal == SIGQUIT)
+			fprintf(stderr, "Quit ");
+		else if (term_signal == SIGKILL)
+			fprintf(stderr, "Killed ");
+		else if (term_signal == SIGTERM)
+			fprintf(stderr, "Terminated ");
+		else if (term_signal == SIGSEGV)
+			fprintf(stderr, "Segmentation fault ");
+		if (WCOREDUMP(status))
+			fprintf(stderr, "(core dumped) ");
 		fprintf(stderr, "\n");
+	}
 }
 
 pid_t	make_child(void)

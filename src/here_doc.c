@@ -6,12 +6,13 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:55:43 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/14 01:08:54 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/15 22:29:35 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execute_cmd.h"
 #include "input.h"
+#include "jobs.h"
 #include "minishell.h"
 #include "sig.h"
 
@@ -32,15 +33,19 @@ static char	*append_to_document(char *document, const char *line)
 	return (new_document);
 }
 
-void	make_here_document(t_redirect *temp)
+void	gather_here_documents(int sig)
 {
-	int		redir_len;
-	char	*redir_word;
-	char	*line;
-	char	*document;
+	signal(sig, gather_here_documents);
+	if (g_last_exit_value < 128)
+		g_last_exit_value = 128 + SIGINT;
+}
 
-	redir_word = temp->filename;
-	redir_len = ft_strlen(redir_word);
+static char	*assemble_heredoc(const char *redir_word)
+{
+	char		*line;
+	char		*document;
+	const int	redir_len = ft_strlen(redir_word);
+
 	document = sh_malloc(1);
 	*document = '\0';
 	line = readline(get_secondary_prompt());
@@ -54,5 +59,10 @@ void	make_here_document(t_redirect *temp)
 	if (line == 0)
 		internal_warning("here-document delimited by end-of-file (wanted `%s')",
 			redir_word);
-	temp->filename = document;
+	return (document);
+}
+
+void	make_here_document(t_redirect *temp)
+{
+	temp->filename = assemble_heredoc(temp->filename);
 }
