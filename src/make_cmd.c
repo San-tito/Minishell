@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 00:01:48 by sguzman           #+#    #+#             */
-/*   Updated: 2024/05/13 16:19:05 by santito          ###   ########.fr       */
+/*   Updated: 2024/06/16 17:04:09 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ t_redirect	*make_redirection(char *filename, t_instruction instruction,
 	if (instruction == r_input_direction)
 		temp->flags = O_RDONLY;
 	if (instruction == r_reading_until)
-		make_here_document(temp);
+		temp = make_here_document(temp);
 	temp = (t_redirect *)list_append((t_generic_list *)head,
 			(t_generic_list *)temp);
 	return (temp);

@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 17:42:45 by sguzman           #+#    #+#             */
-/*   Updated: 2024/05/07 23:32:41 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/16 17:07:54 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ t_generic_list	*list_append(t_generic_list *head, t_generic_list *tail)
 {
 	t_generic_list	*t_head;
 
-	if (head == 0)
+	if (head == 0 || tail == 0)
 		return (tail);
 	t_head = head;
 	while (t_head->next)

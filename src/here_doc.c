@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:55:43 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/16 16:43:06 by santito          ###   ########.fr       */
+/*   Updated: 2024/06/16 17:05:05 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static char	*gather_here_document(const char *redir_word)
 	return (document);
 }
 
-void	make_here_document(t_redirect *temp)
+t_redirect	*make_here_document(t_redirect *temp)
 {
 	const int	last_exit_value = g_last_exit_value;
 	const int	in = dup(0);
@@ -64,11 +64,12 @@ void	make_here_document(t_redirect *temp)
 	g_last_exit_value = 0;
 	enable_document_interrupt();
 	temp->filename = gather_here_document(temp->filename);
-	if (g_last_exit_value < 128)
-		g_last_exit_value = last_exit_value;
-	// else
-	//	clear_redirects(temp);
 	do_piping(in, NO_PIPE);
 	close_pipes(in, NO_PIPE);
 	default_signals();
+	if (g_last_exit_value < 128)
+		g_last_exit_value = last_exit_value;
+	else
+		return (clear_redirects(temp), NULL);
+	return (temp);
 }
