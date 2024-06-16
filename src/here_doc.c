@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:55:43 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/16 15:05:25 by santito          ###   ########.fr       */
+/*   Updated: 2024/06/16 16:43:06 by santito          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,11 +64,11 @@ void	make_here_document(t_redirect *temp)
 	g_last_exit_value = 0;
 	enable_document_interrupt();
 	temp->filename = gather_here_document(temp->filename);
-	do_piping(in, NO_PIPE);
-	close_pipes(in, NO_PIPE);
 	if (g_last_exit_value < 128)
 		g_last_exit_value = last_exit_value;
-	//else
+	// else
 	//	clear_redirects(temp);
+	do_piping(in, NO_PIPE);
+	close_pipes(in, NO_PIPE);
 	default_signals();
 }
