@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "parser_utils.h"
+#include "execute_cmd.h"
 
 t_command	*parse_command(char *current_line)
 {
@@ -22,7 +23,7 @@ t_command	*parse_command(char *current_line)
 		return (NULL);
 	tokens = lexer(current_line);
 	if (tokens == NULL)
-		return (NULL);
+		return (g_last_exit_value = 2, NULL);
 	tmp = tokens;
 	command = parse_tokens(&tokens);
 	clear_tokens(&tmp);

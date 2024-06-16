@@ -12,7 +12,7 @@
 
 #include "expansor_utils.h"
 
-static t_content_data	initialize_content(char *token_content, char **content,
+t_content_data	initialize_content(char *token_content, char **content,
 	char **new_content)
 {
 	t_content_data	content_data;
@@ -20,10 +20,21 @@ static t_content_data	initialize_content(char *token_content, char **content,
 	*content = token_content;
 	*new_content = NULL;
 	content_data.start = token_content;
+	content_data.last_space = 0;
 	content_data.len = 0;
 	content_data.single_q = 0;
 	content_data.double_q = 0;
 	return (content_data);
+}
+
+char	finalize_content(t_token *token, char **new_content,
+	t_content_data content_data)
+{
+	if (append_content(new_content, content_data) == ERROR)
+		return (ERROR);
+	free(token->content);
+	token->content = *new_content;
+	return (CORRECT);
 }
 
 /*
@@ -59,16 +70,6 @@ static char	interpret_content(char **content, char **new_content,
 		}
 	}
 	return (0);
-}
-
-static char	finalize_content(t_token *token, char **new_content,
-	t_content_data content_data)
-{
-	if (append_content(new_content, content_data) == ERROR)
-		return (ERROR);
-	free(token->content);
-	token->content = *new_content;
-	return (CORRECT);
 }
 
 /*
@@ -108,6 +109,7 @@ char	expansor(t_list **tokens)
 	t_list	*lst;
 	t_token	*token;
 
+	expand_wildcards(tokens);
 	lst = *tokens;
 	while (lst)
 	{

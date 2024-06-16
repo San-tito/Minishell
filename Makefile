@@ -75,6 +75,7 @@ SRCS = clear_cmd.c \
        variables.c
 
 PARSERS = expansor_utils.c \
+		  expansor_wildcard.c \
 		  expansor.c \
 		  lexer_check_tokens_1.c \
           lexer_check_tokens_2.c \

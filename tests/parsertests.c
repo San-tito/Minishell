@@ -90,6 +90,22 @@ static void	test_expansor(char *job)
 	clear_tokens(&tokens);
 }
 
+static void test_expand_wildcards(char *job)
+{
+	t_list  *words;
+	t_list	*tokens;
+
+	ft_printf("Words to separate: [%s]\n", job);
+	words = separate_words(job);
+	remove_empty_words(&words);
+	print_words(words);
+	tokens = tokenizer(&words);
+	expansor(&tokens);
+	print_tokens(tokens);
+	clear_word_list(&words);
+	clear_tokens(&tokens);
+}
+
 static void test_remove_quotes(char *job)
 {
 	t_list  *words;
@@ -246,6 +262,7 @@ static void	test_all_expansor()
 	test_expansor("$$");
 	test_expansor("$");
 	test_expansor("test1 $ test2 $a");
+	test_expansor("test1 $ test2** $a");
 }
 
 static void	test_all_remove_quotes()
@@ -255,6 +272,16 @@ static void	test_all_remove_quotes()
 	test_remove_quotes("test1 \"test2$HOME\"\" test3\" test4");
 	test_remove_quotes("test1 \"test2\'$HOME\' test3\" test4");
 	test_remove_quotes("test1 \"test2\'\'\'\"\'\"\'\" \'\'test3\" test4");
+}
+
+static void	test_all_wildcards()
+{
+	ft_printf("\n{EXPAND WILDCARDS}:\n");
+	test_expand_wildcards("echo");
+	test_expand_wildcards("*");
+	test_expand_wildcards("echo *");
+	test_expand_wildcards("echo \'*\'");
+	test_expand_wildcards("echo **");
 }
 
 static void	test_all_lexer()
@@ -322,9 +349,10 @@ int main(void)
 	//test_all_remove_empty_words();
 	//test_all_tokenizer();
 	//test_all_expansor();
+	test_all_wildcards();
 	//test_all_remove_quotes();
 	//test_all_lexer();
-	test_all_parser();
+	//test_all_parser();
 	//test_parser("echo a | echo b");
 	return (0);
 }

@@ -37,7 +37,7 @@ static char	*obtain_word_to_expand(char **content, char **new_content)
 	return (word);
 }
 
-static char	join_and_free(char **str, char **str_to_add)
+char	join_and_free(char **str, char **str_to_add)
 {
 	char	*word;
 
