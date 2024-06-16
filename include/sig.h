@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 12:01:41 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/12 21:32:18 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/16 14:51:34 by santito          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 /* ************************************************************************** */
 /*                          signal handler definitions                        */
 /* ************************************************************************** */
-void	initialize_signals(void);
+void	default_signals(void);
 void	reset_terminating_signals(void);
-
+void	enable_document_interrupt(void);
 #endif

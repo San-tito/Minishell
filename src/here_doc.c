@@ -6,10 +6,11 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:55:43 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/15 22:29:35 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/16 15:05:25 by santito          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "clear_cmd.h"
 #include "execute_cmd.h"
 #include "input.h"
 #include "jobs.h"
@@ -33,14 +34,7 @@ static char	*append_to_document(char *document, const char *line)
 	return (new_document);
 }
 
-void	gather_here_documents(int sig)
-{
-	signal(sig, gather_here_documents);
-	if (g_last_exit_value < 128)
-		g_last_exit_value = 128 + SIGINT;
-}
-
-static char	*assemble_heredoc(const char *redir_word)
+static char	*gather_here_document(const char *redir_word)
 {
 	char		*line;
 	char		*document;
@@ -56,7 +50,7 @@ static char	*assemble_heredoc(const char *redir_word)
 		document = append_to_document(document, line);
 		line = readline(get_secondary_prompt());
 	}
-	if (line == 0)
+	if (line == 0 && g_last_exit_value != 128 + SIGINT)
 		internal_warning("here-document delimited by end-of-file (wanted `%s')",
 			redir_word);
 	return (document);
@@ -64,5 +58,17 @@ static char	*assemble_heredoc(const char *redir_word)
 
 void	make_here_document(t_redirect *temp)
 {
-	temp->filename = assemble_heredoc(temp->filename);
+	const int	last_exit_value = g_last_exit_value;
+	const int	in = dup(0);
+
+	g_last_exit_value = 0;
+	enable_document_interrupt();
+	temp->filename = gather_here_document(temp->filename);
+	do_piping(in, NO_PIPE);
+	close_pipes(in, NO_PIPE);
+	if (g_last_exit_value < 128)
+		g_last_exit_value = last_exit_value;
+	//else
+	//	clear_redirects(temp);
+	default_signals();
 }
