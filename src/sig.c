@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 11:56:46 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/16 23:40:57 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/17 01:03:58 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	sigint_sighandler(int sig)
 		g_last_exit_value = 128 + SIGINT;
 	if (rl_readline_state & RL_STATE_SIGHANDLER)
 	{
-		rl_visible_prompt_length = rl_expand_prompt(get_primary_prompt());
+		rl_set_prompt(get_primary_prompt());
 		ft_putchar_fd(10, 2);
 		rl_replace_line("", 0);
 		rl_on_new_line();
