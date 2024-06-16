@@ -12,42 +12,41 @@
 
 #include "parser_utils.h"
 
-static t_command	*create_first_node(t_list **tokens)
+static char	create_first_node(t_list **tokens, t_command **first)
 {
-	t_command	*first;
 	t_token		*token;
 
 	token = (t_token *)((*tokens)->content);
 	if (token->type == OPEN_PAR_TOKEN)
-		first = create_subshell(tokens);
+		*first = create_subshell(tokens);
 	else
-		first = create_simple_command(tokens);
-	if (first == NULL)
-		return (NULL);
-	return (first);
+		*first = create_simple_command(tokens);
+	if (*first == NULL)
+		return (INTERRUMPED);
+	return (CORRECT);
 }
 
-static t_command	*create_second_node(t_list **tokens, t_command **first)
+static char	create_second_node(t_list **tokens, t_command **first,
+	t_command **second)
 {
-	t_command	*second;
-
 	*tokens = (*tokens)->next;
-	second = parse_tokens(tokens);
-	if (second == NULL)
+	*second = parse_tokens(tokens);
+	if (*second == NULL)
+	{
 		clear_command(*first);
-	return (second);
+		return (INTERRUMPED);
+	}
+	return (CORRECT);
 }
 
 t_command	*parse_tokens(t_list **tokens)
 {
 	t_command	*first;
 	t_command	*second;
-	t_command	*connection;
 	t_token		*token;
 	char		connector;
 
-	first = create_first_node(tokens);
-	if (first == NULL)
+	if (create_first_node(tokens, &first) == INTERRUMPED)
 		return (NULL);
 	if (*tokens == NULL)
 		return (first);
@@ -55,14 +54,7 @@ t_command	*parse_tokens(t_list **tokens)
 	connector = token->type;
 	if (connector == CLOSE_PAR_TOKEN)
 		return (first);
-	second = create_second_node(tokens, &first);
-	if (second == NULL)
+	if (create_second_node(tokens, &first, &second) == INTERRUMPED)
 		return (NULL);
-	connection = make_connect(first, second, connector);
-	if (connection == NULL)
-	{
-		clear_command(first);
-		clear_command(second);
-	}
-	return (connection);
+	return (make_connect(first, second, connector));
 }

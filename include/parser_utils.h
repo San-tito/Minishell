@@ -28,6 +28,10 @@
 #  define CORRECT 1
 # endif
 
+# ifndef INTERRUMPED
+#  define INTERRUMPED -1
+# endif
+
 t_list		*lexer(char *job);
 void		handle_heredocs(t_list **tokens);
 t_command	*parse_tokens(t_list **tokens);

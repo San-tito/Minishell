@@ -34,11 +34,25 @@ static t_instruction	select_redir(char redirect)
 	return (r_reading_until);
 }
 
-static char	create_words_redirections(t_list **tokens, t_word_list **words,
+static char	handle_redirection(t_token *token, t_list **tokens,
+	t_redirect **redirect)
+{
+	char		redir;
+
+	*tokens = (*tokens)->next;
+	redir = token->type;
+	token = (t_token *)((*tokens)->content);
+	*redirect = make_redirection(sh_strdup(token->content),
+			select_redir(redir), *redirect);
+	if (*redirect == NULL)
+		return (INTERRUMPED);
+	return (CORRECT);
+}
+
+static char	obtain_params(t_list **tokens, t_word_list **words,
 	t_redirect **redirect)
 {
 	t_token		*token;
-	char		redir;
 
 	while (*tokens && !is_token_boundary((t_token *)((*tokens)->content)))
 	{
@@ -48,13 +62,10 @@ static char	create_words_redirections(t_list **tokens, t_word_list **words,
 			if (token->content)
 				*words = make_word_list(sh_strdup(token->content), *words);
 		}
-		else
+		else if (handle_redirection(token, tokens, redirect) == INTERRUMPED)
 		{
-			*tokens = (*tokens)->next;
-			redir = token->type;
-			token = (t_token *)((*tokens)->content);
-			*redirect = make_redirection(sh_strdup(token->content),
-					select_redir(redir), *redirect);
+			clear_words(*words);
+			return (INTERRUMPED);
 		}
 		*tokens = (*tokens)->next;
 	}
@@ -63,16 +74,12 @@ static char	create_words_redirections(t_list **tokens, t_word_list **words,
 
 t_command	*create_simple_command(t_list **tokens)
 {
-	t_word_list	*words;
-	t_redirect	*redirect;
-	t_command	*simple_command;
+	t_word_list	*words_param;
+	t_redirect	*redirect_param;
 
-	words = NULL;
-	redirect = NULL;
-	if (create_words_redirections(tokens, &words, &redirect) == ERROR)
-		return (ERROR);
-	simple_command = make_simple_command(words, redirect);
-	if (simple_command == NULL)
+	words_param = NULL;
+	redirect_param = NULL;
+	if (obtain_params(tokens, &words_param, &redirect_param) == INTERRUMPED)
 		return (NULL);
-	return (simple_command);
+	return (make_simple_command(words_param, redirect_param));
 }
