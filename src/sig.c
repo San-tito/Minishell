@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 11:56:46 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/16 16:40:59 by santito          ###   ########.fr       */
+/*   Updated: 2024/06/16 23:40:57 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	sigint_sighandler(int sig)
 
 void	enable_document_interrupt(void)
 {
+	g_last_exit_value = 0;
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, heredoc_sigint_sighandler);
 }
