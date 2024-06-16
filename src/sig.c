@@ -35,7 +35,7 @@ void	sigint_sighandler(int sig)
 		g_last_exit_value = 128 + SIGINT;
 	if (rl_readline_state & RL_STATE_SIGHANDLER)
 	{
-		// rl_visible_prompt_length = rl_expand_prompt(get_primary_prompt());
+		rl_visible_prompt_length = rl_expand_prompt(get_primary_prompt());
 		ft_putchar_fd(10, 1);
 		rl_replace_line("", 0);
 		rl_on_new_line();
