@@ -22,7 +22,7 @@ void	heredoc_sigint_sighandler(int sig)
 		g_last_exit_value = 128 + SIGINT;
 	if (rl_readline_state & RL_STATE_SIGHANDLER)
 	{
-		ft_putchar_fd(10, 1);
+		ft_putchar_fd(10, 2);
 		rl_replace_line("", 0);
 		close(STDIN_FILENO);
 	}
@@ -36,7 +36,7 @@ void	sigint_sighandler(int sig)
 	if (rl_readline_state & RL_STATE_SIGHANDLER)
 	{
 		rl_visible_prompt_length = rl_expand_prompt(get_primary_prompt());
-		ft_putchar_fd(10, 1);
+		ft_putchar_fd(10, 2);
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
