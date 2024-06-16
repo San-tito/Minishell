@@ -105,7 +105,7 @@ static char	expand_content(t_token *token)
 */
 char	expansor(t_list **tokens)
 {
-	t_list  *lst;
+	t_list	*lst;
 	t_token	*token;
 
 	lst = *tokens;

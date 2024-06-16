@@ -23,7 +23,7 @@ static char	is_token_boundary(t_token *token)
 	return (0);
 }
 
-static t_instruction	select_instruction(char redirect)
+static t_instruction	select_redir(char redirect)
 {
 	if (redirect == OUTPUT_TOKEN)
 		return (r_output_direction);
@@ -34,31 +34,45 @@ static t_instruction	select_instruction(char redirect)
 	return (r_reading_until);
 }
 
-t_command	*create_simple_command(t_list **tokens)
+static char	create_words_redirections(t_list **tokens, t_word_list **words,
+	t_redirect **redirect)
 {
-	t_word_list	*words;
-	t_redirect	*redirect;
 	t_token		*token;
 	char		redir;
 
-	words = NULL;
-	redirect = NULL;
 	while (*tokens && !is_token_boundary((t_token *)((*tokens)->content)))
 	{
 		token = (t_token *)((*tokens)->content);
 		if (token->type == STR_TOKEN)
 		{
 			if (token->content)
-				words = make_word_list(sh_strdup(token->content), words);
+				*words = make_word_list(sh_strdup(token->content), *words);
 		}
 		else
 		{
 			*tokens = (*tokens)->next;
 			redir = token->type;
 			token = (t_token *)((*tokens)->content);
-			redirect = make_redirection(sh_strdup(token->content), select_instruction(redir), redirect);
+			*redirect = make_redirection(sh_strdup(token->content),
+					select_redir(redir), *redirect);
 		}
 		*tokens = (*tokens)->next;
 	}
-	return (make_simple_command(words, redirect));
+	return (CORRECT);
+}
+
+t_command	*create_simple_command(t_list **tokens)
+{
+	t_word_list	*words;
+	t_redirect	*redirect;
+	t_command	*simple_command;
+
+	words = NULL;
+	redirect = NULL;
+	if (create_words_redirections(tokens, &words, &redirect) == ERROR)
+		return (ERROR);
+	simple_command = make_simple_command(words, redirect);
+	if (simple_command == NULL)
+		return (NULL);
+	return (simple_command);
 }

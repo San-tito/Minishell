@@ -31,7 +31,7 @@ static void	check_boundary(char **word, t_token_range *token_rng,
 		update = handle_in(token_rng, tokens, words, *(*word + 1) == '<');
 	else if (**word == '>')
 		update = handle_out(token_rng, tokens, words, *(*word + 1) == '>');
-	else 
+	else
 	{
 		(*word)++;
 		(token_rng->len)++;

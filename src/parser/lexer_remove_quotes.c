@@ -39,19 +39,20 @@ static void	count_quotes(char *str, t_handle_quotes *handle_quotes)
 	}
 }
 
-static void	copy_without_quotes(char *quoted_str, char *unquoted_str, t_handle_quotes handle_quotes)
+static void	copy_without_quotes(char *q_str, char *unq_str,
+	t_handle_quotes handle_quotes)
 {
 	handle_quotes.num = 0;
-	while (*quoted_str)
+	while (*q_str)
 	{
-		if (*quoted_str == '\'' && !handle_quotes.double_quotes)
+		if (*q_str == '\'' && !handle_quotes.double_quotes)
 		{
 			if (handle_quotes.single_quotes)
 				handle_quotes.single_quotes = 0;
 			else
 				handle_quotes.single_quotes = 1;
 		}
-		else if (*quoted_str == '\"' && !handle_quotes.single_quotes)
+		else if (*q_str == '\"' && !handle_quotes.single_quotes)
 		{
 			if (handle_quotes.double_quotes)
 				handle_quotes.double_quotes = 0;
@@ -60,12 +61,12 @@ static void	copy_without_quotes(char *quoted_str, char *unquoted_str, t_handle_q
 		}
 		else
 		{
-			*(unquoted_str + handle_quotes.num) = *quoted_str;
+			*(unq_str + handle_quotes.num) = *q_str;
 			(handle_quotes.num)++;
 		}
-		quoted_str++;
+		q_str++;
 	}
-	*(unquoted_str + handle_quotes.num) = '\0';
+	*(unq_str + handle_quotes.num) = '\0';
 }
 
 static char	manage_quotes(t_token *token)
@@ -80,7 +81,8 @@ static char	manage_quotes(t_token *token)
 	if (quoted_str == NULL)
 		return (1);
 	count_quotes(quoted_str, &handle_quotes);
-	unquoted_str = malloc(sizeof(char) * ((ft_strlen(quoted_str) - handle_quotes.num) + 1));
+	unquoted_str = malloc(sizeof(char)
+			* ((ft_strlen(quoted_str) - handle_quotes.num) + 1));
 	if (unquoted_str == NULL)
 		return (0);
 	copy_without_quotes(quoted_str, unquoted_str, handle_quotes);

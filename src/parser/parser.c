@@ -24,8 +24,6 @@ t_command	*parse_command(char *current_line)
 	if (tokens == NULL)
 		return (NULL);
 	tmp = tokens;
-    // El malloc no puede fallar, si falla exit(2) <- POSIX; controlado en sh_malloc
-	// <<Malloc error printeado en sh_malloc>> maybe print malloc error if command == NULL
 	command = parse_tokens(&tokens);
 	clear_tokens(&tmp);
 	return (command);

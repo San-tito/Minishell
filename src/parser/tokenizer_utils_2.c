@@ -42,7 +42,8 @@ char	add_token(char token_type, char *data, t_list **tokens, t_list **words)
 	return (1);
 }
 
-void	create_str_token(t_token_range *token_range, t_list **tokens, t_list **words)
+void	create_str_token(t_token_range *token_range,
+	t_list **tokens, t_list **words)
 {
 	char	*content;
 

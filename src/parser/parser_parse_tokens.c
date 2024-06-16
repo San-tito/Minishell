@@ -17,7 +17,7 @@ static t_command	*create_first_node(t_list **tokens)
 	t_command	*first;
 	t_token		*token;
 
-	token = (t_token*)((*tokens)->content);
+	token = (t_token *)((*tokens)->content);
 	if (token->type == OPEN_PAR_TOKEN)
 		first = create_subshell(tokens);
 	else
@@ -51,7 +51,7 @@ t_command	*parse_tokens(t_list **tokens)
 		return (NULL);
 	if (*tokens == NULL)
 		return (first);
-	token = (t_token*)((*tokens)->content);
+	token = (t_token *)((*tokens)->content);
 	connector = token->type;
 	if (connector == CLOSE_PAR_TOKEN)
 		return (first);

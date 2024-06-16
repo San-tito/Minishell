@@ -20,6 +20,14 @@
 # include "parser_error.h"
 # include "sh_malloc.h"
 
+# ifndef ERROR
+#  define ERROR 0
+# endif
+
+# ifndef CORRECT
+#  define CORRECT 1
+# endif
+
 t_list		*lexer(char *job);
 void		handle_heredocs(t_list **tokens);
 t_command	*parse_tokens(t_list **tokens);

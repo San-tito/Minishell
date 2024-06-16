@@ -12,7 +12,7 @@
 
 #include "lexer_utils.h"
 
-static char	*get_error_msg(char token_type)
+static char	*get_errmsg(char token_type)
 {
 	if (token_type == AND_TOKEN)
 		return (AND_BOUNDARY_ERROR);
@@ -42,21 +42,19 @@ static char	boundary_valid(char last_token_type, t_token *token)
 	char	curr_token_type;
 
 	curr_token_type = token->type;
-	if (last_token_type <= APPEND_TOKEN && last_token_type >= INPUT_TOKEN && curr_token_type >= AND_TOKEN)
-		return (0);
-	else if ((last_token_type == AND_TOKEN || last_token_type == OR_TOKEN || last_token_type == PIPE_TOKEN) && (curr_token_type == AND_TOKEN || curr_token_type == OR_TOKEN || curr_token_type == PIPE_TOKEN))
-		return (0);
-	else if ((last_token_type == INPUT_TOKEN || last_token_type == OUTPUT_TOKEN || last_token_type == HEREDOC_TOKEN || last_token_type == APPEND_TOKEN) && token->content == NULL)
+	if (last_token_type <= APPEND_TOKEN && last_token_type >= INPUT_TOKEN
+		&& curr_token_type >= AND_TOKEN)
+		return (ERROR);
+	else if ((last_token_type == AND_TOKEN || last_token_type == OR_TOKEN
+			|| last_token_type == PIPE_TOKEN) && (curr_token_type == AND_TOKEN
+			|| curr_token_type == OR_TOKEN || curr_token_type == PIPE_TOKEN))
+		return (ERROR);
+	else if ((last_token_type == INPUT_TOKEN || last_token_type == OUTPUT_TOKEN
+			|| last_token_type == HEREDOC_TOKEN
+			|| last_token_type == APPEND_TOKEN)
+		&& token->content == NULL)
 		return (-1);
-	return (1);
-}
-
-static char	check_first_token(char token_type)
-{
-	if (token_type == PIPE_TOKEN || token_type == AND_TOKEN
-		|| token_type == OR_TOKEN)
-		return (0);
-	return (1);
+	return (CORRECT);
 }
 
 /*
@@ -72,8 +70,9 @@ static char	check_adjacents(t_list **tokens)
 
 	lst = *tokens;
 	last_token_type = ((t_token *)(lst->content))->type;
-	if (!check_first_token(last_token_type))
-		return (handle_checker_error(tokens, get_error_msg(last_token_type)));
+	if (last_token_type == PIPE_TOKEN || last_token_type == AND_TOKEN
+		|| last_token_type == OR_TOKEN)
+		return (handle_checker_error(tokens, get_errmsg(last_token_type)));
 	lst = lst->next;
 	while (lst != NULL)
 	{
@@ -81,14 +80,14 @@ static char	check_adjacents(t_list **tokens)
 		err = boundary_valid(last_token_type, token);
 		if (err == -1)
 			return (handle_token_error(tokens, AMBIGUOUS_REDIR_ERR));
-		else if (err == 0)
-			return (handle_checker_error(tokens, get_error_msg(token->type)));
+		else if (err == ERROR)
+			return (handle_checker_error(tokens, get_errmsg(token->type)));
 		last_token_type = token->type;
 		lst = lst->next;
 	}
 	if (last_token_type >= AND_TOKEN)
 		return (handle_checker_error(tokens, NEWLINE_BOUNDARY_ERROR));
-	return (1);
+	return (CORRECT);
 }
 
 static char	check_heredocs(t_list **tokens)
@@ -108,7 +107,7 @@ static char	check_heredocs(t_list **tokens)
 		}
 		lst = lst->next;
 	}
-	return (1);
+	return (CORRECT);
 }
 
 /*
@@ -118,18 +117,12 @@ static char	check_heredocs(t_list **tokens)
 char	check_tokens(t_list **tokens)
 {
 	if (*tokens == NULL)
-		return (1);
-
-	//check that all open par are closed, and that there is always one par opened and before one closes
+		return (CORRECT);
 	if (!check_parentheses(tokens))
-		return (0);
-
-	//check that no two | or || or && or ( or ) are together with others of this or same 
+		return (ERROR);
 	if (!check_adjacents(tokens))
-		return (0);
-
-	//check heredocs (MAX_HEREDOC: 16 [in bash])
+		return (ERROR);
 	if (!check_heredocs(tokens))
-		return (0);
-	return (1);
+		return (ERROR);
+	return (CORRECT);
 }

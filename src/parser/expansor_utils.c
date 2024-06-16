@@ -101,4 +101,3 @@ char	append_content(char **new_content, t_content_data content_data)
 	}
 	return (join_and_free(new_content, &word));
 }
-

@@ -49,6 +49,14 @@ typedef struct s_check_par
 #  define MAX_TEXT_ERROR 49
 # endif
 
+# ifndef ERROR
+#  define ERROR 0
+# endif
+
+# ifndef CORRECT
+#  define CORRECT 1
+# endif
+
 //only used on testing I think
 void	del_word(void *content);
 void	clear_word_list(t_list **words);

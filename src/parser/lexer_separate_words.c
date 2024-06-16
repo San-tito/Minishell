@@ -62,7 +62,8 @@ static char	managa_quotes(char c, t_word_data *word_data)
 	return (1);
 }
 
-static t_list	*check_final_data(t_list **words, t_word_data word_data, char *job)
+static t_list	*check_final_data(t_list **words, t_word_data word_data,
+	char *job)
 {
 	if (word_data.single_q)
 	{
