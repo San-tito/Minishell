@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 18:41:45 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/24 23:30:56 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/18 16:09:20 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,7 @@ int	echo_builtin(t_word_list *list)
 	}
 	while (list)
 	{
-		temp = list->word;
-		ft_putstr_fd(temp, 1);
+		ft_putstr_fd(list->word, 1);
 		list = list->next;
 		if (list)
 			ft_putchar_fd(' ', 1);

@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 15:44:52 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/28 23:20:03 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/18 16:09:49 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,3 @@ int	export_builtin(t_word_list *list)
 	}
 	return (result);
 }
-
