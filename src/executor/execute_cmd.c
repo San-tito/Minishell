@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 20:51:58 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/13 17:27:16 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/18 12:56:50 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,11 @@ int	execute_command(t_command *command, int pipe_in, int pipe_out,
 {
 	pid_t			last_made_pid;
 	t_simple_com	*simple;
+	int				pipeline[2];
 	int				exec_result;
 
 	if (command == 0)
 		return (EXECUTION_SUCCESS);
-	exec_result = EXECUTION_SUCCESS;
 	if (command->type == cm_subshell)
 		exec_result = execute_in_subshell(command, pipe_in, pipe_out,
 				fd_to_close);
@@ -91,13 +91,12 @@ int	execute_command(t_command *command, int pipe_in, int pipe_out,
 		simple = (t_simple_com *)command->value;
 		if (simple->words == 0)
 			return (execute_null_command(simple->redirects, pipe_in, pipe_out));
-		exec_result = execute_simple_command(simple, (int[]){pipe_in, pipe_out},
-				&last_made_pid, fd_to_close);
+		exec_result = execute_simple_command(simple, pipeline = {pipe_in,
+				pipe_out}, &last_made_pid, fd_to_close);
 		if (pipe_out == NO_PIPE && last_made_pid != NO_PID)
 			exec_result = waitchld(last_made_pid);
 	}
 	else if (command->type == cm_connection)
 		exec_result = execute_connection(command, pipe_in, pipe_out);
-	g_last_exit_value = exec_result;
-	return (g_last_exit_value);
+	return (g_last_exit_value = exec_result);
 }
