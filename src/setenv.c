@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:55:43 by sguzman           #+#    #+#             */
-/*   Updated: 2024/05/16 15:44:11 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/20 23:32:17 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,4 +92,5 @@ void	update_env(const char *env_prefix, const char *value)
 	if (value)
 		ft_strlcpy(evar + preflen, value, valuelen + 1);
 	environ = add_or_replace_exported_var(evar);
+	sh_free(evar);
 }

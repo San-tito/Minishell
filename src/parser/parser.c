@@ -6,12 +6,12 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 19:30:33 by sguzman           #+#    #+#             */
-/*   Updated: 2024/05/10 12:56:43 by santito          ###   ########.fr       */
+/*   Updated: 2024/06/20 23:38:49 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser_utils.h"
 #include "execute_cmd.h"
+#include "parser_utils.h"
 
 t_command	*parse_command(char *current_line)
 {
@@ -20,12 +20,13 @@ t_command	*parse_command(char *current_line)
 	t_command	*command;
 
 	if (*current_line == '\0')
-		return (NULL);
+		return (sh_free(current_line), NULL);
 	tokens = lexer(current_line);
 	if (tokens == NULL)
-		return (g_last_exit_value = 2, NULL);
+		return (sh_free(current_line), g_last_exit_value = 2, NULL);
 	tmp = tokens;
 	command = parse_tokens(&tokens);
 	clear_tokens(&tmp);
+	sh_free(current_line);
 	return (command);
 }
