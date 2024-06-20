@@ -6,33 +6,67 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:28:37 by sguzman           #+#    #+#             */
-/*   Updated: 2024/05/16 13:37:57 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/20 23:08:34 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <ctype.h>
+#include <errno.h>
+#include <inttypes.h>
 
-static int	ft_isspace(int c)
+void	whitespaces(char **str)
 {
-	return (c == 0x20 || c == 0xD || c == 0xA || c == 0x9);
+	if (str == 0 || *str == 0)
+		return ;
+	while (**str == 0x20 || **str == 0xD || **str == 0xA || **str == 0x9)
+		(*str)++;
 }
 
-int	legal_number(const char *string, size_t *result)
+static ssize_t	ft_strtoi(const char *nptr, char **endptr)
 {
-	int	value;
+	ssize_t		acc;
+	int			neg;
+	const char	*s = nptr;
+
+	acc = 0;
+	whitespaces((char **)&s);
+	neg = (*s == '-');
+	if (*s == '-' || *s == '+')
+		s++;
+	if (ft_isdigit(*s) == 0 && endptr != 0)
+		return (*endptr = (char *)nptr, acc);
+	while (ft_isdigit(*s))
+	{
+		if (neg && (acc < (INTMAX_MIN + (*s - '0')) / 10))
+			return (errno = ERANGE, acc = INTMAX_MIN);
+		if (neg == 0 && (acc > (INTMAX_MAX - (*s - '0')) / 10))
+			return (errno = ERANGE, acc = INTMAX_MAX);
+		if (neg)
+			acc = acc * 10 - (*s++ - '0');
+		else
+			acc = acc * 10 + (*s++ - '0');
+	}
+	if (endptr != 0)
+		*endptr = (char *)s;
+	return (acc);
+}
+
+int	legal_number(const char *string, ssize_t *result)
+{
+	ssize_t	value;
+	char	*ep;
 
 	if (result)
 		*result = 0;
 	if (string == 0)
 		return (0);
-	value = ft_atoi(string);
-	while (ft_isspace(*string))
-		string++;
-	if (*string == '+' || *string == '-')
-		string++;
-	while (ft_isdigit(*string))
-		string++;
-	if (*string == '\0')
+	errno = 0;
+	value = ft_strtoi(string, &ep);
+	if (errno || ep == string)
+		return (0);
+	whitespaces(&ep);
+	if (*string && *ep == '\0')
 	{
 		if (result)
 			*result = value;

@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:55:43 by sguzman           #+#    #+#             */
-/*   Updated: 2024/05/16 13:56:53 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/20 23:08:44 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	initialize_shell_level(void)
 {
 	char	*old_shlvl;
-	size_t	old_level;
+	ssize_t	old_level;
 	int		shell_level;
 	char	*new_level;
 
