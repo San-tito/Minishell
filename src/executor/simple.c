@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 12:50:11 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/20 17:32:49 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/20 18:02:56 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,10 @@ int	execute_simple_command(t_simple_com *simple, int pipeline[2],
 	builtin = find_builtin(simple->words->word);
 	command = search_for_command(simple->words->word);
 	if (builtin && pipeline[0] == NO_PIPE && pipeline[1] == NO_PIPE)
-		result = (execute_builtin(builtin, simple->words, simple->redirects));
-	else if ((*last_made_pid = make_child()) == 0)
+		return (sh_free((void *)command), execute_builtin(builtin,
+				simple->words, simple->redirects));
+	*last_made_pid = make_child();
+	if (*last_made_pid == 0)
 	{
 		close_fd(fd_to_close);
 		do_piping(pipeline[0], pipeline[1]);
