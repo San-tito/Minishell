@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 20:51:58 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/18 16:13:12 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/20 17:29:13 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,12 @@
 
 int			g_last_exit_value;
 
+void	close_fd(int fd)
+{
+	if (fd)
+		close(fd);
+}
+
 int	execute_in_subshell(t_command *command, int pipe_in, int pipe_out,
 		int fd_to_close)
 {
@@ -26,8 +32,7 @@ int	execute_in_subshell(t_command *command, int pipe_in, int pipe_out,
 	if (pid == 0)
 	{
 		reset_terminating_signals();
-		if (fd_to_close)
-			close(fd_to_close);
+		close_fd(fd_to_close);
 		do_piping(pipe_in, pipe_out);
 		g_last_exit_value = execute_command((t_command *)command->value,
 				NO_PIPE, NO_PIPE, 0);
