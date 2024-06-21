@@ -42,5 +42,7 @@ char			finalize_content(t_token *token, char **new_content,
 	t_content_data content_data);
 char	join_and_free(char **str, char **str_to_add);
 char			expand_wildcards(t_list **tokens);
+char			expand_matches(char **content, char **new_content,
+	t_content_data *cont_data);
 
 #endif
