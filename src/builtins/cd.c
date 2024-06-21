@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelo>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 16:25:49 by sguzman           #+#    #+#             */
-/*   Updated: 2024/05/16 13:50:59 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/21 13:15:30 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	bindpwd(void)
 	char	*pwdvar;
 
 	pwdvar = getenv("PWD");
-	update_env("OLDPWD=", pwdvar);
+	setenv("OLDPWD", pwdvar, 1);
 	set_pwd();
 	return (EXECUTION_SUCCESS);
 }

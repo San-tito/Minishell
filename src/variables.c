@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:55:43 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/20 23:08:44 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/21 13:39:00 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	initialize_shell_level(void)
 		shell_level = 1;
 	}
 	new_level = ft_itoa(shell_level);
-	update_env("SHLVL=", new_level);
+	update_env("SHLVL", new_level);
 	sh_free(new_level);
 }
 
