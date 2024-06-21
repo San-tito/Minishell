@@ -73,21 +73,21 @@ static char	*get_matches(char **pattern)
 }
 
 static char	expand_matches(char **content, char **new_content,
-	t_content_data cont_data)
+	t_content_data *cont_data)
 {
 	char	*pattern;
 
-	while (**content && !(**content == ' ' && !cont_data.single_q
-		&& !cont_data.double_q))
+	while (**content && !(**content == ' ' && !cont_data->single_q
+		&& !cont_data->double_q))
 	{
-		if (**content == '\'' && !cont_data.double_q)
-			cont_data.single_q = !cont_data.single_q;
-		else if (**content == '\"' && !cont_data.single_q)
-			cont_data.double_q = !cont_data.double_q;
+		if (**content == '\'' && !cont_data->double_q)
+			cont_data->single_q = !cont_data->single_q;
+		else if (**content == '\"' && !cont_data->single_q)
+			cont_data->double_q = !cont_data->double_q;
 		(*content)++;
-		cont_data.len++;
+		cont_data->len++;
 	}
-	pattern = ft_substr(cont_data.start, 0, cont_data.len);
+	pattern = ft_substr(cont_data->start, 0, cont_data->len);
 	if (pattern == NULL)
 	{
 		if (*new_content != NULL)
@@ -123,33 +123,33 @@ static char	append_last_space(char **new_content, t_content_data cont_data)
  *	If there is not an error when intrepreting, it returns interpreted (1);
  */
 static char	interpret_content(char **content, char **new_content,
-	t_content_data cont_data)
+	t_content_data *cont_data)
 {
 	char	currchar;
 
 	currchar = **content;
-	if (currchar == '\'' && !cont_data.double_q)
-		cont_data.single_q = !cont_data.single_q;
-	else if (currchar == '\"' && !cont_data.single_q)
-		cont_data.double_q = !cont_data.double_q;
+	if (currchar == '\'' && !cont_data->double_q)
+		cont_data->single_q = !cont_data->single_q;
+	else if (currchar == '\"' && !cont_data->single_q)
+		cont_data->double_q = !cont_data->double_q;
 	else
 	{
-		if (currchar == ' ' && !cont_data.single_q && !cont_data.double_q)
-			cont_data.last_space = cont_data.len;
-		else if (currchar == '*' && !cont_data.single_q && !cont_data.double_q)
+		if (currchar == ' ' && !cont_data->single_q && !cont_data->double_q)
+			cont_data->last_space = cont_data->len;
+		else if (currchar == '*' && !cont_data->single_q && !cont_data->double_q)
 		{
-			if (append_last_space(new_content, cont_data) == ERROR)
+			if (append_last_space(new_content, *cont_data) == ERROR)
 				return (ERROR);
-			cont_data.start += cont_data.last_space;
-			cont_data.len -= cont_data.last_space;
-			cont_data.last_space = 0;
+			cont_data->start += cont_data->last_space;
+			cont_data->len -= cont_data->last_space;
+			cont_data->last_space = 0;
 			if (expand_matches(content, new_content, cont_data) == ERROR)
 				return (ERROR);
-			cont_data.start = *content; // last char
+			cont_data->start = *content;
 			if (*content)
-				cont_data.start++;
-			cont_data.last_space = 0;
-			cont_data.len = 0;
+				cont_data->start++;
+			cont_data->last_space = 0;
+			cont_data->len = 0;
 			return (1);
 		}
 	}
@@ -170,7 +170,7 @@ static char	handle_wildcards(t_token *token)
 	content_data = initialize_content(token->content, &content, &new_content);
 	while (*content)
 	{
-		interpreted = interpret_content(&content, &new_content, content_data);
+		interpreted = interpret_content(&content, &new_content, &content_data);
 		if (interpreted == ERROR)
 			return (ERROR);
 		else if (!interpreted)
@@ -179,15 +179,15 @@ static char	handle_wildcards(t_token *token)
 			content_data.len++;
 		}
 	}
-	if (content_data.last_space == 0 && new_content != NULL)
+	if (new_content == NULL)
+		return (CORRECT);
+	if (content_data.last_space == 0)
 	{
 		free(token->content);
 		token->content = new_content;
 		return (CORRECT);
 	}
-	if (finalize_content(token, &new_content, content_data) == ERROR)
-		return (ERROR);
-	return (CORRECT);
+	return (finalize_content(token, &new_content, content_data));
 }
 
 /*

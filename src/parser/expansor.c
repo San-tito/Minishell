@@ -44,28 +44,28 @@ char	finalize_content(t_token *token, char **new_content,
  *	If there is not an error when intrepreting, it returns interpreted (1);
  */
 static char	interpret_content(char **content, char **new_content,
-	t_content_data content_data)
+	t_content_data *content_data)
 {
 	char	current_char;
 	char	next_char;
 
 	current_char = **content;
-	if (current_char == '\'' && !content_data.double_q)
-		content_data.single_q = !content_data.single_q;
-	else if (current_char == '\"' && !content_data.single_q)
-		content_data.double_q = !content_data.double_q;
+	if (current_char == '\'' && !content_data->double_q)
+		content_data->single_q = !content_data->single_q;
+	else if (current_char == '\"' && !content_data->single_q)
+		content_data->double_q = !content_data->double_q;
 	else
 	{
 		next_char = *(*(content) + 1);
 		if (current_char == '$' && next_char != ' ' && next_char != '\0'
-			&& !content_data.single_q)
+			&& !content_data->single_q)
 		{
-			if (append_content(new_content, content_data) == ERROR)
+			if (append_content(new_content, *content_data) == ERROR)
 				return (ERROR);
-			content_data.len = 0;
+			content_data->len = 0;
 			if (expand_value(new_content, content) == ERROR)
 				return (ERROR);
-			content_data.start = *content;
+			content_data->start = *content;
 			return (1);
 		}
 	}
@@ -86,7 +86,7 @@ static char	expand_content(t_token *token)
 	content_data = initialize_content(token->content, &content, &new_content);
 	while (*content)
 	{
-		interpreted = interpret_content(&content, &new_content, content_data);
+		interpreted = interpret_content(&content, &new_content, &content_data);
 		if (interpreted == ERROR)
 			return (ERROR);
 		else if (!interpreted)
