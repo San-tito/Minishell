@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 12:50:11 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/20 18:02:56 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/21 18:14:39 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int	execute_simple_command(t_simple_com *simple, int pipeline[2],
 		execute_disk_command(command, simple->words, simple->redirects);
 	}
 	if (command)
-		update_env("_=", command);
+		update_env("_", command);
 	if (pipeline[1] != NO_PIPE)
 		result = g_last_exit_value;
 	close_pipes(pipeline[0], pipeline[1]);

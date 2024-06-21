@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:28:37 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/20 23:08:34 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/21 19:50:20 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,20 @@ int	legal_number(const char *string, ssize_t *result)
 		return (1);
 	}
 	return (0);
+}
+
+int	legal_identifier(char *name)
+{
+	char	*s;
+
+	if (!name || !*name || ft_isalpha(*name) == 0)
+		return (0);
+	s = name + 1;
+	while (*s)
+	{
+		if (ft_isalnum(*s) == 0)
+			return (0);
+		s++;
+	}
+	return (1);
 }

@@ -6,27 +6,11 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 16:35:26 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/29 11:29:23 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/21 19:48:28 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	legal_identifier(char *name)
-{
-	char	*s;
-
-	if (!name || !*name || (ft_isalpha(*name) || (*name == '_')) == 0)
-		return (0);
-	s = name + 1;
-	while (*s)
-	{
-		if ((ft_isalnum(*s) || *s == '_') == 0)
-			return (0);
-		s++;
-	}
-	return (1);
-}
 
 int	unset_builtin(t_word_list *list)
 {
@@ -44,7 +28,7 @@ int	unset_builtin(t_word_list *list)
 			list = list->next;
 			continue ;
 		}
-		unset_var(name);
+		delete_env(name);
 		list = list->next;
 	}
 	return (result);

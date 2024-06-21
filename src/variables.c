@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:55:43 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/21 13:39:00 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/21 20:03:14 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,31 @@ void	set_pwd(void)
 	char	*current_dir;
 
 	current_dir = getcwd(0, 0);
-	update_env("PWD=", current_dir);
+	update_env("PWD", current_dir);
 	sh_free(current_dir);
+}
+
+char	*find_env(const char *name, int len, int *offset)
+{
+	char	**p;
+	char	*cp;
+	char	*eq;
+
+	if (name == NULL || environ == NULL)
+		return (NULL);
+	p = environ + *offset;
+	while (*p)
+	{
+		cp = *p;
+		eq = ft_strchr(cp, '=');
+		if (eq == 0)
+			continue ;
+		if (ft_strncmp(cp, name, len) == 0 && (int)(eq - cp) == len)
+		{
+			*offset = p - environ;
+			return (eq + 1);
+		}
+		++p;
+	}
+	return (0);
 }
