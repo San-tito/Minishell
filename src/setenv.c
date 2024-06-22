@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:55:43 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/22 18:54:39 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/22 20:00:15 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	delete_env(const char *name)
 	return (0);
 }
 
-int	update_env(const char *name, char *value)
+int	update_env(char *name, char *value)
 {
 	int			i;
 	t_varlist	*vlist;

@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 16:30:57 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/22 19:10:56 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/22 19:54:13 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ typedef struct s_varlist
 /* ************************************************************************** */
 /*                            shell variables                                 */
 /* ************************************************************************** */
-int				update_env(const char *env_prefix, char *value);
+int				update_env(char *env_prefix, char *value);
 int				delete_env(const char *name);
 char			*find_env(const char *name);
 int				add_exported(char *name, int append);

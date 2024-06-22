@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 16:42:47 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/22 18:59:08 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/22 20:12:04 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,9 @@
 
 static t_varlist	*vlist_realloc(t_varlist *vlist, int n)
 {
-	if (vlist == 0)
-		return (vlist = vlist_alloc(n));
-	if (n > vlist->list_size)
-	{
-		vlist->list_size = n;
-		vlist->list = sh_realloc(vlist->list, (vlist->list_size + 1)
-				* sizeof(t_variable *));
-	}
+	vlist->list_size = n;
+	vlist->list = sh_realloc(vlist->list, (vlist->list_size + 1)
+			* sizeof(t_variable *));
 	return (vlist);
 }
 
@@ -38,7 +33,7 @@ void	vlist_add(t_varlist *vlist, t_variable *var)
 		i++;
 	}
 	if (i < vlist->list_len)
-		return ;
+		return (clear_variable(var));
 	if (i >= vlist->list_size)
 		vlist = vlist_realloc(vlist, vlist->list_size + 16);
 	vlist->list[vlist->list_len++] = var;
@@ -76,7 +71,10 @@ void	vlist_clear(void)
 		return ;
 	i = 0;
 	while (i < vlist->list_len)
-		clear_variable(vlist->list[i++]);
+	{
+		clear_variable(vlist->list[i]);
+		i++;
+	}
 	sh_free(vlist->list);
 	sh_free(vlist);
 }
