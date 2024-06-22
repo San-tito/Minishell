@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 16:42:47 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/22 20:12:04 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/22 20:14:32 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,20 @@
 
 static t_varlist	*vlist_realloc(t_varlist *vlist, int n)
 {
+	int			i;
+	t_variable	**new_list;
+
+	new_list = sh_malloc((n + 1) * sizeof(t_variable *));
+	i = 0;
+	while (i < vlist->list_len)
+	{
+		new_list[i] = vlist->list[i];
+		i++;
+	}
+	new_list[vlist->list_len] = NULL;
+	free(vlist->list);
+	vlist->list = new_list;
 	vlist->list_size = n;
-	vlist->list = sh_realloc(vlist->list, (vlist->list_size + 1)
-			* sizeof(t_variable *));
 	return (vlist);
 }
 

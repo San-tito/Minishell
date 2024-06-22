@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:55:43 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/22 20:00:15 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/22 20:17:57 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,25 +61,9 @@ int	delete_env(const char *name)
 
 int	update_env(char *name, char *value)
 {
-	int			i;
-	t_varlist	*vlist;
-
 	if (name == 0 || *name == 0 || ft_strchr(name, '='))
 		return (errno = EINVAL, -1);
-	i = 0;
-	vlist = varlist();
-	while (i < vlist->list_len)
-	{
-		if (ft_strncmp(name, vlist->list[i]->name, ft_strlen(name) + 1) == 0
-			&& vlist->list[i]->name[ft_strlen(name)] == '\0')
-		{
-			sh_free(vlist->list[i]->value);
-			vlist->list[i]->value = sh_strdup(value);
-		}
-		i++;
-	}
-	if (i == vlist->list_len)
-		bind_variable(sh_strdup(name), sh_strdup(value), (ATT_EXPORT));
+	bind_variable(sh_strdup(name), sh_strdup(value), (ATT_EXPORT));
 	return (0);
 }
 
