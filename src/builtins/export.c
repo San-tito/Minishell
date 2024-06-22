@@ -6,29 +6,75 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 15:44:52 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/22 21:40:35 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/22 22:41:59 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	show_variable_list(void)
+void	sort_varlist(t_varlist *vlist)
 {
+	t_variable	*key;
+	int			i;
+	int			j;
+
+	i = 0;
+	while (i < vlist->list_len)
+	{
+		key = vlist->list[i];
+		j = i - 1;
+		while (j >= 0 && strcmp(vlist->list[j]->name, key->name) > 0)
+		{
+			vlist->list[j + 1] = vlist->list[j];
+			j = j - 1;
+		}
+		vlist->list[j + 1] = key;
+		i++;
+	}
+}
+
+t_varlist	*copy_varlist(t_varlist *src)
+{
+	t_varlist	*dest;
+	int			i;
+
+	if (src == 0)
+		return (0);
+	dest = sh_malloc(sizeof(t_varlist));
+	dest->list_len = src->list_len;
+	dest->list = sh_malloc((src->list_len + 1) * sizeof(t_variable *));
+	i = 0;
+	while (i < src->list_len)
+	{
+		dest->list[i] = sh_malloc(sizeof(t_variable));
+		dest->list[i]->name = sh_strdup(src->list[i]->name);
+		dest->list[i]->value = sh_strdup(src->list[i]->value);
+		dest->list[i]->attributes = src->list[i]->attributes;
+		i++;
+	}
+	dest->list[src->list_len] = 0;
+	return (dest);
+}
+
+void	show_variable_list(void)
+{
+	t_varlist	*original;
 	t_varlist	*vlist;
 	int			i;
 
-	i = 0;
-	vlist = varlist();
-	while (i < vlist->list_len)
+	original = varlist();
+	vlist = copy_varlist(original);
+	sort_varlist(vlist);
+	i = -1;
+	while (++i < vlist->list_len)
 	{
 		ft_printf("declare -%c ", 'x');
 		ft_printf("%s", vlist->list[i]->name);
 		if (vlist->list[i]->attributes & ATT_EXPORT)
 			ft_printf("=\"%s\"", vlist->list[i]->value);
 		ft_printf("\n");
-		i++;
 	}
-	return (0);
+	vlist_clear(vlist);
 }
 
 static int	is_legal(char *name, int *append)

@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 16:30:57 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/22 21:50:10 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/22 22:41:39 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,6 @@ void			clear_variable(t_variable *var);
 t_varlist		*vlist_alloc(int nentries);
 t_varlist		*varlist(void);
 void			vlist_add(t_varlist *vlist, t_variable *var);
-void			vlist_clear(void);
+void			vlist_clear(t_varlist *vlist);
 
 #endif

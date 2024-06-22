@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:55:43 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/22 21:51:06 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/22 22:17:11 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,29 @@ int	update_env(char *name, char *value)
 	return (0);
 }
 
+void	append_exported(char **name, char **value, int append)
+{
+	char	*current;
+	char	*new_value;
+	size_t	current_len;
+	size_t	value_len;
+
+	(void)value;
+	if (append == 0)
+		return ;
+	(*name)[ft_strlen(*name) - 1] = '\0';
+	current = find_env(*name);
+	if (current == 0)
+		return ;
+	current_len = ft_strlen(current);
+	value_len = ft_strlen(*value);
+	new_value = sh_malloc(current_len + value_len + 1);
+	ft_strlcpy(new_value, current, current_len + 1);
+	ft_strlcpy(new_value + current_len, *value, value_len + 1);
+	sh_free(*value);
+	*value = new_value;
+}
+
 void	add_exported(char *str, int append)
 {
 	char	*name;
@@ -90,6 +113,7 @@ void	add_exported(char *str, int append)
 		*eq = '\0';
 		name = sh_strdup(str);
 		value = sh_strdup(eq + 1);
+		append_exported(&name, &value, append);
 		attributes = ATT_EXPORT;
 	}
 	if (attributes == ATT_EXPORT)
