@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 15:44:52 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/22 16:50:33 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/22 21:40:35 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,20 @@
 
 int	show_variable_list(void)
 {
+	t_varlist	*vlist;
+	int			i;
+
+	i = 0;
+	vlist = varlist();
+	while (i < vlist->list_len)
+	{
+		ft_printf("declare -%c ", 'x');
+		ft_printf("%s", vlist->list[i]->name);
+		if (vlist->list[i]->attributes & ATT_EXPORT)
+			ft_printf("=\"%s\"", vlist->list[i]->value);
+		ft_printf("\n");
+		i++;
+	}
 	return (0);
 }
 

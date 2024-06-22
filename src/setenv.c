@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:55:43 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/22 21:02:32 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/22 21:37:54 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int	add_exported(char *str, int append)
 	attributes = ATT_READONLY;
 	if (str == 0 || *str == 0)
 		return (errno = EINVAL, -1);
-	eq = strchr(str, '=');
+	eq = ft_strchr(str, '=');
 	if (eq == 0)
 	{
 		name = sh_strdup(str);
@@ -115,7 +115,8 @@ int	add_exported(char *str, int append)
 		value = sh_strdup(eq + 1);
 		attributes = ATT_EXPORT;
 	}
-	if (clear_if_exist(name, value))
-		bind_variable(name, value, attributes);
+	if (attributes == ATT_EXPORT)
+		clear_if_exist(name, value);
+	bind_variable(name, value, attributes);
 	return (0);
 }
