@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 17:42:45 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/16 17:07:54 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/22 17:55:50 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,32 @@ char	**wlist_to_carray(t_word_list *list)
 	{
 		array[count] = list->word;
 		list = list->next;
+		count++;
+	}
+	array[count] = NULL;
+	return (array);
+}
+
+char	**vlist_to_carray(void)
+{
+	int			count;
+	t_variable	*var;
+	char		**array;
+	t_varlist	*vlist;
+
+	vlist = varlist();
+	count = vlist->list_len;
+	array = sh_malloc((1 + count) * sizeof(char *));
+	count = 0;
+	while (vlist->list[count])
+	{
+		var = vlist->list[count];
+		array[count] = sh_malloc(ft_strlen(var->name) + ft_strlen(var->value)
+				+ 2);
+		ft_memcpy(array[count], var->name, ft_strlen(var->name));
+		array[count][ft_strlen(var->name)] = '=';
+		ft_strlcpy(array[count] + ft_strlen(var->name) + 1, var->value,
+			ft_strlen(var->value) + 1);
 		count++;
 	}
 	array[count] = NULL;

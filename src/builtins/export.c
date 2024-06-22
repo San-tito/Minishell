@@ -6,72 +6,14 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 15:44:52 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/21 19:56:15 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/22 16:50:33 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	swap(char **a, char **b)
-{
-	char	*temp;
-
-	temp = *a;
-	*a = *b;
-	*b = temp;
-}
-
-static void	sort_variables(char **env, size_t count)
-{
-	size_t	i;
-	size_t	j;
-	char	*var1;
-	char	*var2;
-
-	i = 0;
-	while (i < count - 1)
-	{
-		j = 0;
-		while (j < count - i - 1)
-		{
-			var1 = env[j];
-			var2 = env[j + 1];
-			while (*var1 && *var1 != '=' && *var2 && *var2 != '='
-				&& *var1 == *var2)
-			{
-				var1++;
-				var2++;
-			}
-			if (*var1 > *var2)
-				swap(env + j, env + j + 1);
-			j++;
-		}
-		i++;
-	}
-}
-
 int	show_variable_list(void)
 {
-	char	**copy;
-	size_t	count;
-	size_t	i;
-
-	count = 0;
-	while (environ[count])
-		count++;
-	copy = sh_malloc((count + 1) * sizeof(char *));
-	i = 0;
-	while (i < count)
-	{
-		copy[i] = sh_strdup(environ[i]);
-		i++;
-	}
-	copy[count] = NULL;
-	sort_variables(copy, count);
-	i = 0;
-	while (i < count && (*copy[i] == '_') == 0)
-		ft_printf("declare -%s %s\n", "x", copy[i++]);
-	sh_doublefree((void **)copy);
 	return (0);
 }
 

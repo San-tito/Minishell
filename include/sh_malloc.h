@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 16:43:05 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/21 14:19:01 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/22 13:23:59 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,6 @@ void	*sh_malloc(size_t bytes);
 void	*sh_realloc(void *ptr, size_t size);
 void	sh_free(void *string);
 void	sh_doublefree(void **array);
-char	*sh_strdup(char *str);
+char	*sh_strdup(const char *str);
 
 #endif

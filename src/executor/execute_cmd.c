@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 20:51:58 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/20 17:29:13 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/22 12:53:31 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	execute_in_subshell(t_command *command, int pipe_in, int pipe_out,
 		do_piping(pipe_in, pipe_out);
 		g_last_exit_value = execute_command((t_command *)command->value,
 				NO_PIPE, NO_PIPE, 0);
-		exit(g_last_exit_value);
+		sh_exit(g_last_exit_value);
 	}
 	else
 	{
@@ -45,6 +45,7 @@ int	execute_in_subshell(t_command *command, int pipe_in, int pipe_out,
 		print_status(g_last_exit_value);
 		return (g_last_exit_value);
 	}
+	return (EXECUTION_SUCCESS);
 }
 
 static int	execute_null_command(t_redirect *redirects, int pipe_in,
@@ -59,9 +60,9 @@ static int	execute_null_command(t_redirect *redirects, int pipe_in,
 		{
 			do_piping(pipe_in, pipe_out);
 			if (do_redirections(redirects) == 0)
-				exit(EXECUTION_SUCCESS);
+				sh_exit(EXECUTION_SUCCESS);
 			else
-				exit(EXECUTION_FAILURE);
+				sh_exit(EXECUTION_FAILURE);
 		}
 		else
 			return (close_pipes(pipe_in, pipe_out), EXECUTION_SUCCESS);

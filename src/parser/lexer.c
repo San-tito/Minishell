@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 16:20:05 by sguzman           #+#    #+#             */
-/*   Updated: 2024/03/10 16:37:51 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/22 12:31:16 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ t_list	*lexer(char *job)
 	if (tokens == NULL)
 		return (NULL);
 	clear_word_list(&words);
-	if (!expansor(&tokens))
-		return (NULL);
+	//if (!expansor(&tokens))
+	//	return (NULL);
 	if (!remove_quotes(&tokens))
 		return (NULL);
 	if (!check_tokens(&tokens))

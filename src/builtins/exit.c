@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 16:36:22 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/20 23:31:36 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/22 12:49:37 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ static void	exitstat(t_word_list *list)
 	if (list && list->word[0] == '-' && list->word[1] == '-' && !list->word[2])
 		list = list->next;
 	if (list == 0)
-		exit(g_last_exit_value);
+		sh_exit(g_last_exit_value);
 	if (list->word == 0 || legal_number(list->word, &status) == 0)
 		return (internal_error("%s: %s: %s", "exit", list->word,
-				"numeric argument required"), exit(EX_BADUSAGE));
+				"numeric argument required"), sh_exit(EX_BADUSAGE));
 	if (list->next)
 		return (internal_error("%s: %s", "exit", "too many arguments"));
-	exit(status & 255);
+	sh_exit(status & 255);
 }
 
 int	exit_builtin(t_word_list *list)

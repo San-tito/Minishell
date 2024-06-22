@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 16:32:10 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/12 19:49:30 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/22 13:22:47 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ char	*search_for_command(const char *pathname)
 	if (!pathname)
 		return (NULL);
 	else if (absolute_program(pathname))
-		return (ft_strdup(pathname));
+		return (sh_strdup(pathname));
 	else if (!path_list || !*path_list)
 		return (NULL);
 	paths = ft_split(path_list, ':');

@@ -6,99 +6,65 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:55:43 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/21 20:03:39 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/22 18:19:24 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <errno.h>
 
-void	unset_multiple_times(const char *name, int len, int offset)
+char	*find_env(const char *name)
 {
-	char	**p;
+	t_varlist	*vlist;
+	int			i;
 
-	while (find_env(name, len, &offset))
+	i = 0;
+	vlist = varlist();
+	while (i < vlist->list_len)
 	{
-		p = environ + offset - 1;
-		while (*p++)
-			*p = *(p + 1);
+		if (ft_strncmp(name, vlist->list[i]->name, ft_strlen(name) + 1) == 0
+			&& vlist->list[i]->name[ft_strlen(name)] == '\0')
+			return (vlist->list[i]->value);
+		i++;
 	}
+	return (0);
 }
 
 int	delete_env(const char *name)
 {
-	int	offset;
-
-	offset = 0;
+	(void)name;
 	if (name == 0 || *name == 0 || ft_strchr(name, '='))
 		return (errno = EINVAL, -1);
-	unset_multiple_times(name, ft_strlen(name), offset);
 	return (0);
 }
 
-void	last_environ(void (*cleanup_func)(void *))
+int	update_env(const char *name, char *value)
 {
-	size_t		cnt;
-	char		**p;
-	static char	**lastenv;
+	int			i;
+	t_varlist	*vlist;
 
-	if (cleanup_func)
-		return (cleanup_func(lastenv));
-	cnt = 0;
-	if (environ)
-	{
-		p = environ;
-		while (*p)
-			p++;
-		cnt = p - environ;
-	}
-	p = sh_realloc(lastenv, (cnt + 2) * sizeof(char *));
-	if (lastenv != environ && environ)
-		ft_memcpy(p, environ, cnt * sizeof(char *));
-	environ = p;
-	lastenv = environ;
-	environ[cnt + 1] = 0;
-}
-
-int	update_env(const char *name, const char *value)
-{
-	int	tmpoff;
-	int	offset;
-
-	offset = 0;
 	if (name == 0 || *name == 0 || ft_strchr(name, '='))
 		return (errno = EINVAL, -1);
-	if (find_env(name, ft_strlen(name), &offset))
+	i = 0;
+	vlist = varlist();
+	while (i < vlist->list_len)
 	{
-		tmpoff = offset + 1;
-		unset_multiple_times(name, ft_strlen(name), tmpoff);
+		if (ft_strncmp(name, vlist->list[i]->name, ft_strlen(name) + 1) == 0
+			&& vlist->list[i]->name[ft_strlen(name)] == '\0')
+		{
+			vlist->list[i]->value = sh_strdup(value);
+		}
+		i++;
 	}
-	else
-	{
-		last_environ(0);
-		while (environ[offset])
-			offset++;
-	}
-	environ[offset] = sh_malloc(ft_strlen(name) + ft_strlen(value) + 2);
-	ft_memcpy(environ[offset], name, ft_strlen(name));
-	environ[offset][ft_strlen(name)] = '=';
-	ft_memcpy(environ[offset] + ft_strlen(name) + 1, value, ft_strlen(value)
-		+ 1);
+	if (i == vlist->list_len)
+		bind_variable(sh_strdup(name), sh_strdup(value), (ATT_EXPORT));
 	return (0);
 }
 
 int	add_exported(char *name, int append)
 {
-	int	offset;
-	int	len;
-
-	(void)append;
 	if (name == 0 || *name == 0)
 		return (errno = EINVAL, -1);
-	len = ft_strlen(name);
-	if (ft_strchr(name, '='))
-		len = ft_strchr(name, '=') - name;
-	offset = 0;
-	unset_multiple_times(name, len, offset);
+	(void)append;
 	return (0);
 }

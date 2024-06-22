@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 14:22:26 by sguzman           #+#    #+#             */
-/*   Updated: 2024/05/12 16:44:45 by santito          ###   ########.fr       */
+/*   Updated: 2024/06/22 18:03:37 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 char	*get_primary_prompt(void)
 {
 	static char	prompt[256];
-	const char	*home = getenv("HOME");
-	const char	*pwd = getenv("PWD");
+	const char	*home = find_env("HOME");
+	const char	*pwd = find_env("PWD");
 
 	ft_strlcpy(prompt, CYAN, sizeof(prompt));
 	if (home && pwd && ft_strncmp(home, pwd, ft_strlen(home)) == 0)

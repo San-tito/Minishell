@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 17:09:36 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/21 16:54:06 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/22 13:23:45 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	sh_doublefree(void **array)
 	sh_free(array);
 }
 
-char	*sh_strdup(char *str)
+char	*sh_strdup(const char *str)
 {
 	char	*dup;
 

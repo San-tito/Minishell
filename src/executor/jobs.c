@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/07 13:21:31 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/15 22:31:06 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/22 12:50:10 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ pid_t	make_child(void)
 
 	pid = fork();
 	if (pid < 0)
-		exit(EX_NOEXEC);
+		sh_exit(EX_NOEXEC);
 	return (pid);
 }
 

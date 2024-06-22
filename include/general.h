@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 16:49:04 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/21 19:48:40 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/22 17:41:53 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ t_generic_list				*list_append(t_generic_list *head,
 								t_generic_list *tail);
 void						list_remove(t_generic_list **list);
 char						**wlist_to_carray(t_word_list *list);
+char						**vlist_to_carray(void);
 
 /* ************************************************************************** */
 /*                            reading and evaluating commands                 */
@@ -53,6 +54,8 @@ t_builtin_func				*find_builtin(char *name);
 /* ************************************************************************** */
 /*                             POSIX shell specification                      */
 /* ************************************************************************** */
+char						**last_environ(void);
+void						sh_exit(int s);
 int							legal_identifier(char *name);
 int							legal_number(const char *string, ssize_t *result);
 
