@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 16:42:47 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/22 17:42:35 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/22 18:59:08 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,19 @@ t_varlist	*vlist_alloc(int nentries)
 	vlist->list_len = 0;
 	vlist->list[0] = NULL;
 	return (vlist);
+}
+
+void	vlist_clear(void)
+{
+	t_varlist	*vlist;
+	int			i;
+
+	vlist = varlist();
+	if (vlist == 0)
+		return ;
+	i = 0;
+	while (i < vlist->list_len)
+		clear_variable(vlist->list[i++]);
+	sh_free(vlist->list);
+	sh_free(vlist);
 }

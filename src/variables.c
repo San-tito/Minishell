@@ -6,11 +6,21 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:55:43 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/22 17:33:32 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/22 18:56:46 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	clear_variable(t_variable *var)
+{
+	if (var)
+	{
+		sh_free(var->name);
+		sh_free(var->value);
+		sh_free(var);
+	}
+}
 
 void	bind_variable(char *name, char *value, int attributes)
 {
@@ -30,20 +40,19 @@ void	initialize_shell_variables(char **env)
 	char	*string;
 	char	*name;
 	int		index;
+	char	*value;
 
-	index = 0;
-	while (env[index])
-		index++;
 	index = -1;
 	while (env[++index])
 	{
-		name = sh_strdup(env[index]);
-		string = ft_strchr(name, '=');
+		string = ft_strchr(env[index], '=');
 		if (string == 0)
 			continue ;
-		name[string++ - name] = '\0';
+		name = sh_malloc((string - env[index] + 1) * sizeof(char));
+		value = sh_strdup(string + 1);
+		ft_strlcpy(name, env[index], string - env[index] + 1);
 		if (legal_identifier(name))
-			bind_variable(name, string, (ATT_EXPORT));
+			bind_variable(name, value, (ATT_EXPORT));
 	}
 }
 
