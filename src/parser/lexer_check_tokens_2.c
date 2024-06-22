@@ -47,7 +47,7 @@ static char	check_parentheses_closure(t_list **tokens)
 		{
 			if (check_par.parentesis_used == 0)
 				return (handle_token_error(tokens,
-						CLOSED_PARENTHESIS_BOUNDARY_ERROR));
+						CLOSED_PAR_BOUNDARY_ERROR));
 			else
 				check_par.parentesis_used--;
 		}
@@ -56,7 +56,7 @@ static char	check_parentheses_closure(t_list **tokens)
 		check_par.lst = check_par.lst->next;
 	}
 	if (check_par.parentesis_used != 0)
-		return (handle_token_error(tokens, PARENTESIS_NOT_CLOSED_ERROR));
+		return (handle_token_error(tokens, PAR_NOT_CLOSED_ERR));
 	return (1);
 }
 

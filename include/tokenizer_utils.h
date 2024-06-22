@@ -17,7 +17,7 @@
 # include "parser_error.h"
 # include "ft_printf.h"
 
-typedef	struct s_token_range
+typedef struct s_token_range
 {
 	char	*first;
 	size_t	len;
@@ -25,20 +25,20 @@ typedef	struct s_token_range
 }		t_token_range;
 
 char	add_token(char token_type, char *data, t_list **tokens,
-		t_list **words);
+			t_list **words);
 void	create_str_token(t_token_range *token_range, t_list **tokens,
-		t_list **words);
+			t_list **words);
 char	handle_str(t_token_range *token_range, t_list **tokens,
-		t_list **words);
+			t_list **words);
 char	handle_parentheses(t_token_range *token_range, t_list **tokens,
-		t_list **words, char token);
+			t_list **words, char token);
 char	handle_and(t_token_range *token_range, t_list **tokens,
-		t_list **words, char extended);
+			t_list **words, char extended);
 char	handle_or(t_token_range *token_range, t_list **tokens,
-		t_list **words, char extended);
+			t_list **words, char extended);
 char	handle_in(t_token_range *token_range, t_list **tokens,
-		t_list **words, char extended);
+			t_list **words, char extended);
 char	handle_out(t_token_range *token_range, t_list **tokens,
-		t_list **words, char extended);
+			t_list **words, char extended);
 
 #endif

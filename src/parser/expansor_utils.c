@@ -12,6 +12,7 @@
 
 #include "expansor_utils.h"
 #include "execute_cmd.h"
+#include "variables.h"
 
 static char	*obtain_word_to_expand(char **content, char **new_content)
 {
@@ -75,7 +76,7 @@ char	expand_value(char **new_content, char **content)
 		word = obtain_word_to_expand(content, new_content);
 		if (word == NULL)
 			return (ERROR);
-		value_expanded = getenv(word);
+		value_expanded = find_env(word);
 		free(word);
 		if (value_expanded == NULL)
 			return (CORRECT);

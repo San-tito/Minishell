@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parser_error.h                                      :+:      :+:    :+:   */
+/*   parser_error.h                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mpovill- <mpovill-@student.42barcel>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -31,16 +31,16 @@
 #  define AND_ERROR "syntax error near unexpected token '&'"
 # endif
 
-# ifndef PARENTESIS_NOT_CLOSED_ERROR
-#  define PARENTESIS_NOT_CLOSED_ERROR "syntax error more parentheses opened than closed"
+# ifndef PAR_NOT_CLOSED_ERR
+#  define PAR_NOT_CLOSED_ERR "syntax error more parentheses opened than closed"
 # endif
 
-# ifndef OPEN_PARENTHESIS_BOUNDARY_ERROR
-#  define OPEN_PARENTHESIS_BOUNDARY_ERROR "syntax error near unexpected token '('"
+# ifndef OPEN_PAR_BOUNDARY_ERROR
+#  define OPEN_PAR_BOUNDARY_ERROR "syntax error near unexpected token '('"
 # endif
 
-# ifndef CLOSED_PARENTHESIS_BOUNDARY_ERROR
-#  define CLOSED_PARENTHESIS_BOUNDARY_ERROR "syntax error near unexpected token ')'"
+# ifndef CLOSED_PAR_BOUNDARY_ERROR
+#  define CLOSED_PAR_BOUNDARY_ERROR "syntax error near unexpected token ')'"
 # endif
 
 # ifndef AMBIGUOUS_REDIR_ERR

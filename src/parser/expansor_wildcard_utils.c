@@ -28,11 +28,16 @@ static char	is_match(const char *pattern, char *entry)
 	return (NO_MATCH);
 }
 
-static void	add_match(char **results, char *match, char *is_first)
+static void	add_match(char **results, char *match, char *is_first, char c)
 {
 	char	*dup;
 	char	*space;
 
+	if (c != '.')
+	{
+		if (*match == '.')
+			return ;
+	}
 	dup = sh_strdup(match);
 	if (*is_first == 1)
 	{
@@ -61,7 +66,7 @@ static char	*get_matches(char **pattern)
 	while (entry != NULL)
 	{
 		if (is_match(*pattern, entry->d_name) == MATCH)
-			add_match(&results, entry->d_name, &is_first);
+			add_match(&results, entry->d_name, &is_first, **pattern);
 		entry = readdir(dir);
 	}
 	closedir(dir);

@@ -10,8 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef TOKENS_ID
-# define TOKENS_ID
+#ifndef TOKEN_H
+# define TOKEN_H
 
 typedef struct s_token
 {

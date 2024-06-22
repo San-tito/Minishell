@@ -70,7 +70,7 @@ static char	interpret_content(char **content, char **new_content,
 			&& !cont_data->double_q)
 			return (convert_wildcard(content, new_content, cont_data));
 	}
-	content++;
+	(*content)++;
 	cont_data->len++;
 	return (CORRECT);
 }

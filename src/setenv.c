@@ -98,7 +98,6 @@ void	add_exported(char *str, int append)
 	int		attributes;
 	char	*eq;
 
-	(void)append;
 	attributes = ATT_READONLY;
 	if (str == 0 || *str == 0)
 		return ;
