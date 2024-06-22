@@ -18,7 +18,7 @@
 # include "sh_malloc.h"
 
 // Struct used inside separate_words
-typedef	struct s_word_data
+typedef struct s_word_data
 {
 	char	*first;
 	size_t	len;
