@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 15:44:52 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/22 22:41:59 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/22 22:49:42 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ void	sort_varlist(t_varlist *vlist)
 	{
 		key = vlist->list[i];
 		j = i - 1;
-		while (j >= 0 && strcmp(vlist->list[j]->name, key->name) > 0)
+		while (j >= 0 && ft_strncmp(vlist->list[j]->name, key->name,
+				ft_strlen(key->name) + 1) > 0)
 		{
 			vlist->list[j + 1] = vlist->list[j];
 			j = j - 1;
@@ -66,7 +67,7 @@ void	show_variable_list(void)
 	vlist = copy_varlist(original);
 	sort_varlist(vlist);
 	i = -1;
-	while (++i < vlist->list_len)
+	while (++i < vlist->list_len && *vlist->list[i]->name != '_')
 	{
 		ft_printf("declare -%c ", 'x');
 		ft_printf("%s", vlist->list[i]->name);

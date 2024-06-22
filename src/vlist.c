@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 16:42:47 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/22 22:41:26 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/22 22:45:15 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,6 @@ void	vlist_clear(t_varlist *vlist)
 {
 	int	i;
 
-	vlist = varlist();
 	if (vlist == 0)
 		return ;
 	i = 0;
