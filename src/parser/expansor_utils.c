@@ -22,8 +22,8 @@ static char	*obtain_word_to_expand(char **content, char **new_content)
 
 	start = *content;
 	len = 0;
-	while (**content != ' ' && **content != '\'' && **content
-		!= '\"' && **content)
+	while (**content != ' ' && **content != '$' && **content != '\''
+		&& **content != '\"' && **content)
 	{
 		(*content)++;
 		len++;
