@@ -223,6 +223,7 @@ static void	test_all_tokenizer()
 	test_tokenize_words("test1||test2");
 	test_tokenize_words("test1 | test2 && test3 || test4");
 	test_tokenize_words("test1 | test2 && test3 || test4 && test4 | test5");
+	test_tokenize_words("                                                      ");
 	test_tokenize_words("test1 >a");
 	test_tokenize_words("test1 > a");
 	test_tokenize_words("test1 >a>b>c");
@@ -256,6 +257,7 @@ static void	test_all_expansor()
 	test_expansor("test1$HOME");
 	test_expansor("\"test1$HOME\"");
 	test_expansor("test1 \"test2$HOME\"\" test3\" test4");
+	test_expansor("                                                      ");
 	test_expansor("test1 $SHLVL test2");
 	test_expansor("test1 $$ test2");
 	test_expansor("test1 $? test2");

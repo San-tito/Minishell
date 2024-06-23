@@ -30,9 +30,3 @@ int	main(int argc, char *argv[], char *envp[])
 	reader_loop();
 	sh_exit(g_last_exit_value);
 }
-
-void	sh_exit(int s)
-{
-	vlist_clear(varlist());
-	exit(s);
-}

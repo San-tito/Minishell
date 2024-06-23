@@ -75,6 +75,7 @@ SRCS = clear_cmd.c \
        setenv.c \
        prompt.c \
        sh_malloc.c \
+	   sh_malloc2.c \
        sig.c \
        variables.c \
        vlist.c

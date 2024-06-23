@@ -24,8 +24,10 @@ t_command	*parse_command(char *current_line)
 		return (NULL);
 	err = 0;
 	tokens = lexer(current_line, &err);
-	if (err)
+	if (err == 1)
 		return (g_last_exit_value = 2, NULL);
+	if (err == -1)
+		return (NULL);
 	tmp = tokens;
 	command = parse_tokens(&tokens);
 	clear_tokens(&tmp);
