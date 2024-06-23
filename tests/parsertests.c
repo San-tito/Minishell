@@ -352,14 +352,14 @@ static void	test_all_parser()
 
 int main(void)
 {
-	//test_all_separate_words();
-	//test_all_remove_empty_words();
-	//test_all_tokenizer();
+	test_all_separate_words();
+	test_all_remove_empty_words();
+	test_all_tokenizer();
 	test_all_expansor();
-	//test_all_wildcards();
-	//test_all_remove_quotes();
-	//test_all_lexer();
-	//test_all_parser();
+	test_all_wildcards();
+	test_all_remove_quotes();
+	test_all_lexer();
+	test_all_parser();
 	//test_parser("echo a | echo b");
 	vlist_clear(varlist());
 	return (0);

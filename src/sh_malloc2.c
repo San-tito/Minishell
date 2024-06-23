@@ -32,7 +32,7 @@ char	*sh_strjoin(char const *s1, char const *s2)
 {
 	char	*join;
 
-	join = sh_strjoin(s1, s2);
+	join = ft_strjoin(s1, s2);
 	if (join == NULL)
 		fatal_error("Not enough memory to join [%s] and [%s]", s1, s2);
 	return (join);
