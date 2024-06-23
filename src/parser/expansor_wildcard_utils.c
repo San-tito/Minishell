@@ -58,7 +58,7 @@ static char	*get_matches(char **pattern)
 	char			is_first;
 
 	is_first = 1;
-	dir = opendir(".");
+	dir = opendir("."); //could this throw an error??
 	if (!dir)
 		return (NULL);
 	results = NULL;
@@ -78,7 +78,7 @@ static char	*get_matches(char **pattern)
 	return (*pattern);
 }
 
-char	expand_matches(char **content, char **new_content,
+void	expand_matches(char **content, char **new_content,
 	t_content_data *cont_data)
 {
 	char	*pattern;
@@ -93,13 +93,7 @@ char	expand_matches(char **content, char **new_content,
 		(*content)++;
 		cont_data->len++;
 	}
-	pattern = ft_substr(cont_data->start, 0, cont_data->len);
-	if (pattern == NULL)
-	{
-		if (*new_content != NULL)
-			free(*new_content);
-		return (ERROR);
-	}
+	pattern = ft_substr(cont_data->start, 0, cont_data->len); //change to sh_substr
 	pattern = get_matches(&pattern);
-	return (join_and_free(new_content, &pattern));
+	join_and_free(new_content, &pattern);
 }

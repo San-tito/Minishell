@@ -11,63 +11,43 @@
 /* ************************************************************************** */
 
 #include "tokenizer_utils.h"
+#include "sh_malloc.h"
 
 static t_token	*new_token(char token_type, char *token_content)
 {
 	t_token	*token;
 
-	token = malloc(sizeof(t_token));
-	if (token == NULL)
-		return (NULL);
+	token = sh_malloc(sizeof(t_token));
 	token->type = token_type;
 	token->content = token_content;
 	return (token);
 }
 
-char	add_token(char token_type, char *data, t_list **tokens, t_list **words)
+void	add_token(char token_type, char *data, t_list **tokens)
 {
 	t_token	*token;
 	t_list	*node;
 
 	token = new_token(token_type, data);
-	if (token == NULL)
-		return (handle_error(words, tokens, MALLOC_ERROR));
-	node = ft_lstnew(token);
-	if (node == NULL)
-	{
-		free(token);
-		return (handle_error(words, tokens, MALLOC_ERROR));
-	}
+	node = ft_lstnew(token); //change to sh_lstnew
 	ft_lstadd_back(tokens, node);
-	return (1);
 }
 
 void	create_str_token(t_token_range *token_range,
-	t_list **tokens, t_list **words)
+	t_list **tokens)
 {
 	char	*content;
 
 	if (token_range->len == 0)
 		return ;
-	content = ft_substr(token_range->first, 0, token_range->len);
-	if (content == NULL)
-	{
-		token_range->error = 1;
-		handle_error(words, tokens, MALLOC_ERROR);
-		return ;
-	}
-	if (!add_token(STR_TOKEN, content, tokens, words))
-	{
-		free(content);
-		token_range->error = 1;
-		return ;
-	}
+	content = ft_substr(token_range->first, 0, token_range->len); //change to sh_substr
+	add_token(STR_TOKEN, content, tokens);
 	token_range->first = token_range->first + token_range->len;
 	token_range->len = 0;
 }
 
-char	handle_str(t_token_range *token_range, t_list **tokens, t_list **words)
+char	handle_str(t_token_range *token_range, t_list **tokens)
 {
-	create_str_token(token_range, tokens, words);
+	create_str_token(token_range, tokens);
 	return (1);
 }

@@ -24,21 +24,15 @@ typedef struct s_token_range
 	char	error;
 }		t_token_range;
 
-char	add_token(char token_type, char *data, t_list **tokens,
-			t_list **words);
-void	create_str_token(t_token_range *token_range, t_list **tokens,
-			t_list **words);
-char	handle_str(t_token_range *token_range, t_list **tokens,
-			t_list **words);
+void	add_token(char token_type, char *data, t_list **tokens);
+void	create_str_token(t_token_range *token_range, t_list **tokens);
+char	handle_str(t_token_range *token_range, t_list **tokens);
 char	handle_parentheses(t_token_range *token_range, t_list **tokens,
-			t_list **words, char token);
+			char token);
 char	handle_and(t_token_range *token_range, t_list **tokens,
 			t_list **words, char extended);
-char	handle_or(t_token_range *token_range, t_list **tokens,
-			t_list **words, char extended);
-char	handle_in(t_token_range *token_range, t_list **tokens,
-			t_list **words, char extended);
-char	handle_out(t_token_range *token_range, t_list **tokens,
-			t_list **words, char extended);
+char	handle_or(t_token_range *token_range, t_list **tokens, char extended);
+char	handle_in(t_token_range *token_range, t_list **tokens, char extended);
+char	handle_out(t_token_range *token_range, t_list **tokens, char extended);
 
 #endif

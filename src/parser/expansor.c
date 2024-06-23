@@ -62,11 +62,9 @@ static char	interpret_content(char **content, char **new_content,
 	{
 		if (need_expand(content, content_data))
 		{
-			if (append_content(new_content, *content_data) == ERROR)
-				return (ERROR);
+			append_content(new_content, *content_data);
 			content_data->len = 0;
-			if (expand_value(new_content, content) == ERROR)
-				return (ERROR);
+			expand_value(new_content, content);
 			content_data->start = *content;
 			return (1);
 		}
@@ -78,7 +76,7 @@ static char	interpret_content(char **content, char **new_content,
 *	Searches the content of the token for environmental variables
 *	and expands them.
 */
-static char	expand_content(t_token *token)
+static void	expand_content(t_token *token)
 {
 	t_content_data	content_data;
 	char			*content;
@@ -89,24 +87,20 @@ static char	expand_content(t_token *token)
 	while (*content)
 	{
 		interpreted = interpret_content(&content, &new_content, &content_data);
-		if (interpreted == ERROR)
-			return (ERROR);
-		else if (!interpreted)
+		if (!interpreted)
 		{
 			content++;
 			content_data.len++;
 		}
 	}
-	if (finalize_content(token, &new_content, content_data) == ERROR)
-		return (ERROR);
-	return (CORRECT);
+	finalize_content(token, &new_content, content_data);
 }
 
 /*
 *	Gets a list of tokens and for each STR_TOKEN it finds
 *	expands the ENV values inside the content of the token.
 */
-char	expansor(t_list **tokens)
+void	expansor(t_list **tokens)
 {
 	t_list	*lst;
 	t_token	*token;
@@ -117,11 +111,7 @@ char	expansor(t_list **tokens)
 	{
 		token = (t_token *)(lst->content);
 		if (token->type == STR_TOKEN && token->content != NULL)
-		{
-			if (expand_content(token) == ERROR)
-				return (handle_token_error(tokens, MALLOC_ERROR));
-		}
+			expand_content(token);
 		lst = lst->next;
 	}
-	return (CORRECT);
 }

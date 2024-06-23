@@ -14,11 +14,10 @@
 #include "execute_cmd.h"
 #include "variables.h"
 
-static char	*obtain_word_to_expand(char **content, char **new_content)
+static char	*obtain_word_to_expand(char **content)
 {
 	char	*start;
 	int		len;
-	char	*word;
 
 	start = *content;
 	len = 0;
@@ -28,17 +27,10 @@ static char	*obtain_word_to_expand(char **content, char **new_content)
 		(*content)++;
 		len++;
 	}
-	word = ft_substr(start, 0, len);
-	if (word == NULL)
-	{
-		if (*new_content != NULL)
-			free(*new_content);
-		return (NULL);
-	}
-	return (word);
+	return (ft_substr(start, 0, len)); //change to sh_substr
 }
 
-char	join_and_free(char **str, char **str_to_add)
+void	join_and_free(char **str, char **str_to_add)
 {
 	char	*word;
 
@@ -46,21 +38,18 @@ char	join_and_free(char **str, char **str_to_add)
 		*str = *str_to_add;
 	else
 	{
-		word = ft_strjoin(*str, *str_to_add);
+		word = ft_strjoin(*str, *str_to_add); //change to sh_strjoin
 		if (*str_to_add != NULL)
 			free(*str_to_add);
 		free(*str);
-		if (word == NULL)
-			return (ERROR);
 		*str = word;
 	}
-	return (CORRECT);
 }
 
 /*
  *	Expands the value of an environmental variable.
  */
-char	expand_value(char **new_content, char **content)
+void	expand_value(char **new_content, char **content)
 {
 	char	*word;
 	char	*value_expanded;
@@ -68,47 +57,35 @@ char	expand_value(char **new_content, char **content)
 	(*content)++;
 	if (**content == '?')
 	{
-		value_expanded = ft_itoa(g_last_exit_value);
+		value_expanded = ft_itoa(g_last_exit_value); //change to int_to_buf
 		(*content)++;
 	}
 	else
 	{
-		word = obtain_word_to_expand(content, new_content);
-		if (word == NULL)
-			return (ERROR);
+		word = obtain_word_to_expand(content);
 		value_expanded = find_env(word);
 		free(word);
 		if (value_expanded == NULL)
-			return (CORRECT);
-		value_expanded = ft_strdup(value_expanded);
+			return ;
+		value_expanded = ft_strdup(value_expanded);	//change to sh_strdup
 	}
-	if (value_expanded == NULL)
-		return (ERROR);
-	return (join_and_free(new_content, &value_expanded));
+	join_and_free(new_content, &value_expanded);
 }
 
-char	append_content(char **new_content, t_content_data content_data)
+void	append_content(char **new_content, t_content_data content_data)
 {
 	char	*word;
 
 	if (content_data.len == 0)
-		return (CORRECT);
-	word = ft_substr(content_data.start, 0, content_data.len);
-	if (word == NULL)
-	{
-		if (*new_content != NULL)
-			free(*new_content);
-		return (ERROR);
-	}
-	return (join_and_free(new_content, &word));
+		return ;
+	word = ft_substr(content_data.start, 0, content_data.len); //change to sh_substr
+	join_and_free(new_content, &word);
 }
 
-char	finalize_content(t_token *token, char **new_content,
+void	finalize_content(t_token *token, char **new_content,
 	t_content_data content_data)
 {
-	if (append_content(new_content, content_data) == ERROR)
-		return (ERROR);
+	append_content(new_content, content_data);
 	free(token->content);
 	token->content = *new_content;
-	return (CORRECT);
 }

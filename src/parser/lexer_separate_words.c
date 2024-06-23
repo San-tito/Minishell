@@ -21,24 +21,16 @@ static void	init_word_data(t_list **words, t_word_data *word_data, char *job)
 	word_data->double_q = 0;
 }
 
-static char	create_word(t_list **words, t_word_data *word_data, char *job)
+static void	create_word(t_list **words, t_word_data *word_data, char *job)
 {
 	char	*word;
 	t_list	*node;
 
-	word = ft_substr(word_data->first, 0, word_data->len);
-	if (word == NULL)
-		return (handle_word_error(words, MALLOC_ERROR));
-	node = ft_lstnew(word);
-	if (node == NULL)
-	{
-		free(word);
-		return (handle_word_error(words, MALLOC_ERROR));
-	}
+	word = ft_substr(word_data->first, 0, word_data->len); //change to sh_substr
+	node = ft_lstnew(word); //change to sh_lstew
 	ft_lstadd_back(words, node);
 	word_data->first = job + 1;
 	word_data->len = 0;
-	return (1);
 }
 
 static char	managa_quotes(char c, t_word_data *word_data)
@@ -75,14 +67,14 @@ static t_list	*check_final_data(t_list **words, t_word_data word_data,
 		handle_word_error(words, DOUBLE_Q_ERROR);
 		return (NULL);
 	}
-	if (!create_word(words, &word_data, job))
-		return (NULL);
+	create_word(words, &word_data, job);
 	return (*words);
 }
 
 /*
  *	Separates the job into words separated by spaces,
  *	respecting the single and double quotes.
+ *	Prints an error and returns NULL if the job is not correct.
  */
 t_list	*separate_words(char *job)
 {
@@ -93,10 +85,7 @@ t_list	*separate_words(char *job)
 	while (*job)
 	{
 		if (!managa_quotes(*job, &word_data))
-		{
-			if (!create_word(&words, &word_data, job))
-				return (NULL);
-		}
+			create_word(&words, &word_data, job);
 		else
 			word_data.len++;
 		job++;

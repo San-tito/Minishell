@@ -18,15 +18,16 @@ t_command	*parse_command(char *current_line)
 	t_list		*tokens;
 	t_list		*tmp;
 	t_command	*command;
+	char		err;
 
 	if (*current_line == '\0')
-		return (sh_free(current_line), NULL);
-	tokens = lexer(current_line);
-	if (tokens == NULL)
-		return (sh_free(current_line), g_last_exit_value = 2, NULL);
+		return (NULL);
+	err = 0;
+	tokens = lexer(current_line, &err);
+	if (err)
+		return (g_last_exit_value = 2, NULL);
 	tmp = tokens;
 	command = parse_tokens(&tokens);
 	clear_tokens(&tmp);
-	sh_free(current_line);
 	return (command);
 }

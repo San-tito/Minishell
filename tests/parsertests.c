@@ -127,10 +127,12 @@ static void test_remove_quotes(char *job)
 static void	test_lexer(char *job)
 {
 	t_list	*tokens;
+	char	err;
 
+	err = 0;
 	ft_printf("Job: [%s]\n\t", job);
-	tokens = lexer(job);
-	if (tokens != NULL)
+	tokens = lexer(job, &err);
+	if (!err)
 	{
 		ft_printf("Correct!\n");
 		clear_tokens(&tokens);
@@ -348,14 +350,15 @@ static void	test_all_parser()
 
 int main(void)
 {
-	//test_all_separate_words();
-	//test_all_remove_empty_words();
-	//test_all_tokenizer();
-	//test_all_expansor();
+	test_all_separate_words();
+	test_all_remove_empty_words();
+	test_all_tokenizer();
+	test_all_expansor();
 	test_all_wildcards();
-	//test_all_remove_quotes();
-	//test_all_lexer();
-	//test_all_parser();
+	test_all_remove_quotes();
+	test_all_lexer();
+	test_all_parser();
 	//test_parser("echo a | echo b");
+	vlist_clear(varlist());
 	return (0);
 }

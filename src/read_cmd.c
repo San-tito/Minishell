@@ -25,6 +25,7 @@ int	reader_loop(void)
 	{
 		line = read_command();
 		current_command = parse_command(line);
+		sh_free(line);
 		execute_command(current_command, NO_PIPE, NO_PIPE, 0);
 		clear_command(current_command);
 	}

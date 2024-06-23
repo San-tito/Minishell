@@ -69,38 +69,33 @@ static void	copy_without_quotes(char *q_str, char *unq_str,
 	*(unq_str + handle_quotes.num) = '\0';
 }
 
-static char	manage_quotes(t_token *token)
+static void	manage_quotes(t_token *token)
 {
 	t_handle_quotes	handle_quotes;
 	char			*quoted_str;
 	char			*unquoted_str;
 
 	if (token->type != STR_TOKEN)
-		return (1);
+		return ;
 	quoted_str = token->content;
 	if (quoted_str == NULL)
-		return (1);
+		return ;
 	count_quotes(quoted_str, &handle_quotes);
-	unquoted_str = malloc(sizeof(char)
+	unquoted_str = sh_malloc(sizeof(char)
 			* ((ft_strlen(quoted_str) - handle_quotes.num) + 1));
-	if (unquoted_str == NULL)
-		return (0);
 	copy_without_quotes(quoted_str, unquoted_str, handle_quotes);
 	free(token->content);
 	token->content = unquoted_str;
-	return (1);
 }
 
-char	remove_quotes(t_list **tokens)
+void	remove_quotes(t_list **tokens)
 {
 	t_list	*lst;
 
 	lst = *tokens;
 	while (lst != NULL)
 	{
-		if (!manage_quotes((t_token *)lst->content))
-			return (handle_token_error(tokens, MALLOC_ERROR));
+		manage_quotes((t_token *)lst->content);
 		lst = lst->next;
 	}
-	return (1);
 }

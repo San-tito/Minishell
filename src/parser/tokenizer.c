@@ -18,19 +18,19 @@ static void	check_boundary(char **word, t_token_range *token_rng,
 	char	update;
 
 	if (**word == ' ' || **word == '\0')
-		update = handle_str(token_rng, tokens, words);
+		update = handle_str(token_rng, tokens);
 	else if (**word == '(')
-		update = handle_parentheses(token_rng, tokens, words, OPEN_PAR_TOKEN);
+		update = handle_parentheses(token_rng, tokens, OPEN_PAR_TOKEN);
 	else if (**word == ')')
-		update = handle_parentheses(token_rng, tokens, words, CLOSE_PAR_TOKEN);
+		update = handle_parentheses(token_rng, tokens, CLOSE_PAR_TOKEN);
 	else if (**word == '&')
 		update = handle_and(token_rng, tokens, words, *(*word + 1) == '&');
 	else if (**word == '|')
-		update = handle_or(token_rng, tokens, words, *(*word + 1) == '|');
+		update = handle_or(token_rng, tokens, *(*word + 1) == '|');
 	else if (**word == '<')
-		update = handle_in(token_rng, tokens, words, *(*word + 1) == '<');
+		update = handle_in(token_rng, tokens, *(*word + 1) == '<');
 	else if (**word == '>')
-		update = handle_out(token_rng, tokens, words, *(*word + 1) == '>');
+		update = handle_out(token_rng, tokens, *(*word + 1) == '>');
 	else
 	{
 		(*word)++;

@@ -13,16 +13,10 @@
 #include "tokenizer_utils.h"
 
 char	handle_parentheses(t_token_range *token_range, t_list **tokens,
-	t_list **words, char token_type)
+	char token_type)
 {
-	create_str_token(token_range, tokens, words);
-	if (token_range->error)
-		return (0);
-	if (!add_token(token_type, NULL, tokens, words))
-	{
-		token_range->error = 1;
-		return (0);
-	}
+	create_str_token(token_range, tokens);
+	add_token(token_type, NULL, tokens);
 	token_range->first++;
 	return (1);
 }
@@ -36,35 +30,22 @@ char	handle_and(t_token_range *token_range, t_list **tokens,
 		handle_error(words, tokens, AND_ERROR);
 		return (0);
 	}
-	create_str_token(token_range, tokens, words);
-	if (token_range->error)
-		return (0);
-	if (!add_token(AND_TOKEN, NULL, tokens, words))
-	{
-		token_range->error = 1;
-		return (0);
-	}
+	create_str_token(token_range, tokens);
+	add_token(AND_TOKEN, NULL, tokens);
 	token_range->first += 2;
 	return (2);
 }
 
-char	handle_or(t_token_range *token_range, t_list **tokens,
-	t_list **words, char extended)
+char	handle_or(t_token_range *token_range, t_list **tokens, char extended)
 {
 	char	token_type;
 
-	create_str_token(token_range, tokens, words);
-	if (token_range->error)
-		return (0);
+	create_str_token(token_range, tokens);
 	if (extended)
 		token_type = OR_TOKEN;
 	else
 		token_type = PIPE_TOKEN;
-	if (!add_token(token_type, NULL, tokens, words))
-	{
-		token_range->error = 1;
-		return (0);
-	}
+	add_token(token_type, NULL, tokens);
 	if (token_type == OR_TOKEN)
 	{
 		token_range->first += 2;
@@ -74,23 +55,16 @@ char	handle_or(t_token_range *token_range, t_list **tokens,
 	return (1);
 }
 
-char	handle_in(t_token_range *token_range, t_list **tokens,
-	t_list **words, char extended)
+char	handle_in(t_token_range *token_range, t_list **tokens, char extended)
 {
 	char	token_type;
 
-	create_str_token(token_range, tokens, words);
-	if (token_range->error)
-		return (0);
+	create_str_token(token_range, tokens);
 	if (extended)
 		token_type = HEREDOC_TOKEN;
 	else
 		token_type = INPUT_TOKEN;
-	if (!add_token(token_type, NULL, tokens, words))
-	{
-		token_range->error = 1;
-		return (0);
-	}
+	add_token(token_type, NULL, tokens);
 	if (token_type == HEREDOC_TOKEN)
 	{
 		token_range->first += 2;
@@ -100,23 +74,16 @@ char	handle_in(t_token_range *token_range, t_list **tokens,
 	return (1);
 }
 
-char	handle_out(t_token_range *token_range, t_list **tokens,
-	t_list **words, char extended)
+char	handle_out(t_token_range *token_range, t_list **tokens, char extended)
 {
 	char	token_type;
 
-	create_str_token(token_range, tokens, words);
-	if (token_range->error)
-		return (0);
+	create_str_token(token_range, tokens);
 	if (extended)
 		token_type = APPEND_TOKEN;
 	else
 		token_type = OUTPUT_TOKEN;
-	if (!add_token(token_type, NULL, tokens, words))
-	{
-		token_range->error = 1;
-		return (0);
-	}
+	add_token(token_type, NULL, tokens);
 	if (token_type == APPEND_TOKEN)
 	{
 		token_range->first += 2;
