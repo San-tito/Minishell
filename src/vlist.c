@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 16:42:47 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/22 22:45:15 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/23 02:06:40 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,20 +56,30 @@ t_varlist	*varlist(void)
 	static t_varlist	*vlist;
 
 	if (vlist == 0)
-		return (vlist = vlist_alloc(32));
+	{
+		vlist = sh_malloc(sizeof(t_varlist));
+		vlist->list = sh_malloc((42 + 1) * sizeof(t_variable *));
+		vlist->list_size = 42;
+		vlist->list_len = 0;
+		vlist->list[0] = NULL;
+		return (vlist);
+	}
 	return (vlist);
 }
 
-t_varlist	*vlist_alloc(int nentries)
+void	del_readonly(void)
 {
 	t_varlist	*vlist;
+	int			i;
 
-	vlist = sh_malloc(sizeof(t_varlist));
-	vlist->list = sh_malloc((nentries + 1) * sizeof(t_variable *));
-	vlist->list_size = nentries;
-	vlist->list_len = 0;
-	vlist->list[0] = NULL;
-	return (vlist);
+	vlist = varlist();
+	i = 0;
+	while (i < vlist->list_len)
+	{
+		if (vlist->list[i]->attributes & ATT_READONLY)
+			delete_env(vlist->list[i]->name);
+		i++;
+	}
 }
 
 void	vlist_clear(t_varlist *vlist)

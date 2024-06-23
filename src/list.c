@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 17:42:45 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/23 02:00:09 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/23 02:08:10 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ char	**vlist_to_carray(void)
 	char		**array;
 	t_varlist	*vlist;
 
+	del_readonly();
 	vlist = varlist();
 	count = vlist->list_len;
 	array = sh_malloc((1 + count) * sizeof(char *));
