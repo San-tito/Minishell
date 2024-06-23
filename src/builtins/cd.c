@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelo>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 16:25:49 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/21 18:14:14 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/23 02:30:39 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	bindpwd(void)
 {
 	char	*pwdvar;
 
-	pwdvar = getenv("PWD");
+	pwdvar = find_env("PWD");
 	update_env("OLDPWD", pwdvar);
 	set_pwd();
 	return (EXECUTION_SUCCESS);
@@ -31,14 +31,14 @@ int	cd_builtin(t_word_list *list)
 
 	if (list == 0)
 	{
-		dirname = getenv("HOME");
+		dirname = find_env("HOME");
 		if (dirname == 0)
 			return (internal_error("%s: %s", "cd", "HOME not set"),
 				EXECUTION_FAILURE);
 	}
 	else if (*list->word == '-' && *(list->word + 1) == '\0')
 	{
-		dirname = getenv("OLDPWD");
+		dirname = find_env("OLDPWD");
 		if (dirname == 0)
 			return (internal_error("%s: %s", "cd", "OLDPWD not set"),
 				EXECUTION_FAILURE);

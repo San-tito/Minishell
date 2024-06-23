@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/06 16:32:10 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/22 13:22:47 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/23 02:30:52 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	*search_for_command(const char *pathname)
 	int		path_index;
 
 	path_index = 0;
-	path_list = getenv("PATH");
+	path_list = find_env("PATH");
 	if (!pathname)
 		return (NULL);
 	else if (absolute_program(pathname))
