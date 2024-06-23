@@ -27,14 +27,22 @@ t_content_data	initialize_content(char *token_content, char **content,
 	return (content_data);
 }
 
-char	finalize_content(t_token *token, char **new_content,
-	t_content_data content_data)
+static char	need_expand(char **content, t_content_data *content_data)
 {
-	if (append_content(new_content, content_data) == ERROR)
-		return (ERROR);
-	free(token->content);
-	token->content = *new_content;
-	return (CORRECT);
+	char	next_char;
+
+	if (content_data->single_q)
+		return (0);
+	if (**content != '$')
+		return (0);
+	next_char = *(*(content) + 1);
+	if (content_data->double_q && next_char == '\"')
+		return (0);
+	if (next_char == ' ')
+		return (0);
+	if (next_char == '\0')
+		return (0);
+	return (1);
 }
 
 /*
@@ -46,19 +54,13 @@ char	finalize_content(t_token *token, char **new_content,
 static char	interpret_content(char **content, char **new_content,
 	t_content_data *content_data)
 {
-	char	current_char;
-	char	next_char;
-
-	current_char = **content;
-	if (current_char == '\'' && !content_data->double_q)
+	if (**content == '\'' && !content_data->double_q)
 		content_data->single_q = !content_data->single_q;
-	else if (current_char == '\"' && !content_data->single_q)
+	else if (**content == '\"' && !content_data->single_q)
 		content_data->double_q = !content_data->double_q;
 	else
 	{
-		next_char = *(*(content) + 1);
-		if (current_char == '$' && next_char != ' ' && next_char != '\0'
-			&& !content_data->single_q)
+		if (need_expand(content, content_data))
 		{
 			if (append_content(new_content, *content_data) == ERROR)
 				return (ERROR);

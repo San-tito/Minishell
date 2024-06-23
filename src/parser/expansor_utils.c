@@ -102,3 +102,13 @@ char	append_content(char **new_content, t_content_data content_data)
 	}
 	return (join_and_free(new_content, &word));
 }
+
+char	finalize_content(t_token *token, char **new_content,
+	t_content_data content_data)
+{
+	if (append_content(new_content, content_data) == ERROR)
+		return (ERROR);
+	free(token->content);
+	token->content = *new_content;
+	return (CORRECT);
+}
