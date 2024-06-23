@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/10 13:28:37 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/22 16:04:43 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/23 14:23:34 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,4 +89,31 @@ int	legal_identifier(char *name)
 		s++;
 	}
 	return (1);
+}
+
+void	int_to_buf(int number, char buffer[5])
+{
+	int	old_number;
+
+	if (number < 0 || number > 9999)
+		return ;
+	if (number < 10)
+	{
+		buffer[0] = number + '0';
+		buffer[1] = '\0';
+	}
+	else if (number < 100)
+	{
+		buffer[0] = (number / 10) + '0';
+		buffer[1] = (number % 10) + '0';
+		buffer[2] = '\0';
+	}
+	else if (number < 1000)
+	{
+		buffer[0] = (number / 100) + '0';
+		old_number = number % 100;
+		buffer[1] = (old_number / 10) + '0';
+		buffer[2] = (old_number % 10) + '0';
+		buffer[3] = '\0';
+	}
 }

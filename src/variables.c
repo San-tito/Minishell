@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:55:43 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/22 18:56:46 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/23 14:22:32 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	initialize_shell_level(void)
 	char	*old_shlvl;
 	ssize_t	old_level;
 	int		shell_level;
-	char	*new_level;
+	char	new_level[5];
 
 	old_shlvl = find_env("SHLVL");
 	if (old_shlvl == 0 || *old_shlvl == '\0' || legal_number(old_shlvl,
@@ -76,9 +76,8 @@ void	initialize_shell_level(void)
 			shell_level);
 		shell_level = 1;
 	}
-	new_level = ft_itoa(shell_level);
+	int_to_buf(shell_level, new_level);
 	update_env("SHLVL", new_level);
-	sh_free(new_level);
 }
 
 void	set_pwd(void)

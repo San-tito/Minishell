@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 16:49:04 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/22 17:41:53 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/23 14:23:48 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ t_builtin_func				*find_builtin(char *name);
 /* ************************************************************************** */
 char						**last_environ(void);
 void						sh_exit(int s);
+void						int_to_buf(int number, char buffer[5]);
 int							legal_identifier(char *name);
 int							legal_number(const char *string, ssize_t *result);
 
