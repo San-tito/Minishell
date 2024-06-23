@@ -42,7 +42,6 @@ t_list	*lexer(char *job, char *err)
 	}
 	remove_empty_words(&words);
 	if (words == NULL)
-	if (words == NULL)
 	{
 		*err = -1;
 		return (NULL);

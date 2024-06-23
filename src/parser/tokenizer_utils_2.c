@@ -29,7 +29,7 @@ void	add_token(char token_type, char *data, t_list **tokens)
 	t_list	*node;
 
 	token = new_token(token_type, data);
-	node = ft_lstnew(token); //change to sh_lstnew
+	node = sh_lstnew(token);
 	ft_lstadd_back(tokens, node);
 }
 
@@ -40,7 +40,7 @@ void	create_str_token(t_token_range *token_range,
 
 	if (token_range->len == 0)
 		return ;
-	content = ft_substr(token_range->first, 0, token_range->len); //change to sh_substr
+	content = sh_substr(token_range->first, 0, token_range->len);
 	add_token(STR_TOKEN, content, tokens);
 	token_range->first = token_range->first + token_range->len;
 	token_range->len = 0;

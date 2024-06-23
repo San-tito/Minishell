@@ -93,7 +93,7 @@ void	expand_matches(char **content, char **new_content,
 		(*content)++;
 		cont_data->len++;
 	}
-	pattern = ft_substr(cont_data->start, 0, cont_data->len); //change to sh_substr
+	pattern = sh_substr(cont_data->start, 0, cont_data->len);
 	pattern = get_matches(&pattern);
 	join_and_free(new_content, &pattern);
 }

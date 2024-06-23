@@ -14,6 +14,7 @@
 # define SH_MALLOC_H
 
 # include <stddef.h>
+# include "ft_printf.h"
 
 /* ************************************************************************** */
 /*                defines for the `sh' memory allocation functions            */
@@ -23,5 +24,9 @@ void	*sh_realloc(void *ptr, size_t size);
 void	sh_free(void *string);
 void	sh_doublefree(void **array);
 char	*sh_strdup(const char *str);
+char	*sh_substr(const char *str, unsigned int start, size_t len);
+char	*sh_strjoin(char const *s1, char const *s2);
+t_list	*sh_lstnew(void *content);
+char	*sh_itoa(int n);
 
 #endif

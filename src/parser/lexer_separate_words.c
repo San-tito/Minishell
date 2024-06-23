@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "lexer_utils.h"
+#include "sh_malloc.h"
 
 static void	init_word_data(t_list **words, t_word_data *word_data, char *job)
 {
@@ -26,8 +27,8 @@ static void	create_word(t_list **words, t_word_data *word_data, char *job)
 	char	*word;
 	t_list	*node;
 
-	word = ft_substr(word_data->first, 0, word_data->len); //change to sh_substr
-	node = ft_lstnew(word); //change to sh_lstew
+	word = sh_substr(word_data->first, 0, word_data->len);
+	node = sh_lstnew(word);
 	ft_lstadd_back(words, node);
 	word_data->first = job + 1;
 	word_data->len = 0;

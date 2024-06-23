@@ -27,7 +27,7 @@ static char	*obtain_word_to_expand(char **content)
 		(*content)++;
 		len++;
 	}
-	return (ft_substr(start, 0, len)); //change to sh_substr
+	return (sh_substr(start, 0, len));
 }
 
 void	join_and_free(char **str, char **str_to_add)
@@ -38,7 +38,7 @@ void	join_and_free(char **str, char **str_to_add)
 		*str = *str_to_add;
 	else
 	{
-		word = ft_strjoin(*str, *str_to_add); //change to sh_strjoin
+		word = sh_strjoin(*str, *str_to_add);
 		if (*str_to_add != NULL)
 			free(*str_to_add);
 		free(*str);
@@ -57,7 +57,7 @@ void	expand_value(char **new_content, char **content)
 	(*content)++;
 	if (**content == '?')
 	{
-		value_expanded = ft_itoa(g_last_exit_value); //change to int_to_buf
+		value_expanded = sh_itoa(g_last_exit_value);
 		(*content)++;
 	}
 	else
@@ -67,7 +67,7 @@ void	expand_value(char **new_content, char **content)
 		free(word);
 		if (value_expanded == NULL)
 			return ;
-		value_expanded = ft_strdup(value_expanded);	//change to sh_strdup
+		value_expanded = sh_strdup(value_expanded);
 	}
 	join_and_free(new_content, &value_expanded);
 }
@@ -78,7 +78,7 @@ void	append_content(char **new_content, t_content_data content_data)
 
 	if (content_data.len == 0)
 		return ;
-	word = ft_substr(content_data.start, 0, content_data.len); //change to sh_substr
+	word = sh_substr(content_data.start, 0, content_data.len);
 	join_and_free(new_content, &word);
 }
 

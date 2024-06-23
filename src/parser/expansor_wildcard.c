@@ -18,7 +18,7 @@ static void	append_last_space(char **new_content, t_content_data cont_data)
 
 	if (cont_data.last_space != 0)
 	{
-		word = ft_substr(cont_data.start, 0, cont_data.last_space); //change to sh_substr
+		word = ft_substr(cont_data.start, 0, cont_data.last_space);
 		join_and_free(new_content, &word);
 	}
 }
