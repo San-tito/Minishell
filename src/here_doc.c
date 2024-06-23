@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:55:43 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/23 02:09:19 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/23 02:11:56 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ static char	*gather_here_document(const char *redir_word)
 		if (!ft_strncmp(line, redir_word, redir_len) && line[redir_len] == '\0')
 			break ;
 		document = append_to_document(document, line);
+		sh_free((void **)line);
 		line = readline(prompt);
 	}
 	if (line == 0 && g_last_exit_value < 128)
