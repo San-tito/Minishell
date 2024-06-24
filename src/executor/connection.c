@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 12:50:00 by sguzman           #+#    #+#             */
-/*   Updated: 2024/04/28 17:41:13 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/24 11:38:01 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,8 @@ static int	execute_pipeline(t_command *command, int pipe_in, int pipe_out)
 		&& ((t_connection *)cmd->value)->connector == '|')
 	{
 		if (pipe(sewer) < 0)
-			return (g_last_exit_value = EXECUTION_FAILURE);
+			return (sys_error("pipe error"),
+				g_last_exit_value = EXECUTION_FAILURE);
 		execute_command(((t_connection *)cmd->value)->first, prev, sewer[1],
 			sewer[0]);
 		close_pipes(prev, NO_PIPE);
