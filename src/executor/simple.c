@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 12:50:11 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/22 18:07:46 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/24 10:50:42 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ static int	shell_execve(const char *command, char **args, char **env)
 		else
 			internal_error("%s: %s", command, strerror(errnum));
 	}
+	sh_doublefree((void **)env);
 	return (g_last_exit_value);
 }
 
