@@ -165,6 +165,17 @@ static void	add_all_tokens(char *value, char **content_before,
 	char	*first;
 	int		i;
 
+	if (*value == '\0')
+	{
+		if (*content_before != NULL)
+			create_concat_node(content_before, environment_vars);
+		else
+		{
+			first = sh_strdup(value);
+			create_concat_node(&first, environment_vars);
+		}
+		return ;
+	}
 	matrix = ft_split(value, ' '); //change to sh_split
 	if (*content_before != NULL)
 	{
@@ -221,6 +232,33 @@ static void	append_env_vars(char **value, char **content_before,
 	}
 }
 
+static void	handle_ascii_notation(char **content, char **content_before,
+	t_list **environment_vars, t_content_data *content_data)
+{
+	char	*ascii_str;
+
+	if (**content == '\'')
+		content_data->single_q = !content_data->single_q;
+	else
+		content_data->double_q = !content_data->double_q;
+	(*content)++;
+	while ((content_data->single_q && **content != '\'') || (content_data->double_q && **content != '\"'))
+	{
+		(*content)++;
+		content_data->len++;
+	}
+	ascii_str = sh_substr(content_data->start, 1, content_data->len);
+	content_data->start += content_data->len + 1;
+	(*content)++;
+	content_data->len = 0;
+	if (content_data->single_q)
+		content_data->single_q = !content_data->single_q;
+	else
+		content_data->double_q = !content_data->double_q;
+	append_env_vars(&ascii_str, content_before, environment_vars, content_data);
+
+}
+
 static void	expand_special_cases(char **content, char **content_before,
 	t_list **environment_vars, t_content_data *content_data)
 {
@@ -240,6 +278,8 @@ static void	expand_special_cases(char **content, char **content_before,
 		content_data->start++;
 		append_env_vars(&value, content_before, environment_vars, content_data);
 	}
+	else if ((**content == '\'' || **content == '\"') && !content_data->single_q && !content_data->double_q)	//ASCII notation
+		handle_ascii_notation(content, content_before, environment_vars, content_data);
 	else
 	{
 		value = sh_strdup("$");
