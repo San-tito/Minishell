@@ -134,6 +134,30 @@ void	expand_value(char **new_content, char **content)
 }
 */
 
+/*
+ *	If environment_vars is not NULL we append content to the last node
+ *	of environment_vars.
+ *	If it is NULL, we create a new node.
+ */
+static void	create_concat_node(char **content, t_list **environment_vars)
+{
+	char	*new_value;
+	t_list	*last;
+	t_token	*token;
+
+	if (*environment_vars != NULL)
+	{
+		last = ft_lstlast(*environment_vars);
+		token = (t_token *)(last->content);
+		new_value = sh_strjoin(token->content, *content);
+		free(token->content);
+		free(*content);
+		token->content = new_value;
+	}
+	else
+		add_token(STR_TOKEN, *content, environment_vars);
+}
+
 static void	add_all_tokens(char *value, char **content_before,
 	t_list **environment_vars)
 {
@@ -145,16 +169,15 @@ static void	add_all_tokens(char *value, char **content_before,
 	if (*content_before != NULL)
 	{
 		first = sh_strjoin(*content_before, *matrix);
-		add_token(STR_TOKEN, first, environment_vars);
 		free(*content_before);
 		free(*matrix);
+		create_concat_node(&first, environment_vars);
 	}
 	else
-		add_token(STR_TOKEN, *matrix, environment_vars);
+		create_concat_node(matrix, environment_vars);
 	i = 1;
 	while (*(matrix + i))
 	{
-		//ft_printf("Content: [%s]\n", *(matrix + i));
 		add_token(STR_TOKEN, *(matrix + i), environment_vars);
 		i++;
 	}
@@ -171,8 +194,8 @@ static void	add_all_tokens(char *value, char **content_before,
  *	inside env variable and then join from the start content_before to
  *	the first node.
  */
-static void	append_env_vars(t_list **environment_vars, char **value,
-	char **content_before, t_content_data *content_data)
+static void	append_env_vars(char **value, char **content_before,
+	t_list **environment_vars, t_content_data *content_data)
 {
 	char	*new_value;
 
@@ -189,7 +212,7 @@ static void	append_env_vars(t_list **environment_vars, char **value,
 			free(*content_before);
 			free(*value);
 		}
-		add_token(STR_TOKEN, new_value, environment_vars);
+		create_concat_node(&new_value, environment_vars);
 	}
 	else
 	{
@@ -198,29 +221,66 @@ static void	append_env_vars(t_list **environment_vars, char **value,
 	}
 }
 
-static void	expand_and_append(char **content_before, char **env_var,
+static void	expand_special_cases(char **content, char **content_before,
 	t_list **environment_vars, t_content_data *content_data)
 {
 	char	*value;
 
-	if (**env_var == '$')
-		value = sh_itoa(42);
-	else if (**env_var == '?')
+	if (**content == '?')
+	{
 		value = sh_itoa(g_last_exit_value);
+		(*content)++;
+		content_data->start++;
+		append_env_vars(&value, content_before, environment_vars, content_data);
+	}
+	else if (**content == '$')
+	{
+		value = sh_itoa(42);
+		(*content)++;
+		content_data->start++;
+		append_env_vars(&value, content_before, environment_vars, content_data);
+	}
 	else
 	{
-		value = find_env(*env_var);
-		if (value != NULL)
-			value = sh_strdup(value);
+		value = sh_strdup("$");
+		append_env_vars(&value, content_before, environment_vars, content_data);
 	}
+
+}
+
+static char	*obtain_name(char **content, t_content_data *content_data)
+{
+	char	*env_var;
+
+	while (**content != ' ' && **content != '\0' && **content != '\"'
+		&&  **content != '\'' && **content != '$')
+	{
+		content_data->len++;
+		(*content)++;
+	}
+	env_var = sh_substr(content_data->start, 0, content_data->len);
+	content_data->start += content_data->len;
+	content_data->len = 0;
+	return (env_var);
+}
+
+static void	expand_and_append(char **env_var, char **content_before,
+	t_list **environment_vars, t_content_data *content_data)
+{
+	char	*value;
+
+	value = find_env(*env_var);
+	if (value != NULL)
+		value = sh_strdup(value);
 	free(*env_var);
-	append_env_vars(environment_vars, &value, content_before, content_data);
+	append_env_vars(&value, content_before, environment_vars, content_data);
 }
 
 /*
  *	The character that content is pointing to is '$'.
  *	We store the content before '$' into another string (content_before).
- *	We obtaing the following string till we get to '\0' or ' '.
+ *	We check special cases ($?, $$ or even $) and if not we obtain
+ *	the name of the env var to expand.
  *	Then we obtain the environment value.
  */
 static void	expand_env_var(char **content, t_content_data *content_data,
@@ -238,35 +298,38 @@ static void	expand_env_var(char **content, t_content_data *content_data,
 		content_data->len = 0;
 	}
 	content_data->start++;
-	while (**content != ' ' && **content != '\0' && **content != '\"'
-		&&  **content != '\'')
+	if (**content == '?' || **content == '$' || **content == ' '
+		|| **content == '\'' || **content == '\"' || **content == '\0')
 	{
-		content_data->len++;
-		(*content)++;
+		expand_special_cases(content, &content_before, environment_vars, content_data);
+		return ;
 	}
-	env_var = sh_substr(content_data->start, 0, content_data->len);
-	content_data->start += content_data->len;
-	content_data->len = 0;
-	expand_and_append(&content_before, &env_var,
-		environment_vars, content_data);
+	env_var = obtain_name(content, content_data);
+	expand_and_append(&env_var, &content_before, environment_vars, content_data);
 }
 
-static void	append_last_chars(t_list *environment_vars, t_content_data content_data)
+static void	append_last_chars(t_list **environment_vars, t_content_data content_data,
+	char	expanded)
 {
 	t_list	*node;
 	char	*new_content;
 	char	*last_content;
 	t_token	*token;
 
-	if (content_data.len != 0 && environment_vars != NULL)
+	if (content_data.len != 0 && expanded == EXPANDED)
 	{
-		node = ft_lstlast(environment_vars);
-		token = (t_token *)(node->content);
 		last_content = sh_substr(content_data.start, 0, content_data.len);
-		new_content = sh_strjoin(token->content, last_content);
-		free(last_content);
-		free(token->content);
-		token->content = new_content;
+		if (*environment_vars != NULL)
+		{
+			node = ft_lstlast(*environment_vars);
+			token = (t_token *)(node->content);
+			new_content = sh_strjoin(token->content, last_content);
+			free(last_content);
+			free(token->content);
+			token->content = new_content;
+		}
+		else
+			create_concat_node(&last_content, environment_vars);
 	}
 }
 
@@ -301,7 +364,7 @@ static char	search_environment_variables(t_token *token,
 			content_data.len++;
 		}
 	}
-	append_last_chars(*environment_vars, content_data);
+	append_last_chars(environment_vars, content_data, expanded);
 	return (expanded);
 }
 

@@ -263,14 +263,22 @@ static void	test_all_expansor()
 	test_expansor("                                                      ");
 	test_expansor("test1 $SHLVL test2");
 	test_expansor("$a");
+	test_expansor("\"$a\"");
 	test_expansor("$?");
+	test_expansor("\"$?\"");
 	test_expansor("$$");
+	test_expansor("\"$$\"");
 	test_expansor("test1 $$ test2");
 	test_expansor("test1 $? test2");
 	test_expansor("$");
+	test_expansor("\"$\"");
+	test_expansor("$a$");
 	test_expansor("test1 $ test2 $a");
-	//test_expansor("test1 $ test2 $a$");
-	//test_expansor("$HOME$HOME");
+	test_expansor("test1 $ test2 $a$"); //failed
+	test_expansor("$HOME$HOME");
+	test_expansor("$$$$");
+	test_expansor("$$$$$");
+	test_expansor("$\"test\"\"$$\"");
 }
 
 static void	test_all_remove_quotes()
