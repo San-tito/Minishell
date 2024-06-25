@@ -106,7 +106,7 @@ int	execute_simple_command(t_simple_com *simple, int pipeline[2],
 					simple->words, simple->redirects));
 		execute_disk_command(command, simple->words, simple->redirects);
 	}
-	if (command)
+	if (command && && g_last_exit_value < 126)
 		update_env("_", command);
 	sh_free((void *)command);
 	if (pipeline[1] != NO_PIPE)
