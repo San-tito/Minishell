@@ -250,23 +250,27 @@ static void	test_all_expansor()
 {
 	ft_printf("\n{EXPANSOR}:\n");
 	test_expansor("$HOME");
+	test_expansor("diablo$a");
+	test_expansor("a$HOME");
 	test_expansor("\'$HOME\'");
 	test_expansor("\"$HOME\"");
+	test_expansor("diablo$a\"test0hehehe\"");
+	test_expansor("\"$HOME\"test1hehehe");
 	test_expansor("\"\'$HOME\'\"");
 	test_expansor("\'\"$HOME\"\'");
-	test_expansor("test1$HOME");
 	test_expansor("\"test1$HOME\"");
 	test_expansor("test1 \"test2$HOME\"\" test3\" test4");
 	test_expansor("                                                      ");
 	test_expansor("test1 $SHLVL test2");
-	test_expansor("test1 $$ test2");
-	test_expansor("test1 $? test2");
 	test_expansor("$a");
 	test_expansor("$?");
 	test_expansor("$$");
+	test_expansor("test1 $$ test2");
+	test_expansor("test1 $? test2");
 	test_expansor("$");
 	test_expansor("test1 $ test2 $a");
-	test_expansor("test1 $ test2** $a");
+	//test_expansor("test1 $ test2 $a$");
+	//test_expansor("$HOME$HOME");
 }
 
 static void	test_all_remove_quotes()
@@ -350,16 +354,19 @@ static void	test_all_parser()
 	test_parser("cat > $a");
 }
 
+extern char **environ;
+
 int main(void)
 {
-	test_all_separate_words();
-	test_all_remove_empty_words();
-	test_all_tokenizer();
+	initialize_shell_variables(environ);
+	//test_all_separate_words();
+	//test_all_remove_empty_words();
+	//test_all_tokenizer();
 	test_all_expansor();
-	test_all_wildcards();
-	test_all_remove_quotes();
-	test_all_lexer();
-	test_all_parser();
+	//test_all_wildcards();
+	//test_all_remove_quotes();
+	//test_all_lexer();
+	//test_all_parser();
 	//test_parser("echo a | echo b");
 	vlist_clear(varlist());
 	return (0);

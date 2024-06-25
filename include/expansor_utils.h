@@ -22,6 +22,8 @@
 
 # define CORRECT 1
 # define ERROR -1
+# define EXPANDED 1
+# define NOT_EXPANDED 0
 # define MATCH 1
 # define NO_MATCH 0
 
