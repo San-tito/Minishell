@@ -30,21 +30,17 @@
 typedef struct s_content_data
 {
 	char	*start;
-	int		last_space;
 	int		len;
 	char	single_q;
 	char	double_q;
 }		t_content_data;
 
-void			append_content(char **new_content, t_content_data content_data);
-void			expand_value(char **new_content, char **content);
-t_content_data	initialize_content(char *token_content, char **content,
-					char **new_content);
-void			finalize_content(t_token *token, char **new_content,
-					t_content_data content_data);
-void			join_and_free(char **str, char **str_to_add);
-char			expand_wildcards(t_list **tokens);
-void			expand_matches(char **content, char **new_content,
-					t_content_data *cont_data);
+void	join_and_free(char **str, char **str_to_add);
+void	append_env_vars(char **value, char **content_before,
+	t_list **environment_vars, t_content_data *content_data);
+void	expand_env_var(char **content, t_content_data *content_data,
+	t_list **environment_vars);
+void	append_last_chars(t_list **environment_vars,
+	t_content_data content_data, char expanded);
 
 #endif

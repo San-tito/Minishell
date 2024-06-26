@@ -80,7 +80,8 @@ SRCS = clear_cmd.c \
        variables.c \
        vlist.c
 
-PARSERS = expansor_utils.c \
+PARSERS = expansor_utils1.c \
+		  expansor_utils2.c \
 		  expansor_wildcard_utils.c \
 		  expansor_wildcard.c \
 		  expansor.c \

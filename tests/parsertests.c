@@ -278,7 +278,7 @@ static void	test_all_expansor()
 	test_expansor("$HOME$HOME");
 	test_expansor("$$$$");
 	test_expansor("$$$$$");
-	test_expansor("$\"test\"\"$$\"");
+	test_expansor("$\"test\"\"$$\""); //error
 	test_expansor("$\'test\'");
 	test_expansor("$\'a\'");
 	test_expansor("$\'\'");
@@ -286,15 +286,6 @@ static void	test_all_expansor()
 	test_expansor("$\"a\"");
 	test_expansor("$\"\"");
 	test_expansor("$j");
-}
-
-static void	test_all_remove_quotes()
-{
-	ft_printf("\n{REMOVE QUOTES}:\n");
-	test_remove_quotes("test1 \"test2\"\" test3\" test4");
-	test_remove_quotes("test1 \"test2$HOME\"\" test3\" test4");
-	test_remove_quotes("test1 \"test2\'$HOME\' test3\" test4");
-	test_remove_quotes("test1 \"test2\'\'\'\"\'\"\'\" \'\'test3\" test4");
 }
 
 static void	test_all_wildcards()
@@ -308,6 +299,15 @@ static void	test_all_wildcards()
 	test_expand_wildcards("echo diablo$HOME");
 	
 	test_expand_wildcards("echo **");
+}
+
+static void	test_all_remove_quotes()
+{
+	ft_printf("\n{REMOVE QUOTES}:\n");
+	test_remove_quotes("test1 \"test2\"\" test3\" test4");
+	test_remove_quotes("test1 \"test2$HOME\"\" test3\" test4");
+	test_remove_quotes("test1 \"test2\'$HOME\' test3\" test4");
+	test_remove_quotes("test1 \"test2\'\'\'\"\'\"\'\" \'\'test3\" test4");
 }
 
 static void	test_all_lexer()
