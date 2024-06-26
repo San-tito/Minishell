@@ -78,6 +78,9 @@ void	append_last_chars(t_list **environment_vars,
 	}
 }
 
+/*
+ *	Not free value bc it gets freed outside.
+ */
 static void	add_all_tokens(char *value, char **content_before,
 	t_list **environment_vars)
 {
@@ -93,8 +96,10 @@ static void	add_all_tokens(char *value, char **content_before,
 	}
 	matrix = ft_split(value, ' '); //change to sh_split
 	if (*content_before != NULL)
-		join_and_free(matrix, content_before);
-	create_concat_node(matrix, environment_vars);
+		join_and_free(content_before, matrix);
+	else
+		*content_before = *matrix;
+	create_concat_node(content_before, environment_vars);
 	i = 1;
 	while (*(matrix + i))
 	{
