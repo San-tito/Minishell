@@ -12,32 +12,7 @@
 
 #include "expansor_utils.h"
 
-static char	*update_str(char **str, char c)
-{
-	char	*updated;
-	int		len;
-
-	if (*str == NULL)
-	{
-		updated = sh_malloc(sizeof(char) * 2);
-		*updated = c;
-		*(updated + 1) = '\0';
-		return (updated);
-	}
-	len = ft_strlen(*str);
-	updated = sh_malloc(sizeof(char) * (len + 2));
-	ft_strlcpy(updated, *str, len + 1);
-	*(updated + len) = c;
-	*(updated + len + 1) = '\0';
-	free(*str);
-	return (updated);
-}
-
-/*
- *	TODO: when getting the pattern the start and finish of double and single
- *	quotes must be deleted.
- */
-static char	*get_pattern(char **content, t_content_data *cont_data)				//norme error to remeber this must change
+static char	*get_pattern(char **content, t_content_data *cont_data)
 {
 	char	*pattern;
 
@@ -122,7 +97,6 @@ static char	search_wildcard(t_token *token,
 			content_data.len++;
 		}
 	}
-	//append_last_chars(environment_vars, content_data, expanded);
 	return (expanded);
 }
 

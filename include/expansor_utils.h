@@ -47,5 +47,6 @@ void	init_data(t_content_data *content_data, char *content, char *expanded);
 void	get_matches(char *pattern, t_list **environment_vars);
 void	append_content_before(char **content_before, t_list **environment_vars);
 void	expand_wildcards(t_list **tokens, t_list **new_tokens);
+char	*update_str(char **str, char c);
 
 #endif
