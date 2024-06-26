@@ -12,12 +12,36 @@
 
 #include "expansor_utils.h"
 
+static char	*update_str(char **str, char c)
+{
+	char	*updated;
+	int		len;
+
+	if (*str == NULL)
+	{
+		updated = sh_malloc(sizeof(char) * 2);
+		*updated = c;
+		*(updated + 1) = '\0';
+		return (updated);
+	}
+	len = ft_strlen(*str);
+	updated = sh_malloc(sizeof(char) * (len + 2));
+	ft_strlcpy(updated, *str, len + 1);
+	*(updated + len) = c;
+	*(updated + len + 1) = '\0';
+	free(*str);
+	return (updated);
+}
+
 /*
  *	TODO: when getting the pattern the start and finish of double and single
  *	quotes must be deleted.
  */
 static char	*get_pattern(char **content, t_content_data *cont_data)				//norme error to remeber this must change
 {
+	char	*pattern;
+
+	pattern = NULL;
 	while (**content && !(**content == ' ' && !cont_data->single_q
 			&& !cont_data->double_q))
 	{
@@ -25,10 +49,12 @@ static char	*get_pattern(char **content, t_content_data *cont_data)				//norme e
 			cont_data->single_q = !cont_data->single_q;
 		else if (**content == '\"' && !cont_data->single_q)
 			cont_data->double_q = !cont_data->double_q;
+		else
+			pattern = update_str(&pattern, **content);
 		(*content)++;
 		cont_data->len++;
 	}
-	return (sh_substr(cont_data->start, 0, cont_data->len));
+	return (pattern);
 }
 
 static void	expand_wildcard(char **content, t_content_data *cont_data,
