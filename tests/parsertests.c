@@ -301,6 +301,9 @@ static void	test_all_wildcards()
 	test_expand_wildcards("echo **");
 	test_expand_wildcards("echo * *");
 	test_expand_wildcards("echo .*");
+
+	test_expand_wildcards("echo *\"a\"");
+	test_expand_wildcards("echo *\"Make\"*");
 }
 
 static void	test_all_remove_quotes()

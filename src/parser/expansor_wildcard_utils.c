@@ -47,9 +47,7 @@ void	get_matches(char *pattern, t_list **environment_vars)
 	DIR				*dir;
 	struct dirent	*entry;
 
-	dir = opendir("."); //could this throw an error??
-	if (!dir)
-		return ;
+	dir = sh_opendir(".");
 	entry = readdir(dir);
 	while (entry != NULL)
 	{

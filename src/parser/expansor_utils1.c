@@ -94,7 +94,7 @@ static void	add_all_tokens(char *value, char **content_before,
 		create_concat_node(content_before, environment_vars);
 		return ;
 	}
-	matrix = ft_split(value, ' '); //change to sh_split
+	matrix = sh_split(value, ' ');
 	if (*content_before != NULL)
 		join_and_free(content_before, matrix);
 	else

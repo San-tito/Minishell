@@ -29,7 +29,7 @@ void	remove_empty_words(t_list **words)
 		remove_empty_words(&(current->next));
 }
 
-t_list	*lexer(char *job, char *err)
+static t_list	*create_tokens(char *job, char *err)
 {
 	t_list	*words;
 	t_list	*tokens;
@@ -53,6 +53,16 @@ t_list	*lexer(char *job, char *err)
 		return (NULL);
 	}
 	clear_word_list(&words);
+	return (tokens);
+}
+
+t_list	*lexer(char *job, char *err)
+{
+	t_list	*tokens;
+
+	tokens = create_tokens(job, err);
+	if (tokens == NULL)
+		return (NULL);
 	expansor(&tokens);
 	remove_quotes(&tokens);
 	if (!check_tokens(&tokens))

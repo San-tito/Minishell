@@ -12,7 +12,11 @@
 
 #include "expansor_utils.h"
 
-static char	*get_pattern(char **content, t_content_data *cont_data)
+/*
+ *	TODO: when getting the pattern the start and finish of double and single
+ *	quotes must be deleted.
+ */
+static char	*get_pattern(char **content, t_content_data *cont_data)				//norme error to remeber this must change
 {
 	while (**content && !(**content == ' ' && !cont_data->single_q
 			&& !cont_data->double_q))

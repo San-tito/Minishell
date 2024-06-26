@@ -15,6 +15,7 @@
 
 # include <stddef.h>
 # include "ft_printf.h"
+# include <dirent.h>
 
 /* ************************************************************************** */
 /*                defines for the `sh' memory allocation functions            */
@@ -28,5 +29,7 @@ char	*sh_substr(const char *str, unsigned int start, size_t len);
 char	*sh_strjoin(char const *s1, char const *s2);
 t_list	*sh_lstnew(void *content);
 char	*sh_itoa(int n);
+DIR		*sh_opendir(const char *str);
+char	**sh_split(char *str, char value);
 
 #endif
