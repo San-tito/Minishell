@@ -12,101 +12,117 @@
 
 #include "expansor_utils.h"
 
-static void	append_last_space(char **new_content, t_content_data cont_data)
+static char	*get_pattern(char **content, t_content_data *cont_data)
 {
-	char	*word;
-
-	if (cont_data.last_space != 0)
+	while (**content && !(**content == ' ' && !cont_data->single_q
+			&& !cont_data->double_q))
 	{
-		word = sh_substr(cont_data.start, 0, cont_data.last_space);
-		join_and_free(new_content, &word);
+		if (**content == '\'' && !cont_data->double_q)
+			cont_data->single_q = !cont_data->single_q;
+		else if (**content == '\"' && !cont_data->single_q)
+			cont_data->double_q = !cont_data->double_q;
+		(*content)++;
+		cont_data->len++;
 	}
+	return (sh_substr(cont_data->start, 0, cont_data->len));
 }
 
-static void	convert_wildcard(char **content, char **new_content,
-	t_content_data *cont_data)
+static void	expand_wildcard(char **content, t_content_data *cont_data,
+	t_list **environment_vars)
 {
-	append_last_space(new_content, *cont_data);
+	char	*content_before;
+	char	*pattern;
+
+	content_before = NULL;
+	if (cont_data->last_space != 0)
+		content_before = sh_substr(cont_data->start, 0, cont_data->last_space);
 	cont_data->start += cont_data->last_space;
-	cont_data->len -= cont_data->last_space;
-	cont_data->last_space = 0;
-	expand_matches(content, new_content, cont_data);
-	cont_data->start = *content;
-	if (*content)
-		cont_data->start++;
-	cont_data->last_space = 0;
+	pattern = get_pattern(content, cont_data);
+	cont_data->start += cont_data->len;
 	cont_data->len = 0;
+	cont_data->last_space = 0;
+	get_matches(&pattern, environment_vars);
+	append_content_before(&content_before, environment_vars);
 }
 
-/*
- *	Checks if the current character in content must be interpreted: '*' case.
- *	If there is an error when interpreting, it returns ERROR.
- */
-static void	interpret_content(char **content, char **new_content,
-	t_content_data *cont_data)
+static char	can_expand_wildcard(char *content, t_content_data *content_data)
 {
-	char	currchar;
-
-	currchar = **content;
-	if (currchar == '\'' && !cont_data->double_q)
-		cont_data->single_q = !cont_data->single_q;
-	else if (currchar == '\"' && !cont_data->single_q)
-		cont_data->double_q = !cont_data->double_q;
-	else
+	if (*content == '\'' && !content_data->double_q)
+		content_data->single_q = !content_data->single_q;
+	else if (*content == '\"' && !content_data->single_q)
+		content_data->double_q = !content_data->double_q;
+	else if (content_data->single_q)
+		return (0);
+	else if (content_data->double_q)
+		return (0);
+	else if (*content == ' ')
 	{
-		if (currchar == ' ' && !cont_data->single_q && !cont_data->double_q)
-			cont_data->last_space = cont_data->len;
-		else if (currchar == '*' && !cont_data->single_q
-			&& !cont_data->double_q)
-		{
-			convert_wildcard(content, new_content, cont_data);
-			return ;
-		}
+		content_data->last_space += content_data->len;
+		content_data->len = 0;
 	}
-	(*content)++;
-	cont_data->len++;
+	else if (*content == '*')
+		return (1);
+	return (0);
 }
 
 /*
 *	Searches the content of the token for wildcards
 *	and expands them.
 */
-static void	handle_wildcards(t_token *token)
+static char	search_wildcard(t_token *token,
+	t_list **environment_vars)
 {
-	t_content_data	content_data;
 	char			*content;
-	char			*new_content;
+	t_content_data	content_data;
+	char			expanded;
 
-	content_data = initialize_content(token->content, &content, &new_content);
+	init_data(&content_data, token->content, &expanded);
+	content = token->content;
 	while (*content)
-		interpret_content(&content, &new_content, &content_data);
-	if (new_content == NULL)
-		return ;
-	if (content_data.last_space == 0)
 	{
-		free(token->content);
-		token->content = new_content;
+		if (can_expand_wildcard(content, &content_data))
+		{
+			expand_wildcard(&content, &content_data, environment_vars);
+			expanded = EXPANDED;
+		}
+		else
+		{
+			content++;
+			content_data.len++;
+		}
 	}
-	else
-		finalize_content(token, &new_content, content_data);
+	//append_last_chars(environment_vars, content_data, expanded);
+	return (expanded);
 }
 
 /*
-*	Gets a list of tokens and for each STR_TOKEN it finds
-*	expands the wildcards inside of it.
-*/
-char	expand_wildcards(t_list **tokens)
+ *	For each STR_TOKEN it finds, searches for a wildcard and creates
+ *	a t_list of STR_TOKENs.
+ *	If a t_list is created, it swaps the t_list for the initial STR_TOKEN.
+ */
+void	expand_wildcards(t_list **tokens, t_list **new_tokens)
 {
-	t_list	*lst;
+	t_list	*new_list;
+	t_list	*node;
 	t_token	*token;
 
-	lst = *tokens;
-	while (lst)
+	if (*tokens == NULL)
+		return ;
+	token = (t_token *)((*tokens)->content);
+	node = *tokens;
+	*tokens = (*tokens)->next;
+	node->next = NULL;
+	if (token->type == STR_TOKEN && token->content != NULL)
 	{
-		token = (t_token *)(lst->content);
-		if (token->type == STR_TOKEN && token->content != NULL)
-			handle_wildcards(token);
-		lst = lst->next;
+		new_list = NULL;
+		if (search_wildcard(token, &new_list) == EXPANDED)
+		{
+			ft_lstadd_back(new_tokens, new_list);
+			ft_lstdelone(node, del_token);
+			expand_wildcards(tokens, new_tokens);
+			return ;
+		}
 	}
-	return (CORRECT);
+	ft_lstadd_back(new_tokens, node);
+	expand_wildcards(tokens, new_tokens);
 }

@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "expansor_utils.h"
+#include "tokenizer_utils.h"
 
 static char	is_match(const char *pattern, char *entry)
 {
@@ -28,72 +29,52 @@ static char	is_match(const char *pattern, char *entry)
 	return (NO_MATCH);
 }
 
-static void	add_match(char **results, char *match, char *is_first, char c)
+static void	add_match(char *match, t_list **environment_vars, char hidden_dir)
 {
 	char	*dup;
-	char	*space;
 
-	if (c != '.')
+	if (!hidden_dir)
 	{
 		if (*match == '.')
 			return ;
 	}
 	dup = sh_strdup(match);
-	if (*is_first == 1)
-	{
-		space = NULL;
-		*is_first = 0;
-	}
-	else
-		space = sh_strdup(" ");
-	join_and_free(&space, &dup);
-	join_and_free(results, &space);
+	add_token(STR_TOKEN, dup, environment_vars);
 }
 
-static char	*get_matches(char **pattern)
+void	get_matches(char **pattern, t_list **environment_vars)
 {
 	DIR				*dir;
 	struct dirent	*entry;
-	char			*results;
-	char			is_first;
 
-	is_first = 1;
 	dir = opendir("."); //could this throw an error??
 	if (!dir)
-		return (NULL);
-	results = NULL;
+		return ;
 	entry = readdir(dir);
 	while (entry != NULL)
 	{
 		if (is_match(*pattern, entry->d_name) == MATCH)
-			add_match(&results, entry->d_name, &is_first, **pattern);
+			add_match(entry->d_name, environment_vars, **pattern == '.');
 		entry = readdir(dir);
 	}
 	closedir(dir);
-	if (results != NULL)
-	{
-		free(*pattern);
-		return (results);
-	}
-	return (*pattern);
 }
 
-void	expand_matches(char **content, char **new_content,
-	t_content_data *cont_data)
+void	append_content_before(char **content_before, t_list **environment_vars)
 {
-	char	*pattern;
+	t_token	*token;
+	char	*new_content;
 
-	while (**content && !(**content == ' ' && !cont_data->single_q
-			&& !cont_data->double_q))
+	if (*content_before == NULL)
+		return ;
+	if (*environment_vars != NULL)
 	{
-		if (**content == '\'' && !cont_data->double_q)
-			cont_data->single_q = !cont_data->single_q;
-		else if (**content == '\"' && !cont_data->single_q)
-			cont_data->double_q = !cont_data->double_q;
-		(*content)++;
-		cont_data->len++;
+		token = (t_token *)((*environment_vars)->content);
+		new_content = sh_strjoin(*content_before, token->content);
+		free(*content_before);
+		free(token->content);
+		token->content = new_content;
 	}
-	pattern = sh_substr(cont_data->start, 0, cont_data->len);
-	pattern = get_matches(&pattern);
-	join_and_free(new_content, &pattern);
+	else
+		add_token(STR_TOKEN, *content_before, environment_vars);
 }

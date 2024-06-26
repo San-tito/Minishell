@@ -30,6 +30,7 @@
 typedef struct s_content_data
 {
 	char	*start;
+	int		last_space;
 	int		len;
 	char	single_q;
 	char	double_q;
@@ -37,10 +38,14 @@ typedef struct s_content_data
 
 void	join_and_free(char **str, char **str_to_add);
 void	append_env_vars(char **value, char **content_before,
-	t_list **environment_vars, t_content_data *content_data);
+			t_list **environment_vars, t_content_data *content_data);
 void	expand_env_var(char **content, t_content_data *content_data,
-	t_list **environment_vars);
+			t_list **environment_vars);
 void	append_last_chars(t_list **environment_vars,
-	t_content_data content_data, char expanded);
+			t_content_data content_data, char expanded);
+void	init_data(t_content_data *content_data, char *content, char *expanded);
+void	get_matches(char **pattern, t_list **environment_vars);
+void	append_content_before(char **content_before, t_list **environment_vars);
+void	expand_wildcards(t_list **tokens, t_list **new_tokens);
 
 #endif

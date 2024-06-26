@@ -251,7 +251,8 @@ static void	test_all_expansor()
 	ft_printf("\n{EXPANSOR}:\n");
 	test_expansor("$HOME");
 	test_expansor("diablo$a");
-	test_expansor("a$HOME");
+	test_expansor("a$HOME");	//error (probably some inverse join)
+	test_expansor("$SHLVL$HOME");
 	test_expansor("\'$HOME\'");
 	test_expansor("\"$HOME\"");
 	test_expansor("diablo$a\"test0hehehe\"");
@@ -299,6 +300,8 @@ static void	test_all_wildcards()
 	test_expand_wildcards("echo diablo$HOME");
 	
 	test_expand_wildcards("echo **");
+	test_expand_wildcards("echo * *");
+	test_expand_wildcards("echo .*");
 }
 
 static void	test_all_remove_quotes()
@@ -377,8 +380,8 @@ int main(void)
 	//test_all_separate_words();
 	//test_all_remove_empty_words();
 	//test_all_tokenizer();
-	test_all_expansor();
-	//test_all_wildcards();
+	//test_all_expansor();
+	test_all_wildcards();
 	//test_all_remove_quotes();
 	//test_all_lexer();
 	//test_all_parser();

@@ -12,6 +12,16 @@
 
 #include "expansor_utils.h"
 
+void	init_data(t_content_data *content_data, char *content, char *expanded)
+{
+	content_data->start = content;
+	content_data->last_space = 0;
+	content_data->len = 0;
+	content_data->single_q = 0;
+	content_data->double_q = 0;
+	*expanded = NOT_EXPANDED;
+}
+
 static char	can_expand_env_var(char *content, t_content_data *content_data)
 {
 	if (*content == '\'' && !content_data->double_q)
@@ -43,12 +53,8 @@ static char	search_environment_variables(t_token *token,
 	t_content_data	content_data;
 	char			expanded;
 
-	content_data.start = token->content;
-	content_data.len = 0;
-	content_data.single_q = 0;
-	content_data.double_q = 0;
+	init_data(&content_data, token->content, &expanded);
 	content = token->content;
-	expanded = NOT_EXPANDED;
 	while (*content)
 	{
 		if (can_expand_env_var(content, &content_data))
@@ -111,5 +117,7 @@ void	expansor(t_list **tokens)
 	new_tokens = NULL;
 	expand_environment_variables(tokens, &new_tokens);
 	*tokens = new_tokens;
-	//expand_wildcards(tokens);
+	new_tokens = NULL;
+	expand_wildcards(tokens, &new_tokens);
+	*tokens = new_tokens;
 }
