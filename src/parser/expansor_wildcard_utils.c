@@ -42,7 +42,7 @@ static void	add_match(char *match, t_list **environment_vars, char hidden_dir)
 	add_token(STR_TOKEN, dup, environment_vars);
 }
 
-void	get_matches(char **pattern, t_list **environment_vars)
+void	get_matches(char *pattern, t_list **environment_vars)
 {
 	DIR				*dir;
 	struct dirent	*entry;
@@ -53,8 +53,8 @@ void	get_matches(char **pattern, t_list **environment_vars)
 	entry = readdir(dir);
 	while (entry != NULL)
 	{
-		if (is_match(*pattern, entry->d_name) == MATCH)
-			add_match(entry->d_name, environment_vars, **pattern == '.');
+		if (is_match(pattern, entry->d_name) == MATCH)
+			add_match(entry->d_name, environment_vars, *pattern == '.');
 		entry = readdir(dir);
 	}
 	closedir(dir);

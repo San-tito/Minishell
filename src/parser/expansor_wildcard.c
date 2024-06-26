@@ -41,7 +41,8 @@ static void	expand_wildcard(char **content, t_content_data *cont_data,
 	cont_data->start += cont_data->len;
 	cont_data->len = 0;
 	cont_data->last_space = 0;
-	get_matches(&pattern, environment_vars);
+	get_matches(pattern, environment_vars);
+	free(pattern);
 	append_content_before(&content_before, environment_vars);
 }
 

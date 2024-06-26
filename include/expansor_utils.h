@@ -44,7 +44,7 @@ void	expand_env_var(char **content, t_content_data *content_data,
 void	append_last_chars(t_list **environment_vars,
 			t_content_data content_data, char expanded);
 void	init_data(t_content_data *content_data, char *content, char *expanded);
-void	get_matches(char **pattern, t_list **environment_vars);
+void	get_matches(char *pattern, t_list **environment_vars);
 void	append_content_before(char **content_before, t_list **environment_vars);
 void	expand_wildcards(t_list **tokens, t_list **new_tokens);
 
