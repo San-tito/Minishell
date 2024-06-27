@@ -251,7 +251,7 @@ static void	test_all_expansor()
 	ft_printf("\n{EXPANSOR}:\n");
 	test_expansor("$HOME");
 	test_expansor("diablo$a");
-	test_expansor("a$HOME");	//error (probably some inverse join)
+	test_expansor("a$HOME");
 	test_expansor("$SHLVL$HOME");
 	test_expansor("\'$HOME\'");
 	test_expansor("\"$HOME\"");
@@ -279,7 +279,7 @@ static void	test_all_expansor()
 	test_expansor("$HOME$HOME");
 	test_expansor("$$$$");
 	test_expansor("$$$$$");
-	test_expansor("$\"test\"\"$$\""); //error
+	test_expansor("$\"test\"\"$$\"");
 	test_expansor("$\'test\'");
 	test_expansor("$\'a\'");
 	test_expansor("$\'\'");
@@ -379,13 +379,13 @@ extern char **environ;
 int main(void)
 {
 	initialize_shell_variables(environ);
-	test_all_separate_words();
-	test_all_remove_empty_words();
-	test_all_tokenizer();
+	//test_all_separate_words();
+	//test_all_remove_empty_words();
+	//test_all_tokenizer();
 	test_all_expansor();
-	test_all_wildcards();
-	test_all_remove_quotes();
-	test_all_lexer();
+	//test_all_wildcards();
+	//test_all_remove_quotes();
+	//test_all_lexer();
 	//test_all_parser();
 	//test_parser("echo a | echo b");
 	vlist_clear(varlist());

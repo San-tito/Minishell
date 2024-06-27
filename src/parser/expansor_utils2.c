@@ -43,7 +43,7 @@ static void	handle_ascii(char **content, char **content_before,
 		content_data->len++;
 	}
 	ascii_str = sh_substr(content_data->start, 1, content_data->len);
-	content_data->start += content_data->len + 1;
+	content_data->start += content_data->len + 2;
 	(*content)++;
 	content_data->len = 0;
 	if (content_data->single_q)
