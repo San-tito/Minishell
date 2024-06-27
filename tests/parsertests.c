@@ -135,6 +135,8 @@ static void	test_lexer(char *job)
 	if (!err)
 	{
 		ft_printf("Correct!\n");
+		if (tokens == NULL)
+			ft_printf("tokens is NULL\n");
 		clear_tokens(&tokens);
 	}
 }
@@ -363,15 +365,31 @@ static void	test_all_lexer()
 static void	test_all_parser()
 {
 	ft_printf("\nCommand parser checker:\n");
-	test_parser("echo a | echo b");
-	test_parser("echo a | echo b && >a echo c <c");
-	test_parser("echo a | (echo b) | echo c");
-	test_parser("echo a | (echo b| (echo c)) | echo c");
-	test_parser("echo a | ( <a echo b >c <a| (echo c <a >b)) | echo c");
+	//test_parser("echo a | echo b");
+	//test_parser("echo a | echo b && >a echo c <c");
+	//test_parser("echo a | (echo b) | echo c");
+	//test_parser("echo a | (echo b| (echo c)) | echo c");
+	//test_parser("echo a | ( <a echo b >c <a| (echo c <a >b)) | echo c");
 	test_parser("$a");
-	test_parser("$a >b b");
-	test_parser("$a echo \"test\"");
-	test_parser("cat > $a");
+	//test_parser("$a >b b");
+	//test_parser("$a echo \"test\"");
+	//test_parser("cat > $a");
+}
+
+static void	test_special_case()
+{
+	char	*line;
+	int i = 0;
+
+	while (i < 2)
+	{
+		line = read_command();
+		t_command *current_command = parse_command(line);
+		sh_free(line);
+		execute_command(current_command, NO_PIPE, NO_PIPE, 0);
+		clear_command(current_command);
+		i++;
+	}
 }
 
 extern char **environ;
@@ -382,12 +400,15 @@ int main(void)
 	//test_all_separate_words();
 	//test_all_remove_empty_words();
 	//test_all_tokenizer();
-	test_all_expansor();
+	//test_all_expansor();
 	//test_all_wildcards();
 	//test_all_remove_quotes();
 	//test_all_lexer();
+	//test_lexer("$a");
 	//test_all_parser();
-	//test_parser("echo a | echo b");
+	test_parser("$a");
+	test_parser("aexit");
+	//test_special_case();
 	vlist_clear(varlist());
 	return (0);
 }

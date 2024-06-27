@@ -16,6 +16,11 @@ static char	create_first_node(t_list **tokens, t_command **first)
 {
 	t_token		*token;
 
+	if (*tokens == NULL)
+	{
+		*first = NULL;
+		return (CORRECT);
+	}
 	token = (t_token *)((*tokens)->content);
 	if (token->type == OPEN_PAR_TOKEN)
 		*first = create_subshell(tokens);
