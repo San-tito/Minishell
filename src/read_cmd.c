@@ -41,6 +41,6 @@ char	*read_command(void)
 	if (line && *line)
 		add_history(line);
 	else if (line == 0)
-		exit_builtin(NULL);
+		sh_exit(exit_builtin(NULL));
 	return (line);
 }

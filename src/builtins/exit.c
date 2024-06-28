@@ -45,6 +45,9 @@ int	exit_builtin(t_word_list *list)
 
 	ft_putendl_fd("exit", 2);
 	if (exitstat(list, &status) == 0)
-		sh_exit(status);
+	{
+		close(STDIN_FILENO);
+		return (status);
+	}
 	return (g_last_exit_value);
 }

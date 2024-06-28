@@ -20,6 +20,8 @@ t_command	*parse_command(char *current_line)
 	t_command	*command;
 	char		err;
 
+	if(current_line == 0)
+		return NULL;
 	if (*current_line == '\0')
 		return (NULL);
 	err = 0;
