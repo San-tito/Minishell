@@ -15,8 +15,15 @@
 static char	*get_pattern(char **content, t_content_data *cont_data)
 {
 	char	*pattern;
+	int		i;
 
+	i = 0;
 	pattern = NULL;
+	while (i < cont_data->len)
+	{
+		pattern = update_str(&pattern, *(cont_data->start + i));
+		i++;
+	}
 	while (**content && !(**content == ' ' && !cont_data->single_q
 			&& !cont_data->double_q))
 	{

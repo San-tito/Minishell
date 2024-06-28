@@ -299,7 +299,7 @@ static void	test_all_wildcards()
 	test_expand_wildcards("echo *");
 	
 	test_expand_wildcards("echo \'*\'");
-	test_expand_wildcards("echo diablo$HOME");
+	test_expand_wildcards("echo diablo$HOME"); //????
 	test_expand_wildcards("echo **");
 	test_expand_wildcards("echo * *");
 	test_expand_wildcards("echo .*");
@@ -365,15 +365,15 @@ static void	test_all_lexer()
 static void	test_all_parser()
 {
 	ft_printf("\nCommand parser checker:\n");
-	//test_parser("echo a | echo b");
-	//test_parser("echo a | echo b && >a echo c <c");
-	//test_parser("echo a | (echo b) | echo c");
-	//test_parser("echo a | (echo b| (echo c)) | echo c");
-	//test_parser("echo a | ( <a echo b >c <a| (echo c <a >b)) | echo c");
+	test_parser("echo a | echo b");
+	test_parser("echo a | echo b && >a echo c <c");
+	test_parser("echo a | (echo b) | echo c");
+	test_parser("echo a | (echo b| (echo c)) | echo c");
+	test_parser("echo a | ( <a echo b >c <a| (echo c <a >b)) | echo c");
 	test_parser("$a");
-	//test_parser("$a >b b");
-	//test_parser("$a echo \"test\"");
-	//test_parser("cat > $a");
+	test_parser("$a >b b");
+	test_parser("$a echo \"test\"");
+	test_parser("cat > $a");
 }
 
 static void	test_special_case()
@@ -396,18 +396,18 @@ extern char **environ;
 
 int main(void)
 {
-	initialize_shell_variables(environ);
+	//initialize_shell_variables(environ);
 	//test_all_separate_words();
 	//test_all_remove_empty_words();
 	//test_all_tokenizer();
 	//test_all_expansor();
-	//test_all_wildcards();
+	test_all_wildcards();
 	//test_all_remove_quotes();
 	//test_all_lexer();
 	//test_lexer("$a");
 	//test_all_parser();
-	test_parser("$a");
-	test_parser("aexit");
+	//test_parser("$a");
+	//test_parser("aexit");
 	//test_special_case();
 	vlist_clear(varlist());
 	return (0);
