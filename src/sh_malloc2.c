@@ -14,6 +14,7 @@
 
 void	sh_exit(int s)
 {
+	rl_clear_history();
 	vlist_clear(varlist());
 	exit(s);
 }
