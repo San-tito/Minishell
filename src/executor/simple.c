@@ -60,7 +60,7 @@ static int	execute_builtin(t_builtin_func *builtin, t_word_list *words,
 	const int	out = dup(1);
 
 	if (redirects && (do_redirections(redirects) != 0))
-		return (EXECUTION_FAILURE);
+		return (do_piping(in, out), close_pipes(in, out), EXECUTION_FAILURE);
 	result = ((*builtin)(words->next));
 	do_piping(in, out);
 	close_pipes(in, out);
