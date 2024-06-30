@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 14:22:26 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/22 18:03:37 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/30 14:18:16 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*get_primary_prompt(void)
 	else if (pwd)
 		ft_strlcat(prompt, pwd, sizeof(prompt));
 	ft_strlcat(prompt, RESET " ", sizeof(prompt));
-	if (g_last_exit_value == 0)
+	if (*last_exit_value() == 0)
 		ft_strlcat(prompt, GREEN, sizeof(prompt));
 	else
 		ft_strlcat(prompt, RED, sizeof(prompt));

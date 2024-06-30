@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 12:50:11 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/24 11:04:33 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/30 14:20:09 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@ static int	shell_execve(const char *command, char **args, char **env)
 {
 	int	errnum;
 
-	g_last_exit_value = 0;
+	*last_exit_value() = 0;
 	execve(command, args, env);
 	errnum = errno;
 	if (errnum != ENOEXEC)
 	{
-		g_last_exit_value = EX_NOEXEC;
+		*last_exit_value() = EX_NOEXEC;
 		if (errnum == ENOENT)
-			g_last_exit_value = EX_NOTFOUND;
+			*last_exit_value() = EX_NOTFOUND;
 		if (file_status(command) & FS_DIRECTORY)
 			internal_error("%s: %s", command, strerror(EISDIR));
 		else
@@ -37,7 +37,7 @@ static int	shell_execve(const char *command, char **args, char **env)
 	}
 	sh_doublefree((void **)args);
 	sh_doublefree((void **)env);
-	return (g_last_exit_value);
+	return (*last_exit_value());
 }
 
 static int	execute_subshell_builtin(t_builtin_func *builtin,
@@ -110,6 +110,6 @@ int	execute_simple_command(t_simple_com *simple, int pipeline[2],
 		update_env("_", command);
 	sh_free((void *)command);
 	if (pipeline[1] != NO_PIPE)
-		return (close_pipes(pipeline[0], pipeline[1]), g_last_exit_value);
+		return (close_pipes(pipeline[0], pipeline[1]), *last_exit_value());
 	return (close_pipes(pipeline[0], pipeline[1]), EXECUTION_SUCCESS);
 }

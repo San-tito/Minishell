@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 20:51:58 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/22 12:53:31 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/30 14:23:05 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,12 @@
 #include "minishell.h"
 #include "sig.h"
 
-int			g_last_exit_value;
+int	*last_exit_value(void)
+{
+	static int	exit_value = 0;
+
+	return (&exit_value);
+}
 
 void	close_fd(int fd)
 {
@@ -34,16 +39,16 @@ int	execute_in_subshell(t_command *command, int pipe_in, int pipe_out,
 		reset_terminating_signals();
 		close_fd(fd_to_close);
 		do_piping(pipe_in, pipe_out);
-		g_last_exit_value = execute_command((t_command *)command->value,
-				NO_PIPE, NO_PIPE, 0);
-		sh_exit(g_last_exit_value);
+		*last_exit_value() = execute_command((t_command *)command->value,
+			NO_PIPE, NO_PIPE, 0);
+		sh_exit(*last_exit_value());
 	}
 	else
 	{
 		close_pipes(pipe_in, pipe_out);
-		waitpid(pid, &g_last_exit_value, WUNTRACED | WCONTINUED);
-		print_status(g_last_exit_value);
-		return (g_last_exit_value);
+		waitpid(pid, last_exit_value(), WUNTRACED | WCONTINUED);
+		print_status(*last_exit_value());
+		return (*last_exit_value());
 	}
 	return (EXECUTION_SUCCESS);
 }
@@ -105,5 +110,5 @@ int	execute_command(t_command *command, int pipe_in, int pipe_out,
 	}
 	else if (command->type == cm_connection)
 		exec_result = execute_connection(command, pipe_in, pipe_out);
-	return (g_last_exit_value = exec_result);
+	return (*last_exit_value() = exec_result);
 }

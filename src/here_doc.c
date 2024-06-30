@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 14:55:43 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/23 02:11:56 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/30 14:21:05 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static char	*gather_here_document(const char *redir_word)
 		sh_free((void **)line);
 		line = readline(prompt);
 	}
-	if (line == 0 && g_last_exit_value < 128)
+	if (line == 0 && *last_exit_value() < 128)
 		internal_warning("here-document delimited by end-of-file (wanted `%s')",
 			redir_word);
 	sh_free((void *)redir_word);
@@ -68,7 +68,7 @@ t_redirect	*make_here_document(t_redirect *temp)
 	do_piping(in, NO_PIPE);
 	close_pipes(in, NO_PIPE);
 	default_signals();
-	if (g_last_exit_value > 128)
+	if (*last_exit_value() > 128)
 		return (clear_redirects(temp), NULL);
 	return (temp);
 }

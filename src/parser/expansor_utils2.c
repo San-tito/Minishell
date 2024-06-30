@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 16:20:05 by sguzman           #+#    #+#             */
-/*   Updated: 2024/03/10 16:37:51 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/30 14:20:35 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static void	expand_special_cases(char **content, char **content_before,
 
 	if (**content == '?')
 	{
-		value = sh_itoa(g_last_exit_value);
+		value = sh_itoa(*last_exit_value());
 		(*content)++;
 		content_data->start++;
 		append_env_vars(&value, content_before, environment_vars, content_data);

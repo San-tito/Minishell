@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/11 00:01:28 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/18 16:09:37 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/30 14:18:03 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	reader_loop(void)
 		execute_command(current_command, NO_PIPE, NO_PIPE, 0);
 		clear_command(current_command);
 	}
-	return (g_last_exit_value);
+	return (*last_exit_value());
 }
 
 char	*read_command(void)

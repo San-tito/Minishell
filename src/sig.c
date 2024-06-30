@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/29 11:56:46 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/24 11:01:02 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/30 14:17:33 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 void	heredoc_sigint_sighandler(int sig)
 {
 	signal(sig, heredoc_sigint_sighandler);
-	if (g_last_exit_value < 128)
-		g_last_exit_value = 128 + SIGINT;
+	if (*last_exit_value() < 128)
+		*last_exit_value() = 128 + SIGINT;
 	if (rl_readline_state & RL_STATE_SIGHANDLER)
 	{
 		ft_putchar_fd(10, 2);
@@ -31,8 +31,8 @@ void	heredoc_sigint_sighandler(int sig)
 void	sigint_sighandler(int sig)
 {
 	signal(sig, sigint_sighandler);
-	if (g_last_exit_value < 128)
-		g_last_exit_value = 128 + SIGINT;
+	if (*last_exit_value() < 128)
+		*last_exit_value() = 128 + SIGINT;
 	if (rl_readline_state & RL_STATE_SIGHANDLER)
 	{
 		ft_putchar_fd(10, 2);
@@ -44,7 +44,7 @@ void	sigint_sighandler(int sig)
 
 void	enable_document_interrupt(void)
 {
-	g_last_exit_value = 0;
+	*last_exit_value() = 0;
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, heredoc_sigint_sighandler);
 }

@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/13 16:36:22 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/22 12:49:37 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/30 14:21:13 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	exitstat(t_word_list *list, ssize_t *status)
 		list = list->next;
 	if (list == 0)
 	{
-		*status = g_last_exit_value;
+		*status = *last_exit_value();
 		return (0);
 	}
 	if (list->word == 0 || legal_number(list->word, status) == 0)
@@ -46,5 +46,5 @@ int	exit_builtin(t_word_list *list)
 	ft_putendl_fd("exit", 2);
 	if (exitstat(list, &status) == 0)
 		sh_exit(status);
-	return (g_last_exit_value);
+	return (*last_exit_value());
 }

@@ -6,7 +6,7 @@
 /*   By: sguzman <sguzman@student.42barcelona.com>  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/19 16:20:05 by sguzman           #+#    #+#             */
-/*   Updated: 2024/06/22 22:42:11 by sguzman          ###   ########.fr       */
+/*   Updated: 2024/06/30 14:20:41 by sguzman          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,5 @@ int	main(int argc, char *argv[], char *envp[])
 	(void)&(argv);
 	shell_initialize(envp);
 	reader_loop();
-	sh_exit(g_last_exit_value);
+	sh_exit(*last_exit_value());
 }
